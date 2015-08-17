@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RemoteProject</string>
+    <string name="title_activity_start_card">Welcome To Chen Zu Na</string>
+    <string name="hello_world">Hello world!</string>
+</resources>

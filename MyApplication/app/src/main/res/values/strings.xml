@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="title_activity_main">Hello World Immersion</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_gps">GPS</string>
+    <string name="title_activity_g_seanser">G_seanser</string>
+    <string name="title_activity_db_connection">DB_connection</string>
+    <string name="title_activity_rank">RANK</string>
+    <string name="title_activity_hello__world">Hello_World</string>
+    <string name="title_activity_menu__exit">No Title</string>
+    <string name="title_activity_menu__quit">No Title</string>
+    <string name="title_activity_meee">Nooo</string>
+    <string name="title_activity_main_activityggg">Hello World Immersion</string>
+    <string name="title_activity_rrr">Hello World Immersion</string>
+    <string name="title_activity_ttt">Hello World Immersion</string>
+</resources>
