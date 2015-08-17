@@ -154,6 +154,7 @@ public class MainActivity extends Activity {
         return result;
     }
 
+    //資料庫連線
     private void connDb(){
         AQuery aq = new AQuery(this);
         String url = "http://163.17.135.76/db/select.php";
