@@ -2,4 +2,9 @@
     <string name="app_name">RemoteProject</string>
     <string name="title_activity_start_card">Welcome To Chen Zu Na</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main_line">Menu</string>
+    <string name="title_activity_record">View Record</string>
+    <string name="title_activity_game_type">GameMode</string>
+    <string name="title_activity_answer">Answer</string>
+    <string name="title_activity_login">Login</string>
 </resources>

@@ -1,6 +1,6 @@
-package com.example.gameking_var2.remoteproject;
+package com.example.gameking_var2.remoteproject.GameType;
 
-import com.example.gameking_var2.remoteproject.Login.Login;
+import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -8,7 +8,6 @@ import com.google.android.glass.widget.CardScrollView;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
@@ -25,8 +24,7 @@ import android.widget.AdapterView;
  *
  * @see <a href="https://developers.google.com/glass/develop/gdk/touch">GDK Developer Guide</a>
  */
-public class StartCard extends Activity
-{
+public class GameType extends Activity {
 
     /**
      * {@link CardScrollView} to use as the main content view.
@@ -39,74 +37,56 @@ public class StartCard extends Activity
     private View mView;
 
     @Override
-    protected void onCreate(Bundle bundle)
-    {
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
         mView = buildView();
 
         mCardScroller = new CardScrollView(this);
-        mCardScroller.setAdapter(new CardScrollAdapter()
-        {
+        mCardScroller.setAdapter(new CardScrollAdapter() {
             @Override
-            public int getCount()
-            {
+            public int getCount() {
                 return 1;
             }
 
             @Override
-            public Object getItem(int position)
-            {
+            public Object getItem(int position) {
                 return mView;
             }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent)
-            {
+            public View getView(int position, View convertView, ViewGroup parent) {
                 return mView;
             }
 
             @Override
-            public int getPosition(Object item)
-            {
-                if (mView.equals(item))
-                {
+            public int getPosition(Object item) {
+                if (mView.equals(item)) {
                     return 0;
                 }
                 return AdapterView.INVALID_POSITION;
             }
         });
         // Handle the TAP event.
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-
-                //跳到Google Login
-                startActivity(new Intent(StartCard.this, Login.class));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Plays disallowed sound to indicate that TAP actions are not supported.
-                //AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                //am.playSoundEffect(Sounds.DISALLOWED);
+                AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                am.playSoundEffect(Sounds.DISALLOWED);
             }
         });
-
-        setTitle("Login with Google");
-
-
         setContentView(mCardScroller);
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         mCardScroller.activate();
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         mCardScroller.deactivate();
         super.onPause();
     }
@@ -114,8 +94,7 @@ public class StartCard extends Activity
     /**
      * Builds a Glass styled "Hello World!" view using the {@link CardBuilder} class.
      */
-    private View buildView()
-    {
+    private View buildView() {
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
 
         card.setText(R.string.hello_world);

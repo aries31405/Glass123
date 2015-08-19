@@ -19,6 +19,31 @@
                 android:name="com.google.android.glass.VoiceTrigger"
                 android:resource="@xml/voice_trigger" />
         </activity>
+        <activity
+            android:name=".MainLine.MainLine"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_main_line" >
+        </activity>
+        <activity
+            android:name=".Select_QorA.Record"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_record" >
+        </activity>
+        <activity
+            android:name=".GameType.GameType"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_game_type" >
+        </activity>
+        <activity
+            android:name=".Answer.Answer"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_answer" >
+        </activity>
+        <activity
+            android:name=".Login.Login"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>
