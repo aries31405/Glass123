@@ -1,6 +1,7 @@
 package com.example.gameking_var2.remoteproject;
 
 import com.example.gameking_var2.remoteproject.Login.Login;
+import com.example.gameking_var2.remoteproject.UserProfile.UserProfile;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -27,7 +28,6 @@ import android.widget.AdapterView;
  */
 public class StartCard extends Activity
 {
-
     /**
      * {@link CardScrollView} to use as the main content view.
      */
@@ -92,7 +92,6 @@ public class StartCard extends Activity
         });
 
         setTitle("Login with Google");
-
 
         setContentView(mCardScroller);
     }

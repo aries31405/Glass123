@@ -97,7 +97,7 @@ public class Login extends Activity {
     private View buildView() {
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
 
-        card.setText(R.string.hello_world);
+        card.setText("Success!");
         return card.getView();
     }
 
