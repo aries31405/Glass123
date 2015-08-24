@@ -93,7 +93,11 @@ public class StartCard extends Activity
 
         setTitle("Login with Google");
 
+
+
         setContentView(mCardScroller);
+
+
     }
 
     @Override
