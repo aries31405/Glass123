@@ -1,8 +1,8 @@
-package com.example.gameking_var2.remoteproject.MainLine;
+package com.example.gameking_var2.remoteproject.Select_QorA;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.R;
-import com.example.gameking_var2.remoteproject.Select_QorA.Selectqa;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -14,9 +14,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,15 +24,16 @@ import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
 
-public class MainLine extends Activity
+public class Selectqa extends Activity
 {
+
     //不知道
-    private static final String TAG = MainLine.class.getSimpleName();
+    private static final String TAG = Selectqa.class.getSimpleName();
 
     //定義卡片順序 方便了解
-    static final int Start = 0;
-    static final int Record = 1;
-    static final int About = 2;
+    static final int Single = 0;
+    static final int Multiple = 1;
+    static final int Topic = 2;
 
     //上滑動佈景 下是滑動卡片
     private CardScrollAdapter mAdapter;
@@ -45,6 +43,7 @@ public class MainLine extends Activity
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this));
@@ -62,6 +61,7 @@ public class MainLine extends Activity
         setCardScrollerListener();
     }
 
+
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context)
     {
@@ -71,16 +71,17 @@ public class MainLine extends Activity
         //逐一建造
         cards.add
         (
-            Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("開始")
+            Single, new CardBuilder(context, CardBuilder.Layout.MENU).setText("單人")
         );
         cards.add
         (
-            Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("紀錄")
+            Multiple, new CardBuilder(context, CardBuilder.Layout.MENU).setText("多人")
         );
         cards.add
         (
-            About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於")
+            Topic, new CardBuilder(context, CardBuilder.Layout.MENU).setText("出題")
         );
+
         return cards;
     }
 
@@ -88,30 +89,32 @@ public class MainLine extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position) {
-                    case Start:
-                        startActivity(new Intent(MainLine.this, Selectqa.class));
+                switch (position)
+                {
+                    case Single:
+                        Toast.makeText(Selectqa.this, "敬請期待", LENGTH_LONG).show();
                         break;
 
-                    case Record:
-                        openOptionsMenu();
+                    case Multiple:
                         break;
 
-                    case About:
-                        Toast.makeText(MainLine.this, "馬德沒這玩意兒 By 成之內", LENGTH_LONG).show();
+                    case Topic:
                         break;
 
                     default:
                         soundEffect = Sounds.ERROR;
                         Log.d(TAG, "Don't show anything");
+
                 }
 
                 // Play sound.
@@ -121,32 +124,14 @@ public class MainLine extends Activity
         });
     }
 
-    //建立選單
-    @Override
-    public boolean onCreateOptionsMenu (Menu menu)
-    {
-        //取得選單  (先將選單建立在res資料夾底下menu資料夾裡)
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.record_meun, menu);
-        return true;
-    }
 
-    //點擊選單
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.question:
-                Toast.makeText(MainLine.this, "出題", LENGTH_LONG).show();
-                return true;
-            case R.id.answer:
-                Toast.makeText(MainLine.this, "解題", LENGTH_LONG).show();
-                return true;
-            default:
-                return true;
-        }
-    }
+
+
+
+
+
+
+
 
 
 
@@ -157,16 +142,16 @@ public class MainLine extends Activity
 
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         mCardScroller.activate();
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         mCardScroller.deactivate();
         super.onPause();
     }
+
+
 }

@@ -11,27 +11,53 @@ import java.util.List;
 
 public class CardAdapter extends CardScrollAdapter
 {
+    final List<CardBuilder> mCards;
+
+    public CardAdapter(List<CardBuilder> cards)
+    {
+        mCards = cards;
+    }
+
     @Override
     public int getCount()
     {
-        return 0;
+        return mCards.size();
     }
 
     @Override
-    public Object getItem(int i)
+    public Object getItem(int position)
     {
-        return null;
+        return mCards.get(position);
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
+    public View getView(int position, View convertView, ViewGroup parent)
     {
-        return null;
+        return mCards.get(position).getView(convertView, parent);
     }
 
     @Override
-    public int getPosition(Object o)
+    public int getViewTypeCount()
     {
-        return 0;
+        return CardBuilder.getViewTypeCount();
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return mCards.get(position).getItemViewType();
+    }
+
+    @Override
+    public int getPosition(Object item)
+    {
+        for (int i = 0; i < mCards.size(); i++)
+        {
+            if (getItem(i).equals(item))
+            {
+                return i;
+            }
+        }
+        return AdapterView.INVALID_POSITION;
     }
 }
