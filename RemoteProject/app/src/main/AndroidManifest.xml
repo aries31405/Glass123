@@ -41,11 +41,6 @@
             android:label="@string/title_activity_title_card" >
         </activity>
         <activity
-            android:name=".Answer.Answer"
-            android:icon="@drawable/ic_glass_logo"
-            android:label="@string/title_activity_answer" >
-        </activity>
-        <activity
             android:name=".Answer.Options"
             android:icon="@drawable/ic_glass_logo"
             android:label="@string/title_activity_options" >
@@ -54,6 +49,11 @@
             android:name=".SearchQuestion.Searchq"
             android:icon="@drawable/ic_glass_logo"
             android:label="@string/title_activity_searchq" >
+        </activity>
+        <activity
+            android:name=".Rank.Rank"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_rank" >
         </activity>
     </application>
 

@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/question"
-        android:title="出題"
+        android:title="出題紀錄"
     />
     <item
         android:id="@+id/answer"
-        android:title="解題"
+        android:title="解題紀錄"
     />
 </menu>

@@ -29,6 +29,18 @@ import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+/*
+遊玩前頁面
+功能：
+１．連結手機
+２．登入google帳號
+３．顯示登入後帳戶資訊
+４．選擇性別及年齡
+５．完成設定，進入主畫面
+－－－－－－－－－
+連結至MainLine頁面
+*/
+
 public class StartCard extends Activity
 {
     //不知道
@@ -161,9 +173,11 @@ public class StartCard extends Activity
         });
     }
 
+    //給當開啟選單時就會呼叫一次
     @Override
     public boolean onPrepareOptionsMenu (Menu menu)
     {
+        //清除之前選單
         menu.clear();
 
         //宣告選單

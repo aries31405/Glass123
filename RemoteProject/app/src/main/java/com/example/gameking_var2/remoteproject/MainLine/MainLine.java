@@ -27,6 +27,18 @@ import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+/*
+主畫面
+功能：
+１．開始遊戲
+２．個人紀錄
+３．關於
+－－－－－－
+開始連結至Select_QorA
+個人紀錄會開啟選單，尚未連結
+關於目前跳出Toast
+*/
+
 public class MainLine extends Activity
 {
     //不知道

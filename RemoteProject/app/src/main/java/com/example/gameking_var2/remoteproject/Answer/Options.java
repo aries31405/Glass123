@@ -24,15 +24,20 @@ import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+/*答題時滑動頁面
+功能：
+１．放棄此題目
+２．幫助
+ */
+
 public class Options extends Activity
 {
     //不知道
     private static final String TAG = Options.class.getSimpleName();
 
     //定義卡片順序 方便了解
-    static final int Floor = 0;
-    static final int GiveUp = 1;
-    static final int Help = 2;
+    static final int GiveUp = 0;
+    static final int Help = 1;
 
     //上滑動佈景 下是滑動卡片
     private CardScrollAdapter mAdapter;
@@ -67,11 +72,6 @@ public class Options extends Activity
         //List的卡片創建
         ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
 
-        //逐一建造
-        cards.add
-        (
-            Floor, new CardBuilder(context, CardBuilder.Layout.MENU).setText("樓層")
-        );
         cards.add
         (
             GiveUp, new CardBuilder(context, CardBuilder.Layout.MENU).setText("放棄")
@@ -88,19 +88,18 @@ public class Options extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position) {
-                    case Floor:
-                        openOptionsMenu();
-                        break;
-
+                switch (position)
+                {
                     case GiveUp:
                         break;
 
@@ -117,30 +116,6 @@ public class Options extends Activity
                 am.playSoundEffect(soundEffect);
             }
         });
-    }
-
-    //建立選單
-    @Override
-    public boolean onCreateOptionsMenu (Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.floor_menu, menu);
-        return true;
-    }
-
-    //點擊選單
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.question:
-                return true;
-            case R.id.answer:
-                return true;
-            default:
-                return true;
-        }
     }
 
     @Override

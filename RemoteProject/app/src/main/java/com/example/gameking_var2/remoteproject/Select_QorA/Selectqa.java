@@ -15,6 +15,9 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,6 +27,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
+
+/*
+選擇單人 多人 或出題目
+功能：
+１．單人遊戲（故事模式）  尚未設計
+２．多人遊戲 抵達地點後跳出題目 點選進入題目
+３．出題目  題目會在多人模式顯現
+－－－－－－－
+單人尚無功能
+多人連結至Answer -> TitleCard
+出題尚無設計功能
+*/
 
 public class Selectqa extends Activity
 {
@@ -88,18 +103,15 @@ public class Selectqa extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position)
-                {
+                switch (position) {
                     case Single:
                         Toast.makeText(Selectqa.this, "敬請期待", LENGTH_LONG).show();
                         break;
@@ -125,13 +137,15 @@ public class Selectqa extends Activity
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         mCardScroller.activate();
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         mCardScroller.deactivate();
         super.onPause();
     }
