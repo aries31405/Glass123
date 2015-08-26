@@ -1,8 +1,7 @@
-package com.example.gameking_var2.remoteproject.MainLine;
+package com.example.gameking_var2.remoteproject.Answer;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.R;
-import com.example.gameking_var2.remoteproject.Select_QorA.Selectqa;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -10,7 +9,6 @@ import com.google.android.glass.widget.CardScrollView;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -27,15 +24,15 @@ import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
 
-public class MainLine extends Activity
+public class Options extends Activity
 {
     //不知道
-    private static final String TAG = MainLine.class.getSimpleName();
+    private static final String TAG = Options.class.getSimpleName();
 
     //定義卡片順序 方便了解
-    static final int Start = 0;
-    static final int Record = 1;
-    static final int About = 2;
+    static final int Floor = 0;
+    static final int GiveUp = 1;
+    static final int Help = 2;
 
     //上滑動佈景 下是滑動卡片
     private CardScrollAdapter mAdapter;
@@ -45,6 +42,8 @@ public class MainLine extends Activity
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+
+
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this));
@@ -71,16 +70,17 @@ public class MainLine extends Activity
         //逐一建造
         cards.add
         (
-            Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("開始")
+            Floor, new CardBuilder(context, CardBuilder.Layout.MENU).setText("樓層")
         );
         cards.add
         (
-            Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("紀錄")
+            GiveUp, new CardBuilder(context, CardBuilder.Layout.MENU).setText("放棄")
         );
         cards.add
         (
-            About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於")
+            Help, new CardBuilder(context, CardBuilder.Layout.MENU).setText("幫助")
         );
+
         return cards;
     }
 
@@ -97,16 +97,14 @@ public class MainLine extends Activity
 
                 //判斷點擊哪個卡片
                 switch (position) {
-                    case Start:
-                        startActivity(new Intent(MainLine.this, Selectqa.class));
-                        break;
-
-                    case Record:
+                    case Floor:
                         openOptionsMenu();
                         break;
 
-                    case About:
-                        Toast.makeText(MainLine.this, "馬德沒這玩意兒 By 成之內", LENGTH_LONG).show();
+                    case GiveUp:
+                        break;
+
+                    case Help:
                         break;
 
                     default:
@@ -126,7 +124,7 @@ public class MainLine extends Activity
     public boolean onCreateOptionsMenu (Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.record_meun, menu);
+        inflater.inflate(R.menu.floor_menu, menu);
         return true;
     }
 
@@ -137,23 +135,13 @@ public class MainLine extends Activity
         switch (item.getItemId())
         {
             case R.id.question:
-                Toast.makeText(MainLine.this, "出題", LENGTH_LONG).show();
                 return true;
             case R.id.answer:
-                Toast.makeText(MainLine.this, "解題", LENGTH_LONG).show();
                 return true;
             default:
                 return true;
         }
     }
-
-
-
-
-
-
-
-
 
     @Override
     protected void onResume()
@@ -168,4 +156,5 @@ public class MainLine extends Activity
         mCardScroller.deactivate();
         super.onPause();
     }
+
 }

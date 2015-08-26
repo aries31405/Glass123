@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/excellent"
+        android:title="太完美了"
+    />
+    <item
+        android:id="@+id/perfect"
+        android:title="完美"
+    />
+    <item
+        android:id="@+id/great"
+        android:title="棒"
+    />
+    <item
+        android:id="@+id/normal"
+        android:title="普通"
+    />
+    <item
+        android:id="@+id/bad"
+        android:title="爛"
+    />
+    <item
+        android:id="@+id/sobad"
+        android:title="很爛"
+    />
+    <item
+        android:id="@+id/woriest"
+        android:title="太爛了"
+    />
+    <item
+        android:id="@+id/chenzunae"
+        android:title="成之內"
+    />
+</menu>

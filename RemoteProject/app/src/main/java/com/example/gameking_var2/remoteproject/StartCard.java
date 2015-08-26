@@ -3,7 +3,6 @@ package com.example.gameking_var2.remoteproject;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.Login.Login;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
-import com.example.gameking_var2.remoteproject.UserProfile.UserProfile;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -16,12 +15,19 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class StartCard extends Activity
 {
@@ -39,6 +45,9 @@ public class StartCard extends Activity
     //上滑動佈景 下是滑動卡片
     private CardScrollAdapter mAdapter;
     private CardScrollView mCardScroller;
+
+    //現在的卡片  用來判斷開啟哪個選單
+    private int nowCard = -1;
 
     @Override
     protected void onCreate(Bundle bundle)
@@ -112,22 +121,30 @@ public class StartCard extends Activity
                 switch (position)
                 {
                     case Connection:
+                        nowCard = Connection;
                         break;
 
                     case Login:
+                        nowCard = Login;
                         //登入
                         break;
 
                     case Profile:
+                        nowCard = Profile;
                         break;
 
                     case Sex:
+                        nowCard = Sex;
+                        openOptionsMenu();
                         break;
 
                     case Age:
+                        nowCard = Age;
+                        openOptionsMenu();
                         break;
 
                     case Success:
+                        nowCard = Success;
                         startActivity(new Intent(StartCard.this, MainLine.class));
                         break;
 
@@ -144,7 +161,46 @@ public class StartCard extends Activity
         });
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu)
+    {
+        menu.clear();
 
+        //宣告選單
+        MenuInflater inflater = getMenuInflater();
+
+        //判斷位置取得選單
+        switch(nowCard)
+        {
+            case Sex:
+                inflater.inflate(R.menu.sex_menu, menu);
+                break;
+            case Age:
+                inflater.inflate(R.menu.age_menu, menu);
+                break;
+            default:
+                Toast.makeText(StartCard.this, "選單發生錯誤！", LENGTH_LONG).show();
+                break;
+        }
+        return true;
+    }
+
+    //點擊選單
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.question:
+
+                return true;
+            case R.id.answer:
+
+                return true;
+            default:
+                return true;
+        }
+    }
 
 
 

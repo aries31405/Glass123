@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gameking_var2.remoteproject" >
 
-    <application
-        android:allowBackup="true">
+    <application android:allowBackup="true" >
         <activity
             android:name=".StartCard"
             android:icon="@drawable/ic_glass_logo"
@@ -27,11 +26,6 @@
             android:label="@string/title_activity_record" >
         </activity>
         <activity
-            android:name=".GameType.GameType"
-            android:icon="@drawable/ic_glass_logo"
-            android:label="@string/title_activity_game_type" >
-        </activity>
-        <activity
             android:name=".Answer.Answer"
             android:icon="@drawable/ic_glass_logo"
             android:label="@string/title_activity_answer" >
@@ -40,6 +34,26 @@
             android:name=".Login.Login"
             android:icon="@drawable/ic_glass_logo"
             android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".Answer.TitleCard"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_title_card" >
+        </activity>
+        <activity
+            android:name=".Answer.Answer"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_answer" >
+        </activity>
+        <activity
+            android:name=".Answer.Options"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_options" >
+        </activity>
+        <activity
+            android:name=".SearchQuestion.Searchq"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_searchq" >
         </activity>
     </application>
 

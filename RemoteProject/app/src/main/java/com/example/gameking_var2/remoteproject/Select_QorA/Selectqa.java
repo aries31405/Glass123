@@ -3,6 +3,7 @@ package com.example.gameking_var2.remoteproject.Select_QorA;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.R;
+import com.example.gameking_var2.remoteproject.SearchQuestion.Searchq;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -26,7 +27,6 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class Selectqa extends Activity
 {
-
     //不知道
     private static final String TAG = Selectqa.class.getSimpleName();
 
@@ -60,7 +60,6 @@ public class Selectqa extends Activity
         //設定卡片點擊事件
         setCardScrollerListener();
     }
-
 
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context)
@@ -106,6 +105,7 @@ public class Selectqa extends Activity
                         break;
 
                     case Multiple:
+                        startActivity(new Intent(Selectqa.this, Searchq.class));
                         break;
 
                     case Topic:
@@ -123,23 +123,6 @@ public class Selectqa extends Activity
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     protected void onResume() {

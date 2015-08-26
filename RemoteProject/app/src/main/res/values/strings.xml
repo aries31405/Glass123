@@ -7,4 +7,7 @@
     <string name="title_activity_game_type">GameMode</string>
     <string name="title_activity_answer">Answer</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_title_card">Title</string>
+    <string name="title_activity_options">Options</string>
+    <string name="title_activity_searchq">Search Question</string>
 </resources>
