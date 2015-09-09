@@ -7,5 +7,6 @@ package com.example.gameking_var2.remoteproject.Profile;
 
 public class Profile
 {
-
+    public String USER_NAME = "";
+    public String USER_EMAIL = "";
 }

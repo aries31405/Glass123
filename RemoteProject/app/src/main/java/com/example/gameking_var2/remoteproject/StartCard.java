@@ -1,18 +1,28 @@
 package com.example.gameking_var2.remoteproject;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.example.gameking_var2.remoteproject.Bluetooth.BluetoothChatService;
+import com.example.gameking_var2.remoteproject.Bluetooth.Constants;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.Login.Login;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
+import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +35,9 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -61,6 +73,36 @@ public class StartCard extends Activity
     //現在的卡片  用來判斷開啟哪個選單
     private int nowCard = -1;
 
+    private View mView;
+
+    // Intent request codes
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
+
+    /**
+     * Name of the connected device
+     */
+    private String mConnectedDeviceName = null;
+
+    /**
+     * String buffer for outgoing messages
+     */
+    private StringBuffer mOutStringBuffer;
+
+    /**
+     * Local Bluetooth adapter
+     */
+    private BluetoothAdapter mBluetoothAdapter = null;
+
+    /**
+     * Member object for the chat services
+     */
+    private BluetoothChatService mChatService = null;
+
+    //基本資料
+    Profile mProfile = new Profile();
+
     @Override
     protected void onCreate(Bundle bundle)
     {
@@ -80,6 +122,18 @@ public class StartCard extends Activity
 
         //設定卡片點擊事件
         setCardScrollerListener();
+
+        // Get local Bluetooth adapter
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        // If the adapter is null, then Bluetooth is not supported
+        if (mBluetoothAdapter == null) {
+            //FragmentActivity activity = getActivity();
+            //Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+
+            this.finish();
+        }
     }
 
     //建立滑動卡片 使用List
@@ -102,17 +156,17 @@ public class StartCard extends Activity
             Profile, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
         );
         cards.add
-        (
-            Sex, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
-        );
+                (
+                        Sex, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
+                );
         cards.add
-        (
-            Age, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
-        );
+                (
+                        Age, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
+                );
         cards.add
-        (
-            Success, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
-        );
+                (
+                        Success, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
+                );
         return cards;
     }
 
@@ -120,18 +174,15 @@ public class StartCard extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position)
-                {
+                switch (position) {
                     case Connection:
                         nowCard = Connection;
                         break;
@@ -157,7 +208,19 @@ public class StartCard extends Activity
 
                     case Success:
                         nowCard = Success;
-                        startActivity(new Intent(StartCard.this, MainLine.class));
+
+                        /*
+                        //有名字及信箱的資料後，POST出去
+                        if((!mProfile.USER_EMAIL.equals("")) && (!mProfile.USER_NAME.equals(""))){
+                            connDb();
+                            Toast.makeText(StartCard.this,"你好，"+mProfile.USER_NAME,Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(StartCard.this, MainLine.class));
+                        }
+                        else{
+                            Toast.makeText(StartCard.this,"請在手機上登入",Toast.LENGTH_SHORT).show();
+                        }
+                        */
+                        connDb();
                         break;
 
                     default:
@@ -216,24 +279,47 @@ public class StartCard extends Activity
         }
     }
 
+    //檢查藍芽是否開啟
+    @Override
+    public void onStart() {
+        super.onStart();
+        // If BT is not on, request that it be enabled.
+        // setupChat() will then be called during onActivityResult
 
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+            // Otherwise, setup the chat session
+        } else if (mChatService == null) {
+            setupChat();
+        }
 
+    }
 
-
-
-
-
-
-
-
-
-
+    //終止藍芽連線
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mChatService != null) {
+            mChatService.stop();
+        }
+    }
 
     @Override
     protected void onResume()
     {
         super.onResume();
         mCardScroller.activate();
+        // Performing this check in onResume() covers the case in which BT was
+        // not enabled during onStart(), so we were paused to enable it...
+        // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
+        if (mChatService != null) {
+            // Only if the state is STATE_NONE, do we know that we haven't started already
+            if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
+                // Start the Bluetooth chat services
+                mChatService.start();
+            }
+        }
     }
 
     @Override
@@ -241,6 +327,214 @@ public class StartCard extends Activity
     {
         mCardScroller.deactivate();
         super.onPause();
+    }
+
+    private void setupChat() {
+        Log.d(TAG, "setupChat()");
+
+        // Initialize the array adapter for the conversation thread
+        //mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
+        /*
+        mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
+
+
+        mConversationView.setAdapter(mConversationArrayAdapter);
+
+        // Initialize the compose field with a listener for the return key
+        mOutEditText.setOnEditorActionListener(mWriteListener);
+        */
+        /*
+        // Initialize the send button with a listener that for click events
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Send a message using content of the edit text widget
+                //View view = getView();
+                if (null != v) {
+                    TextView textView = (TextView)findViewById(R.id.edit_text_out);
+                    String message = textView.getText().toString();
+                    sendMessage(message);
+                }
+            }
+        });
+        */
+
+        // Initialize the BluetoothChatService to perform bluetooth connections
+        mChatService = new BluetoothChatService(this, mHandler);
+
+        // Initialize the buffer for outgoing messages
+        mOutStringBuffer = new StringBuffer("");
+    }
+    /**
+     * Updates the status on the action bar.
+     *
+     * @param resId a string resource ID
+     */
+    private void setStatus(int resId) {
+        //FragmentActivity activity = getActivity();
+        if (null == StartCard.this) {
+            return;
+        }
+        final ActionBar actionBar = StartCard.this.getActionBar();
+        if (null == actionBar) {
+            return;
+        }
+        actionBar.setSubtitle(resId);
+    }
+
+    /**
+     * Updates the status on the action bar.
+     *
+     * @param subTitle status
+     */
+    private void setStatus(CharSequence subTitle) {
+        //FragmentActivity activity = getActivity();
+        if (null == StartCard.this) {
+            return;
+        }
+        final ActionBar actionBar = StartCard.this.getActionBar();
+        if (null == actionBar) {
+            return;
+        }
+        actionBar.setSubtitle(subTitle);
+    }
+
+    /**
+     * The Handler that gets information back from the BluetoothChatService
+     */
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            //FragmentActivity activity = getActivity();
+            switch (msg.what) {
+
+                case Constants.MESSAGE_STATE_CHANGE:
+                    switch (msg.arg1) {
+                        case BluetoothChatService.STATE_CONNECTED:
+                            setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+                            //mConversationArrayAdapter.clear();
+                            break;
+
+                        case BluetoothChatService.STATE_CONNECTING:
+                            setStatus(R.string.title_connecting);
+                            break;
+                        case BluetoothChatService.STATE_LISTEN:
+                        case BluetoothChatService.STATE_NONE:
+                            setStatus(R.string.title_not_connected);
+                            break;
+                    }
+                    break;
+                /*
+                case Constants.MESSAGE_WRITE:
+                    byte[] writeBuf = (byte[]) msg.obj;
+                    // construct a string from the buffer
+                    String writeMessage = new String(writeBuf);
+                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    break;
+                    */
+                case Constants.MESSAGE_READ:
+                    byte[] readBuf = (byte[]) msg.obj;
+                    // construct a string from the valid bytes in the buffer
+                    String readMessage = new String(readBuf, 0, msg.arg1);
+                    //mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+
+                    //切割出name及email
+                    String[] mreadMessage = readMessage.split(",");
+                    mProfile.USER_NAME = mreadMessage[0];
+                    mProfile.USER_EMAIL= mreadMessage[1];
+
+                    //資料成功傳到Glass
+                    LoginSuccess(mProfile.USER_NAME);
+                    break;
+                case Constants.MESSAGE_DEVICE_NAME:
+                    // save the connected device's name
+                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+                    if (null != StartCard.this) {
+                        Toast.makeText(StartCard.this, "Connected to "
+                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Constants.MESSAGE_TOAST:
+                    if (null != StartCard.this) {
+                        Toast.makeText(StartCard.this, msg.getData().getString(Constants.TOAST),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CONNECT_DEVICE_SECURE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    //connectDevice(data, true);
+                }
+                break;
+            case REQUEST_CONNECT_DEVICE_INSECURE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    //connectDevice(data, false);
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                // When the request to enable Bluetooth returns
+                if (resultCode == Activity.RESULT_OK) {
+                    // Bluetooth is now enabled, so set up a chat session
+                    setupChat();
+                } else {
+                    // User did not enable Bluetooth or an error occurred
+                    Log.d(TAG, "BT not enabled");
+                    Toast.makeText(StartCard.this, R.string.bt_not_enabled_leaving,
+                            Toast.LENGTH_SHORT).show();
+                    StartCard.this.finish();
+                }
+        }
+    }
+
+    public void LoginSuccess(String userName){
+        Toast.makeText(StartCard.this,userName+"登入成功",Toast.LENGTH_SHORT).show();
+    }
+
+    private void connDb() {
+
+        AQuery aq = new AQuery(this);
+        String url = "http://163.17.135.76/db/addusers.php";
+
+        Map<String,Object> params = new HashMap<String, Object>();
+
+        //測試用
+        mProfile.USER_NAME = "林元博";
+        mProfile.USER_EMAIL = "s1100b027@nutc.edu.tw";
+        params.put("name", mProfile.USER_NAME);
+        params.put("email", mProfile.USER_EMAIL);
+        params.put("age", 20);
+        params.put("gender", 0);
+
+        aq.ajax(url,params,String.class , new AjaxCallback<String>(){
+
+            @Override
+            public void callback(String url , String result , AjaxStatus status){
+                //連線成功
+                if(status.getCode() == 200){
+                    //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+                    Log.e("PETER",result);
+                    if(result.equals("0") || result.equals("2")){
+                        Toast.makeText(getApplicationContext(),"你好，"+mProfile.USER_NAME,Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), MainLine.class));
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"登入失敗，請再登入一次。",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                //失敗傳回狀態碼
+                else{
+                    Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
