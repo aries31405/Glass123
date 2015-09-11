@@ -103,13 +103,22 @@ public class StartCard extends Activity
     //基本資料
     Profile mProfile = new Profile();
 
+    //List的卡片創建
+    ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
+
+    //
+    private int USER;
+    private int NOT_USER = 0;
+    private int ALREADY_USER = 1;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
 
+        cards.clear();
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
-        mAdapter = new CardAdapter(createCards(this));
+        mAdapter = new CardAdapter(createCards(this,Connection));
 
         //預設 抓本體
         mCardScroller = new CardScrollView(this);
@@ -137,11 +146,69 @@ public class StartCard extends Activity
     }
 
     //建立滑動卡片 使用List
-    private List<CardBuilder> createCards(Context context)
+    private List<CardBuilder> createCards(Context context,int position)
     {
+        /*
         //List的卡片創建
         ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
-
+*/
+        switch(position){
+            case Connection:
+                if(cards.size() == Connection){
+                    cards.add
+                            (
+                                    Connection, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
+                            );
+                }
+                break;
+            case Login:
+                if(cards.size() == Login){
+                    cards.add
+                            (
+                                    Login, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
+                            );
+                }
+                break;
+            case Profile:
+                if(cards.size() == Profile){
+                    cards.add
+                            (
+                                    Profile, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
+                            );
+                }
+                break;
+            case Sex:
+                if(cards.size() == Sex) {
+                    cards.add
+                            (
+                                    Sex, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
+                            );
+                }
+                break;
+            case Age:
+                if(cards.size() == Age) {
+                    cards.add
+                            (
+                                    Age, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
+                            );
+                }
+                break;
+            case Success:
+                if(cards.size() == Success) {
+                    cards.add
+                            (
+                                    Success, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
+                            );
+                }
+                if((USER == ALREADY_USER) && (cards.size() == 3)){
+                    cards.add
+                            (
+                                    Sex, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
+                            );
+                }
+                break;
+        }
+        /*
         //逐一建造
         cards.add
         (
@@ -167,6 +234,7 @@ public class StartCard extends Activity
                 (
                         Success, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
                 );
+                */
         return cards;
     }
 
@@ -185,24 +253,47 @@ public class StartCard extends Activity
                 switch (position) {
                     case Connection:
                         nowCard = Connection;
+/*
+                        mAdapter = new CardAdapter(createCards(StartCard.this,Login));
+                        mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
+*/
                         break;
 
                     case Login:
                         nowCard = Login;
+
+                        mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
+                        //mCardScroller.animate(Login, C ardScrollView.Animation.DELETION);
+                        mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
+
+                        Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
+                        connDb0();
                         //登入
                         break;
 
                     case Profile:
                         nowCard = Profile;
+                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
                         break;
 
                     case Sex:
-                        nowCard = Sex;
-                        openOptionsMenu();
+                        if(USER == ALREADY_USER){
+                            connDb();
+                        }
+                        else{
+                            nowCard = Sex;
+                            mAdapter = new CardAdapter(createCards(StartCard.this, Age));
+                            mCardScroller.animate(Age, CardScrollView.Animation.NAVIGATION);
+                            openOptionsMenu();
+                        }
+
                         break;
 
                     case Age:
                         nowCard = Age;
+                        mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+                        mCardScroller.animate(Success, CardScrollView.Animation.NAVIGATION);
                         openOptionsMenu();
                         break;
 
@@ -451,6 +542,10 @@ public class StartCard extends Activity
                     if (null != StartCard.this) {
                         Toast.makeText(StartCard.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
+                        //連線成功後加入卡片
+                        mAdapter = new CardAdapter(createCards(StartCard.this,Login));
+                        mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
@@ -498,6 +593,7 @@ public class StartCard extends Activity
         Toast.makeText(StartCard.this,userName+"登入成功",Toast.LENGTH_SHORT).show();
     }
 
+    // 註冊為使用者，若已經是使用者則不再註冊
     private void connDb() {
 
         AQuery aq = new AQuery(this);
@@ -513,24 +609,64 @@ public class StartCard extends Activity
         params.put("age", 20);
         params.put("gender", 0);
 
-        aq.ajax(url,params,String.class , new AjaxCallback<String>(){
+        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
 
             @Override
-            public void callback(String url , String result , AjaxStatus status){
+            public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
-                if(status.getCode() == 200){
+                if (status.getCode() == 200) {
                     //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-                    Log.e("PETER",result);
-                    if(result.equals("0") || result.equals("2")){
-                        Toast.makeText(getApplicationContext(),"你好，"+mProfile.USER_NAME,Toast.LENGTH_SHORT).show();
+                    Log.e("PETER", result);
+                    if (result.equals("0") || result.equals("2")) {
+                        Toast.makeText(getApplicationContext(), "你好，" + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), MainLine.class));
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"登入失敗，請再登入一次。",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "登入失敗，請再登入一次。", Toast.LENGTH_SHORT).show();
                     }
                 }
                 //失敗傳回狀態碼
-                else{
+                else {
+                    Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    // 檢查是否已註冊為使用者
+    private void connDb0(){
+
+        AQuery aq = new AQuery(this);
+        String url = "http://163.17.135.76/db/addusers.php";
+
+        Map<String,Object> params = new HashMap<String, Object>();
+
+        //測試用
+        mProfile.USER_NAME = "林元博";
+        mProfile.USER_EMAIL = "s1100b027@nutc.edu.tw";
+        params.put("name", mProfile.USER_NAME);
+        params.put("email", mProfile.USER_EMAIL);
+        params.put("age", 20);
+        params.put("gender", 0);
+
+        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+
+            @Override
+            public void callback(String url, String result, AjaxStatus status) {
+                //連線成功
+                if (status.getCode() == 200) {
+                    //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+                    Log.e("PETER", result);
+                    if (result.equals("2")) {
+                        USER = ALREADY_USER;
+                        mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+                        mCardScroller.animate(Success, CardScrollView.Animation.NAVIGATION);
+                    } else {
+                        USER = NOT_USER;
+                        //Toast.makeText(getApplicationContext(), "登入失敗，請再登入一次。", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                //失敗傳回狀態碼
+                else {
                     Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
                 }
             }
