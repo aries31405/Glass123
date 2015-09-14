@@ -25,6 +25,13 @@ import android.widget.Toast;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+/*
+尋找題目頁面  一個題目動態新增一張卡片
+在該卡片雙指跳出題目評價
+三指選擇樓層
+*/
+
+
 public class Searchq extends Activity implements GestureDetector.BaseListener
 {
 

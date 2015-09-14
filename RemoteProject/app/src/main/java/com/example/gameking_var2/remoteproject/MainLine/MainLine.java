@@ -83,15 +83,15 @@ public class MainLine extends Activity
         //逐一建造
         cards.add
         (
-            Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("開始")
+            Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("開始").setIcon(R.drawable.ic_select_link_50)
         );
         cards.add
         (
-            Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("紀錄")
+            Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("紀錄").setIcon(R.drawable.ic_select_link_50)
         );
         cards.add
         (
-            About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於")
+            About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於").setIcon(R.drawable.ic_select_link_50)
         );
         return cards;
     }
@@ -100,7 +100,8 @@ public class MainLine extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //不知道
@@ -108,7 +109,8 @@ public class MainLine extends Activity
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position) {
+                switch (position)
+                {
                     case Start:
                         startActivity(new Intent(MainLine.this, Selectqa.class));
                         break;

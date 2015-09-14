@@ -117,6 +117,7 @@ public class StartCard extends Activity
         super.onCreate(bundle);
 
         cards.clear();
+
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this,Connection));
 
@@ -136,7 +137,8 @@ public class StartCard extends Activity
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // If the adapter is null, then Bluetooth is not supported
-        if (mBluetoothAdapter == null) {
+        if (mBluetoothAdapter == null)
+        {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_SHORT).show();
 
             this.finish();
@@ -146,25 +148,25 @@ public class StartCard extends Activity
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context,int position)
     {
-        /*
-        //List的卡片創建
-        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
-*/
-        switch(position){
+
+        switch(position)
+        {
             case Connection:
-                if(cards.size() == Connection){
+                if(cards.size() == Connection)
+                {
                     cards.add
-                            (
-                                    Connection, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
-                            );
+                    (
+                        Connection, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
+                    );
                 }
                 break;
             case Login:
-                if(cards.size() == Login){
+                if(cards.size() == Login)
+                {
                     cards.add
-                            (
-                                    Login, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
-                            );
+                    (
+                        Login, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
+                    );
                 }
                 break;
             case Profile:
@@ -194,7 +196,7 @@ public class StartCard extends Activity
             case Success:
                 if(cards.size() == Success) {
                     cards.add
-                            (
+                    (
                                     Success, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
                             );
                 }
@@ -206,6 +208,7 @@ public class StartCard extends Activity
                 }
                 break;
         }
+
         /*
         //逐一建造
         cards.add
@@ -240,15 +243,18 @@ public class StartCard extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position) {
+                switch (position)
+                {
                     case Connection:
                         nowCard = Connection;
                         //mAdapter = new CardAdapter(createCards(StartCard.this,Login));
@@ -260,9 +266,11 @@ public class StartCard extends Activity
                         nowCard = Login;
 
                         mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
-                        mCardScroller.animate(Login, CardScrollView.Animation.DELETION);
-                        cards.remove(Login);
-                        //mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
+//                        deleteCard(Login);
+
+//                        mCardScroller.animate(Login, CardScrollView.Animation.DELETION);
+//                        cards.remove(Login);
+                        mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
                         Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
                         connDb0();
                         //登入
@@ -357,16 +365,19 @@ public class StartCard extends Activity
 
     //檢查藍芽是否開啟
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         // If BT is not on, request that it be enabled.
         // setupChat() will then be called during onActivityResult
 
-        if (!mBluetoothAdapter.isEnabled()) {
+        if (!mBluetoothAdapter.isEnabled())
+        {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             // Otherwise, setup the chat session
-        } else if (mChatService == null) {
+        } else if (mChatService == null)
+        {
             setupChat();
         }
 
@@ -374,9 +385,11 @@ public class StartCard extends Activity
 
     //終止藍芽連線
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
-        if (mChatService != null) {
+        if (mChatService != null)
+        {
             mChatService.stop();
         }
     }
@@ -389,9 +402,11 @@ public class StartCard extends Activity
         // Performing this check in onResume() covers the case in which BT was
         // not enabled during onStart(), so we were paused to enable it...
         // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
-        if (mChatService != null) {
+        if (mChatService != null)
+        {
             // Only if the state is STATE_NONE, do we know that we haven't started already
-            if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
+            if (mChatService.getState() == BluetoothChatService.STATE_NONE)
+            {
                 // Start the Bluetooth chat services
                 mChatService.start();
             }
@@ -420,13 +435,16 @@ public class StartCard extends Activity
      *
      * @param resId a string resource ID
      */
-    private void setStatus(int resId) {
+    private void setStatus(int resId)
+    {
         //FragmentActivity activity = getActivity();
-        if (null == StartCard.this) {
+        if (null == StartCard.this)
+        {
             return;
         }
         final ActionBar actionBar = StartCard.this.getActionBar();
-        if (null == actionBar) {
+        if (null == actionBar)
+        {
             return;
         }
         actionBar.setSubtitle(resId);
@@ -437,13 +455,16 @@ public class StartCard extends Activity
      *
      * @param subTitle status
      */
-    private void setStatus(CharSequence subTitle) {
+    private void setStatus(CharSequence subTitle)
+    {
         //FragmentActivity activity = getActivity();
-        if (null == StartCard.this) {
+        if (null == StartCard.this)
+        {
             return;
         }
         final ActionBar actionBar = StartCard.this.getActionBar();
-        if (null == actionBar) {
+        if (null == actionBar)
+        {
             return;
         }
         actionBar.setSubtitle(subTitle);
@@ -452,11 +473,14 @@ public class StartCard extends Activity
     /**
      * The Handler that gets information back from the BluetoothChatService
      */
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler()
+    {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(Message msg)
+        {
             //FragmentActivity activity = getActivity();
-            switch (msg.what) {
+            switch (msg.what)
+            {
 
                 case Constants.MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
@@ -637,6 +661,13 @@ public class StartCard extends Activity
                 }
             }
         });
+    }
+    private void deleteCard(int position) {
+        // Delete card in the adapter, but don't call notifyDataSetChanged() yet.
+        // Instead, request proper animation for deleted card from card scroller,
+        // which will notify the adapter at the right time during the animation.
+        mCardScroller.animate(position, CardScrollView.Animation.DELETION);
+        cards.remove(position);
     }
 
 

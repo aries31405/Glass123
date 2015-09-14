@@ -98,8 +98,9 @@ public class Answer extends Activity
 
     private View buildView()
     {
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
-        card.setText("答題頁面  語音輸入");
+        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.MENU);
+        card.setText("語音輸入");
+        card.setIcon(R.drawable.ic_microphone_on_50);
         return card.getView();
     }
 
