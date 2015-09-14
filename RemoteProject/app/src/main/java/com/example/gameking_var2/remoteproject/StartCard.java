@@ -133,14 +133,13 @@ public class StartCard extends Activity
         //設定卡片點擊事件
         setCardScrollerListener();
 
-        // Get local Bluetooth adapter
+        // 取得本機的 Bluetooth Adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        // If the adapter is null, then Bluetooth is not supported
+        // 如果 Adapter是null，表示藍芽不能用
         if (mBluetoothAdapter == null)
         {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_SHORT).show();
-
             this.finish();
         }
     }
@@ -148,94 +147,53 @@ public class StartCard extends Activity
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context,int position)
     {
-
+        Log.e("createCards",position + "!");
         switch(position)
         {
             case Connection:
-                if(cards.size() == Connection)
-                {
-                    cards.add
-                    (
-                        Connection, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
-                    );
-                }
+                cards.add
+                        (
+                                Connection, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
+                        );
                 break;
             case Login:
-                if(cards.size() == Login)
-                {
-                    cards.add
-                    (
-                        Login, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
-                    );
-                }
+                cards.add
+                        (
+                                Login, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
+                        );
                 break;
             case Profile:
-                if(cards.size() == Profile){
-                    cards.add
-                            (
-                                    Profile, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
-                            );
-                }
+                cards.add
+                        (
+                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
+                        );
                 break;
             case Sex:
-                if(cards.size() == Sex) {
-                    cards.add
-                            (
-                                    Sex, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
-                            );
-                }
+                cards.add
+                        (
+                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
+                        );
                 break;
             case Age:
-                if(cards.size() == Age) {
-                    cards.add
-                            (
-                                    Age, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
-                            );
-                }
+                cards.add
+                        (
+                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
+                        );
                 break;
             case Success:
-                if(cards.size() == Success) {
-                    cards.add
-                    (
-                                    Success, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
-                            );
-                }
+                cards.add
+                        (
+                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
+                        );
                 if((USER == ALREADY_USER) && (cards.size() == 3)){
                     cards.add
                             (
-                                    Sex, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
+                                    1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
                             );
                 }
                 break;
         }
 
-        /*
-        //逐一建造
-        cards.add
-        (
-            Connection, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
-        );
-        cards.add
-        (
-            Login, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
-        );
-        cards.add
-        (
-            Profile, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
-        );
-        cards.add
-                (
-                        Sex, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
-                );
-        cards.add
-                (
-                        Age, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
-                );
-        cards.add
-                (
-                        Success, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
-                );
-                */
         return cards;
     }
 
@@ -253,24 +211,21 @@ public class StartCard extends Activity
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position)
+                switch (nowCard)
                 {
                     case Connection:
                         nowCard = Connection;
-                        //mAdapter = new CardAdapter(createCards(StartCard.this,Login));
-                        //mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
-
                         break;
 
                     case Login:
-                        nowCard = Login;
-
+//                        nowCard = Login;
                         mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
+                        deleteCard(0);
 //                        deleteCard(Login);
 
 //                        mCardScroller.animate(Login, CardScrollView.Animation.DELETION);
 //                        cards.remove(Login);
-                        mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
+//                        mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
                         Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
                         connDb0();
                         //登入
@@ -368,9 +323,9 @@ public class StartCard extends Activity
     public void onStart()
     {
         super.onStart();
-        // If BT is not on, request that it be enabled.
-        // setupChat() will then be called during onActivityResult
 
+        // 如果藍芽沒有開啟，則要求開啟
+        // setupChat() 會在onActivityResult 被呼叫
         if (!mBluetoothAdapter.isEnabled())
         {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -407,7 +362,7 @@ public class StartCard extends Activity
             // Only if the state is STATE_NONE, do we know that we haven't started already
             if (mChatService.getState() == BluetoothChatService.STATE_NONE)
             {
-                // Start the Bluetooth chat services
+                // 開啟 Bluetooth chat services
                 mChatService.start();
             }
         }
@@ -431,7 +386,7 @@ public class StartCard extends Activity
         mOutStringBuffer = new StringBuffer("");
     }
     /**
-     * Updates the status on the action bar.
+     * 更新 action bar上面的狀態
      *
      * @param resId a string resource ID
      */
@@ -471,7 +426,7 @@ public class StartCard extends Activity
     }
 
     /**
-     * The Handler that gets information back from the BluetoothChatService
+     *  Handler 從BluetoothChatService接收資料
      */
     private final Handler mHandler = new Handler()
     {
@@ -508,9 +463,9 @@ public class StartCard extends Activity
                     */
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
-                    // construct a string from the valid bytes in the buffer
+
+                    // 建立一個字串將byte從buffer取出
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    //mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
 
                     //切割出name及email
                     String[] mreadMessage = readMessage.split(",");
@@ -521,15 +476,16 @@ public class StartCard extends Activity
                     LoginSuccess(mProfile.USER_NAME);
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
-                    // save the connected device's name
+                    // 儲存已連結的裝置名稱
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
                     if (null != StartCard.this) {
                         Toast.makeText(StartCard.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
                         //藍芽連線成功後加入卡片
                         mAdapter = new CardAdapter(createCards(StartCard.this,Login));
-                        mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
+                        //mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
+                        deleteCard(Connection);
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
@@ -559,12 +515,12 @@ public class StartCard extends Activity
                 }
                 break;
             case REQUEST_ENABLE_BT:
-                // When the request to enable Bluetooth returns
+                // 允許藍芽要求後
                 if (resultCode == Activity.RESULT_OK) {
                     // Bluetooth is now enabled, so set up a chat session
                     setupChat();
                 } else {
-                    // User did not enable Bluetooth or an error occurred
+                    // 使用者沒有允許藍芽開啟或發生錯誤
                     Log.d(TAG, "BT not enabled");
                     Toast.makeText(StartCard.this, R.string.bt_not_enabled_leaving,
                             Toast.LENGTH_SHORT).show();
@@ -600,7 +556,6 @@ public class StartCard extends Activity
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-                    //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                     Log.e("PETER", result);
 
                     //若已經是會員
@@ -641,7 +596,6 @@ public class StartCard extends Activity
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-                    //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                     Log.e("PETER", result);
 
                     //資料庫已經有使用者資料
@@ -666,8 +620,10 @@ public class StartCard extends Activity
         // Delete card in the adapter, but don't call notifyDataSetChanged() yet.
         // Instead, request proper animation for deleted card from card scroller,
         // which will notify the adapter at the right time during the animation.
+        Log.e("deleteCard",position + "?");
         mCardScroller.animate(position, CardScrollView.Animation.DELETION);
         cards.remove(position);
+        nowCard = position + 1;
     }
 
 
