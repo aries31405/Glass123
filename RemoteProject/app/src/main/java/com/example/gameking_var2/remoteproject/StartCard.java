@@ -20,6 +20,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -163,6 +164,7 @@ public class StartCard extends Activity
                         );
                 break;
             case Profile:
+                nowCard = Profile;
                 cards.add
                         (
                                 1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
@@ -227,17 +229,26 @@ public class StartCard extends Activity
 //                        cards.remove(Login);
 //                        mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
                         Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
-                        connDb0();
+//                        connDb0();
                         //登入
                         break;
 
                     case Profile:
                         nowCard = Profile;
-                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
-                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
+//                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+//                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
+                        if(USER == ALREADY_USER){
+                            mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+                            Log.e("ALREADY_USER","123");
+                        }
+                        else if(USER == NOT_USER){
+                            mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+                        }
+                        deleteCard(0);
                         break;
 
                     case Sex:
+                        /*
                         if(USER == ALREADY_USER){
                             connDb();
                         }
@@ -247,7 +258,10 @@ public class StartCard extends Activity
                             mCardScroller.animate(Age, CardScrollView.Animation.NAVIGATION);
                             openOptionsMenu();
                         }
-
+                        */
+                        mAdapter = new CardAdapter(createCards(StartCard.this, Age));
+                        //deleteCard(0);
+                        openOptionsMenu();
                         break;
 
                     case Age:
@@ -474,6 +488,7 @@ public class StartCard extends Activity
 
                     //資料成功傳到Glass
                     LoginSuccess(mProfile.USER_NAME);
+                    connDb0();
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // 儲存已連結的裝置名稱
@@ -485,6 +500,7 @@ public class StartCard extends Activity
                         //藍芽連線成功後加入卡片
                         mAdapter = new CardAdapter(createCards(StartCard.this,Login));
                         //mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
+                        // 刪除前一張卡片
                         deleteCard(Connection);
                     }
                     break;
@@ -601,13 +617,15 @@ public class StartCard extends Activity
                     //資料庫已經有使用者資料
                     if (result.equals("2")) {
                         USER = ALREADY_USER;
-                        mAdapter = new CardAdapter(createCards(StartCard.this, Success));
-                        mCardScroller.animate(Success, CardScrollView.Animation.NAVIGATION);
+//                        mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+//                        mCardScroller.animate(Success, CardScrollView.Animation.NAVIGATION);
                     } else {
                         USER = NOT_USER;
-                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
-                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
+//                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+//                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
                     }
+                    mAdapter = new CardAdapter(createCards(StartCard.this, Profile));
+                    deleteCard(0);
                 }
                 //失敗傳回HTTP狀態碼
                 else {
