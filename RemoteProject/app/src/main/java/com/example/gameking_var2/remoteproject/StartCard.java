@@ -137,9 +137,7 @@ public class StartCard extends Activity
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
-            //FragmentActivity activity = getActivity();
-            //Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_SHORT).show();
 
             this.finish();
         }
@@ -253,19 +251,18 @@ public class StartCard extends Activity
                 switch (position) {
                     case Connection:
                         nowCard = Connection;
-/*
-                        mAdapter = new CardAdapter(createCards(StartCard.this,Login));
-                        mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
-*/
+                        //mAdapter = new CardAdapter(createCards(StartCard.this,Login));
+                        //mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
+
                         break;
 
                     case Login:
                         nowCard = Login;
 
                         mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
-                        //mCardScroller.animate(Login, C ardScrollView.Animation.DELETION);
-                        mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
-
+                        mCardScroller.animate(Login, CardScrollView.Animation.DELETION);
+                        cards.remove(Login);
+                        //mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
                         Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
                         connDb0();
                         //登入
@@ -299,18 +296,6 @@ public class StartCard extends Activity
 
                     case Success:
                         nowCard = Success;
-
-                        /*
-                        //有名字及信箱的資料後，POST出去
-                        if((!mProfile.USER_EMAIL.equals("")) && (!mProfile.USER_NAME.equals(""))){
-                            connDb();
-                            Toast.makeText(StartCard.this,"你好，"+mProfile.USER_NAME,Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(StartCard.this, MainLine.class));
-                        }
-                        else{
-                            Toast.makeText(StartCard.this,"請在手機上登入",Toast.LENGTH_SHORT).show();
-                        }
-                        */
                         connDb();
                         break;
 
@@ -420,34 +405,9 @@ public class StartCard extends Activity
         super.onPause();
     }
 
+    //設定藍芽傳輸的UI及背景資料
     private void setupChat() {
         Log.d(TAG, "setupChat()");
-
-        // Initialize the array adapter for the conversation thread
-        //mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
-        /*
-        mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
-
-
-        mConversationView.setAdapter(mConversationArrayAdapter);
-
-        // Initialize the compose field with a listener for the return key
-        mOutEditText.setOnEditorActionListener(mWriteListener);
-        */
-        /*
-        // Initialize the send button with a listener that for click events
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Send a message using content of the edit text widget
-                //View view = getView();
-                if (null != v) {
-                    TextView textView = (TextView)findViewById(R.id.edit_text_out);
-                    String message = textView.getText().toString();
-                    sendMessage(message);
-                }
-            }
-        });
-        */
 
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(this, mHandler);
@@ -543,7 +503,7 @@ public class StartCard extends Activity
                         Toast.makeText(StartCard.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                         Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
-                        //連線成功後加入卡片
+                        //藍芽連線成功後加入卡片
                         mAdapter = new CardAdapter(createCards(StartCard.this,Login));
                         mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
                     }
@@ -589,8 +549,9 @@ public class StartCard extends Activity
         }
     }
 
+    // 接收到登入資料後，Toast出來
     public void LoginSuccess(String userName){
-        Toast.makeText(StartCard.this,userName+"登入成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(StartCard.this,userName+"，登入成功",Toast.LENGTH_SHORT).show();
     }
 
     // 註冊為使用者，若已經是使用者則不再註冊
@@ -617,6 +578,8 @@ public class StartCard extends Activity
                 if (status.getCode() == 200) {
                     //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                     Log.e("PETER", result);
+
+                    //若已經是會員
                     if (result.equals("0") || result.equals("2")) {
                         Toast.makeText(getApplicationContext(), "你好，" + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), MainLine.class));
@@ -624,7 +587,7 @@ public class StartCard extends Activity
                         Toast.makeText(getApplicationContext(), "登入失敗，請再登入一次。", Toast.LENGTH_SHORT).show();
                     }
                 }
-                //失敗傳回狀態碼
+                //失敗傳回HTTP狀態碼
                 else {
                     Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
                 }
@@ -656,16 +619,19 @@ public class StartCard extends Activity
                 if (status.getCode() == 200) {
                     //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                     Log.e("PETER", result);
+
+                    //資料庫已經有使用者資料
                     if (result.equals("2")) {
                         USER = ALREADY_USER;
                         mAdapter = new CardAdapter(createCards(StartCard.this, Success));
                         mCardScroller.animate(Success, CardScrollView.Animation.NAVIGATION);
                     } else {
                         USER = NOT_USER;
-                        //Toast.makeText(getApplicationContext(), "登入失敗，請再登入一次。", Toast.LENGTH_SHORT).show();
+                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
                     }
                 }
-                //失敗傳回狀態碼
+                //失敗傳回HTTP狀態碼
                 else {
                     Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
                 }
