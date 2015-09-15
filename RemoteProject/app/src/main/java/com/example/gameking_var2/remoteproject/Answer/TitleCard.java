@@ -1,7 +1,10 @@
 package com.example.gameking_var2.remoteproject.Answer;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
+import com.example.gameking_var2.remoteproject.Mplayer.Player;
 import com.example.gameking_var2.remoteproject.R;
+import com.google.android.glass.app.Card;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
@@ -14,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +40,11 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class TitleCard extends Activity implements GestureDetector.BaseListener
 {
+    private Player player;
+    String[] promptName,promptStore;
+    String msg;
+
+
     //不知道
     private static final String TAG = TitleCard.class.getSimpleName();
 
@@ -55,6 +64,21 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+
+        Intent intent = this.getIntent();
+        //取得傳遞過來的資料
+        msg = intent.getStringExtra("msg");
+
+        gocreat();
+    }
+
+    private void gocreat()
+    {
+        String[] all;
+        all=msg.split("&");
+
+        promptName=all[0].split(",");
+        promptStore=all[1].split(",");
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this));
@@ -86,11 +110,11 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         //逐一建造
         cards.add
         (
-            HintOne, new CardBuilder(context, CardBuilder.Layout.MENU).setText("題示一")
+            HintOne, new CardBuilder(context, CardBuilder.Layout.MENU).setText(promptName[0])
         );
         cards.add
         (
-            HintTwo, new CardBuilder(context, CardBuilder.Layout.MENU).setText("題示二")
+            HintTwo, new CardBuilder(context, CardBuilder.Layout.MENU).setText(promptName[1])
         );
         cards.add
         (
@@ -117,11 +141,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                 switch (position)
                 {
                     case HintOne:
-
+                        player = new Player("http://163.17.135.75"+promptStore[0]);
+                        player.play();
                         break;
 
                     case HintTwo:
-
+                        player = new Player("http://163.17.135.75"+promptStore[1]);
+                        player.play();
                         break;
 
                     case HintThree:
@@ -154,13 +180,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
         switch( gesture.name() )
         {
-            case "TAP":
-                //進入選單
-                startActivity(new Intent(TitleCard.this, Options.class));
-                break;
             case "TWO_TAP":
                 //答題
                 startActivity(new Intent(TitleCard.this, Answer.class));
+                break;
+            case "THREE_TAP":
+                //進入選單
+                startActivity(new Intent(TitleCard.this, Options.class));
                 break;
             case "SWIPE_DOWN":
                 finish();
@@ -168,6 +194,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         }
         return false;
     }
+
 
 
 

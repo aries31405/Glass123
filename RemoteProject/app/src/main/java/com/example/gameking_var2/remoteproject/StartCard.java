@@ -56,6 +56,7 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class StartCard extends Activity
 {
+
     //不知道
     private static final String TAG = StartCard.class.getSimpleName();
 
@@ -107,10 +108,10 @@ public class StartCard extends Activity
     //List的卡片創建
     ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
 
-    //
+    // 使用者是否已經存在資料庫
     private int USER;
-    private int NOT_USER = 0;
-    private int ALREADY_USER = 1;
+    private final int NOT_USER = 0;
+    private final int ALREADY_USER = 1;
 
     @Override
     protected void onCreate(Bundle bundle)
@@ -121,6 +122,7 @@ public class StartCard extends Activity
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this,Connection));
+        nowCard = Connection;
 
         //預設 抓本體
         mCardScroller = new CardScrollView(this);
@@ -154,17 +156,16 @@ public class StartCard extends Activity
             case Connection:
                 cards.add
                         (
-                                Connection, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
+                                0, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
                         );
                 break;
             case Login:
                 cards.add
                         (
-                                Login, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
+                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
                         );
                 break;
             case Profile:
-                nowCard = Profile;
                 cards.add
                         (
                                 1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
@@ -187,12 +188,6 @@ public class StartCard extends Activity
                         (
                                 1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
                         );
-                if((USER == ALREADY_USER) && (cards.size() == 3)){
-                    cards.add
-                            (
-                                    1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
-                            );
-                }
                 break;
         }
 
@@ -216,69 +211,60 @@ public class StartCard extends Activity
                 switch (nowCard)
                 {
                     case Connection:
-                        nowCard = Connection;
+                        Toast.makeText(StartCard.this,"Connection",Toast.LENGTH_SHORT).show();
                         break;
 
                     case Login:
-//                        nowCard = Login;
-                        mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
-                        deleteCard(0);
-//                        deleteCard(Login);
-
-//                        mCardScroller.animate(Login, CardScrollView.Animation.DELETION);
-//                        cards.remove(Login);
-//                        mCardScroller.animate(Profile, CardScrollView.Animation.NAVIGATION);
-                        Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
-//                        connDb0();
-                        //登入
+                        //mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
+                        //deleteCard(0);
+                        Toast.makeText(StartCard.this,"Login",Toast.LENGTH_SHORT).show();
                         break;
 
                     case Profile:
-                        nowCard = Profile;
-//                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
-//                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
                         if(USER == ALREADY_USER){
                             mAdapter = new CardAdapter(createCards(StartCard.this, Success));
                             Log.e("ALREADY_USER","123");
                         }
                         else if(USER == NOT_USER){
                             mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+                            Log.e("NOT_USER","123");
+                        }
+                        else{
+                            Log.e("ELSE","123");
                         }
                         deleteCard(0);
+                        if(USER == ALREADY_USER){
+                            nowCard = Success;
+                        }
+                        else if(USER == NOT_USER){
+                            nowCard = Sex;
+                        }
+                        Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
                         break;
 
                     case Sex:
-                        /*
-                        if(USER == ALREADY_USER){
-                            connDb();
-                        }
-                        else{
-                            nowCard = Sex;
-                            mAdapter = new CardAdapter(createCards(StartCard.this, Age));
-                            mCardScroller.animate(Age, CardScrollView.Animation.NAVIGATION);
-                            openOptionsMenu();
-                        }
-                        */
                         mAdapter = new CardAdapter(createCards(StartCard.this, Age));
-                        //deleteCard(0);
+                        Toast.makeText(StartCard.this, "Sex", Toast.LENGTH_SHORT).show();
                         openOptionsMenu();
+                        deleteCard(0);
                         break;
 
                     case Age:
-                        nowCard = Age;
                         mAdapter = new CardAdapter(createCards(StartCard.this, Success));
-                        mCardScroller.animate(Success, CardScrollView.Animation.NAVIGATION);
+                        Toast.makeText(StartCard.this, "Age", Toast.LENGTH_SHORT).show();
                         openOptionsMenu();
+                        deleteCard(0);
                         break;
 
                     case Success:
-                        nowCard = Success;
                         connDb();
+                        Toast.makeText(StartCard.this, "Success", Toast.LENGTH_SHORT);
                         break;
 
                     default:
                         soundEffect = Sounds.ERROR;
                         Log.d(TAG, "Don't show anything");
+                        connDb();
 
                 }
 
@@ -312,6 +298,7 @@ public class StartCard extends Activity
                 Toast.makeText(StartCard.this, "選單發生錯誤！", LENGTH_LONG).show();
                 break;
         }
+        Log.e("nowCard",nowCard+"!");
         return true;
     }
 
@@ -368,12 +355,11 @@ public class StartCard extends Activity
     {
         super.onResume();
         mCardScroller.activate();
-        // Performing this check in onResume() covers the case in which BT was
-        // not enabled during onStart(), so we were paused to enable it...
-        // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
+        // 在 onResume()這裡檢查藍芽在 onStart()沒有被允許，所以我們暫停來允許藍芽
+        // onResume() 會在 ACTION_REQUEST_ENABLE activity 傳回時被呼叫.
         if (mChatService != null)
         {
-            // Only if the state is STATE_NONE, do we know that we haven't started already
+            // 只有狀態是 STATE_NONE，知道我們還沒開始藍芽服務
             if (mChatService.getState() == BluetoothChatService.STATE_NONE)
             {
                 // 開啟 Bluetooth chat services
@@ -393,10 +379,10 @@ public class StartCard extends Activity
     private void setupChat() {
         Log.d(TAG, "setupChat()");
 
-        // Initialize the BluetoothChatService to perform bluetooth connections
+        // 初始化 BluetoothChatService 來表現藍芽連接
         mChatService = new BluetoothChatService(this, mHandler);
 
-        // Initialize the buffer for outgoing messages
+        // 初始化緩衝區給 outgoing messages
         mOutStringBuffer = new StringBuffer("");
     }
     /**
@@ -488,6 +474,8 @@ public class StartCard extends Activity
 
                     //資料成功傳到Glass
                     LoginSuccess(mProfile.USER_NAME);
+
+                    // 檢查是否已經為使用者，之後跳轉到 profile頁面
                     connDb0();
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -496,12 +484,12 @@ public class StartCard extends Activity
                     if (null != StartCard.this) {
                         Toast.makeText(StartCard.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(StartCard.this, cards.size() + "!", Toast.LENGTH_SHORT).show();
+
                         //藍芽連線成功後加入卡片
                         mAdapter = new CardAdapter(createCards(StartCard.this,Login));
-                        //mCardScroller.animate(Login, CardScrollView.Animation.INSERTION);
+
                         // 刪除前一張卡片
-                        deleteCard(Connection);
+                        deleteCard(0);
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
@@ -533,7 +521,7 @@ public class StartCard extends Activity
             case REQUEST_ENABLE_BT:
                 // 允許藍芽要求後
                 if (resultCode == Activity.RESULT_OK) {
-                    // Bluetooth is now enabled, so set up a chat session
+                    // 藍芽允許後設定
                     setupChat();
                 } else {
                     // 使用者沒有允許藍芽開啟或發生錯誤
@@ -559,8 +547,6 @@ public class StartCard extends Activity
         Map<String,Object> params = new HashMap<String, Object>();
 
         //測試用
-        mProfile.USER_NAME = "林元博";
-        mProfile.USER_EMAIL = "s1100b027@nutc.edu.tw";
         params.put("name", mProfile.USER_NAME);
         params.put("email", mProfile.USER_EMAIL);
         params.put("age", 20);
@@ -572,7 +558,6 @@ public class StartCard extends Activity
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-                    Log.e("PETER", result);
 
                     //若已經是會員
                     if (result.equals("0") || result.equals("2")) {
@@ -590,7 +575,7 @@ public class StartCard extends Activity
         });
     }
 
-    // 檢查是否已註冊為使用者
+    // 登入，檢查是否已註冊為使用者，之後跳轉到 profile頁面
     private void connDb0(){
 
         AQuery aq = new AQuery(this);
@@ -599,8 +584,6 @@ public class StartCard extends Activity
         Map<String,Object> params = new HashMap<String, Object>();
 
         //測試用
-        mProfile.USER_NAME = "林元博";
-        mProfile.USER_EMAIL = "s1100b027@nutc.edu.tw";
         params.put("name", mProfile.USER_NAME);
         params.put("email", mProfile.USER_EMAIL);
         params.put("age", 20);
@@ -612,17 +595,11 @@ public class StartCard extends Activity
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-                    Log.e("PETER", result);
-
                     //資料庫已經有使用者資料
                     if (result.equals("2")) {
                         USER = ALREADY_USER;
-//                        mAdapter = new CardAdapter(createCards(StartCard.this, Success));
-//                        mCardScroller.animate(Success, CardScrollView.Animation.NAVIGATION);
                     } else {
                         USER = NOT_USER;
-//                        mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
-//                        mCardScroller.animate(Sex, CardScrollView.Animation.NAVIGATION);
                     }
                     mAdapter = new CardAdapter(createCards(StartCard.this, Profile));
                     deleteCard(0);
@@ -634,6 +611,8 @@ public class StartCard extends Activity
             }
         });
     }
+
+    // 刪除卡片
     private void deleteCard(int position) {
         // Delete card in the adapter, but don't call notifyDataSetChanged() yet.
         // Instead, request proper animation for deleted card from card scroller,
@@ -641,7 +620,7 @@ public class StartCard extends Activity
         Log.e("deleteCard",position + "?");
         mCardScroller.animate(position, CardScrollView.Animation.DELETION);
         cards.remove(position);
-        nowCard = position + 1;
+        nowCard = nowCard+1;
     }
 
 
