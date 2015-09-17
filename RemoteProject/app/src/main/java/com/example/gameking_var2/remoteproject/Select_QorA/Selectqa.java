@@ -121,6 +121,7 @@ public class Selectqa extends Activity
                         break;
 
                     case Topic:
+
                         break;
 
                     default:

@@ -35,6 +35,9 @@ import android.widget.AdapterView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -599,13 +602,18 @@ public class StartCard extends Activity
                         Toast.makeText(getApplicationContext(), "你好，" + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
                         mProfile.USER_ID = result;
 
-                        // 傳使用者資料到 MainLine Activity
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userid", mProfile.USER_ID);
-                        bundle.putString("username",mProfile.USER_NAME);
-                        bundle.putString("useremail", mProfile.USER_EMAIL);
+                        try//將ID存起來
+                        {
+                            FileOutputStream out = openFileOutput("Id.txt",MODE_PRIVATE);
+                            out.write(mProfile.USER_ID.getBytes());
+                            out.close();
+                        }
+                        catch(IOException e)
+                        {
+
+                        }
+
                         Intent it = new Intent(getApplicationContext(), MainLine.class);
-                        it.putExtras(bundle);
                         startActivity(it);
 
                         // 結束登入程序

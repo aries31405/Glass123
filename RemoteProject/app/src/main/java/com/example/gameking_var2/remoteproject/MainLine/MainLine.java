@@ -77,14 +77,6 @@ public class MainLine extends Activity
         //設定卡片點擊事件
         setCardScrollerListener();
 
-        Bundle bd = this.getIntent().getExtras();
-        mProfile = new Profile();
-
-        mProfile.USER_ID = bd.getString("userid");
-        mProfile.USER_NAME = bd.getString("username");
-        mProfile.USER_EMAIL = bd.getString("useremail");
-
-        Toast.makeText(getApplicationContext(),mProfile.USER_ID,Toast.LENGTH_SHORT).show();
 
     }
 
