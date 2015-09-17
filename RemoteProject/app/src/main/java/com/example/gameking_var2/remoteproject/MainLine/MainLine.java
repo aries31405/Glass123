@@ -1,6 +1,7 @@
 package com.example.gameking_var2.remoteproject.MainLine;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.example.gameking_var2.remoteproject.R;
 import com.example.gameking_var2.remoteproject.Select_QorA.Selectqa;
 import com.google.android.glass.media.Sounds;
@@ -53,6 +54,9 @@ public class MainLine extends Activity
     private CardScrollAdapter mAdapter;
     private CardScrollView mCardScroller;
 
+    // 使用者資料
+    private Profile mProfile;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
@@ -72,6 +76,16 @@ public class MainLine extends Activity
 
         //設定卡片點擊事件
         setCardScrollerListener();
+
+        Bundle bd = this.getIntent().getExtras();
+        mProfile = new Profile();
+
+        mProfile.USER_ID = bd.getString("userid");
+        mProfile.USER_NAME = bd.getString("username");
+        mProfile.USER_EMAIL = bd.getString("useremail");
+
+        Toast.makeText(getApplicationContext(),mProfile.USER_ID,Toast.LENGTH_SHORT).show();
+
     }
 
     //建立滑動卡片 使用List

@@ -9,4 +9,5 @@ public class Profile
 {
     public String USER_NAME = "";
     public String USER_EMAIL = "";
+    public String USER_ID = "";
 }

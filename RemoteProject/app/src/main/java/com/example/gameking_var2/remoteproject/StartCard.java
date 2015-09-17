@@ -198,45 +198,39 @@ public class StartCard extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (nowCard)
-                {
+                switch (nowCard) {
                     case Connection:
-                        Toast.makeText(StartCard.this,"Connection",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StartCard.this, "Connection", Toast.LENGTH_SHORT).show();
                         break;
 
                     case Login:
                         //mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
                         //deleteCard(0);
-                        Toast.makeText(StartCard.this,"Login",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StartCard.this, "Login", Toast.LENGTH_SHORT).show();
                         break;
 
                     case Profile:
-                        if(USER == ALREADY_USER){
+                        if (USER == ALREADY_USER) {
                             mAdapter = new CardAdapter(createCards(StartCard.this, Success));
-                            Log.e("ALREADY_USER","123");
-                        }
-                        else if(USER == NOT_USER){
+                            Log.e("ALREADY_USER", "123");
+                        } else if (USER == NOT_USER) {
                             mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
-                            Log.e("NOT_USER","123");
-                        }
-                        else{
-                            Log.e("ELSE","123");
+                            Log.e("NOT_USER", "123");
+                        } else {
+                            Log.e("ELSE", "123");
                         }
                         deleteCard(0);
-                        if(USER == ALREADY_USER){
+                        if (USER == ALREADY_USER) {
                             nowCard = Success;
-                        }
-                        else if(USER == NOT_USER){
+                        } else if (USER == NOT_USER) {
                             nowCard = Sex;
                         }
                         Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
@@ -538,6 +532,44 @@ public class StartCard extends Activity
         Toast.makeText(StartCard.this,userName+"，登入成功",Toast.LENGTH_SHORT).show();
     }
 
+    // 登入，檢查是否已註冊為使用者，之後跳轉到 profile頁面
+    private void connDb0(){
+
+        AQuery aq = new AQuery(this);
+        String url = "http://163.17.135.76/db/selectusers.php";
+
+        Map<String,Object> params = new HashMap<String, Object>();
+
+        //測試用
+        params.put("email", mProfile.USER_EMAIL);
+
+        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+
+            @Override
+            public void callback(String url, String result, AjaxStatus status) {
+                //連線成功
+                if (status.getCode() == 200) {
+                    //資料庫已經有使用者資料
+                    if (result.equals("2")) {
+                        USER = ALREADY_USER;
+                        Toast.makeText(StartCard.this, "ALREADY_USER", Toast.LENGTH_SHORT).show();
+                    } else if (result.equals("0")) {
+                        USER = NOT_USER;
+                        Toast.makeText(StartCard.this, "NOT_USER", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(StartCard.this, "Google帳戶登入失敗", Toast.LENGTH_SHORT).show();
+                    }
+                    mAdapter = new CardAdapter(createCards(StartCard.this, Profile));
+                    deleteCard(0);
+                }
+                //失敗傳回HTTP狀態碼
+                else {
+                    Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     // 註冊為使用者，若已經是使用者則不再註冊
     private void connDb() {
 
@@ -558,51 +590,27 @@ public class StartCard extends Activity
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-
-                    //若已經是會員
-                    if (result.equals("0") || result.equals("2")) {
-                        Toast.makeText(getApplicationContext(), "你好，" + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), MainLine.class));
-                    } else {
+                    //登入失敗
+                    if (result.equals("1")) {
                         Toast.makeText(getApplicationContext(), "登入失敗，請再登入一次。", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                //失敗傳回HTTP狀態碼
-                else {
-                    Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    // 登入，檢查是否已註冊為使用者，之後跳轉到 profile頁面
-    private void connDb0(){
-
-        AQuery aq = new AQuery(this);
-        String url = "http://163.17.135.76/db/addusers.php";
-
-        Map<String,Object> params = new HashMap<String, Object>();
-
-        //測試用
-        params.put("name", mProfile.USER_NAME);
-        params.put("email", mProfile.USER_EMAIL);
-        params.put("age", 20);
-        params.put("gender", 0);
-
-        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
-
-            @Override
-            public void callback(String url, String result, AjaxStatus status) {
-                //連線成功
-                if (status.getCode() == 200) {
-                    //資料庫已經有使用者資料
-                    if (result.equals("2")) {
-                        USER = ALREADY_USER;
                     } else {
-                        USER = NOT_USER;
+                        // 登入系統成功
+                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "你好，" + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
+                        mProfile.USER_ID = result;
+
+                        // 傳使用者資料到 MainLine Activity
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userid", mProfile.USER_ID);
+                        bundle.putString("username",mProfile.USER_NAME);
+                        bundle.putString("useremail", mProfile.USER_EMAIL);
+                        Intent it = new Intent(getApplicationContext(), MainLine.class);
+                        it.putExtras(bundle);
+                        startActivity(it);
+
+                        // 結束登入程序
+                        StartCard.this.finish();
                     }
-                    mAdapter = new CardAdapter(createCards(StartCard.this, Profile));
-                    deleteCard(0);
                 }
                 //失敗傳回HTTP狀態碼
                 else {

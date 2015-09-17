@@ -34,10 +34,8 @@ import java.util.ArrayList;
 二指重新輸入
 */
 
-public class Answer extends Activity
+public class Answer extends Activity  implements GestureDetector.BaseListener
 {
-
-
     protected static final int RESULT_SPEECH = 1;
 
     //定義手勢偵測
@@ -54,13 +52,36 @@ public class Answer extends Activity
     {
         super.onCreate(bundle);
 
+        card = new Card(this);
         card.setText("請點擊並語音輸入");
         View view = card.getView();
         setContentView(view);
 
+        //手勢偵測此場景.基本偵測
+        GestureDetector = new GestureDetector(this).setBaseListener(this);
     }
 
-   /* private void speech() {
+    //偵測手勢動作，回傳事件
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event)
+    {
+        return GestureDetector.onMotionEvent(event);
+    }
+
+    @Override
+    public boolean onGesture(Gesture gesture) {
+        //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
+        switch( gesture.name() )
+        {
+            case "TAP":
+                //語音輸入
+                speech();
+                break;
+        }
+        return false;
+    }
+
+   private void speech() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
         //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.EXTRA_LANGUAGE_MODEL_FREE_FORM);
@@ -93,5 +114,5 @@ public class Answer extends Activity
             }
 
         }
-    }*/
-}
+    }
+    }
