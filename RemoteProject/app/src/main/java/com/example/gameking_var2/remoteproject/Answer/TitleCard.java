@@ -40,7 +40,9 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class TitleCard extends Activity implements GestureDetector.BaseListener
 {
+    //用來串流撥放音檔
     private Player player;
+
     String[] promptName,promptStore;
     String msg;
 
@@ -141,11 +143,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                 switch (position)
                 {
                     case HintOne:
+                        //設定音檔位置
                         player = new Player("http://163.17.135.75"+promptStore[0]);
                         player.play();
                         break;
 
                     case HintTwo:
+                        //設定音檔位置
                         player = new Player("http://163.17.135.75"+promptStore[1]);
                         player.play();
                         break;
@@ -183,6 +187,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             case "TWO_TAP":
                 //答題
                 startActivity(new Intent(TitleCard.this, Answer.class));
+                finish();
                 break;
             case "THREE_TAP":
                 //進入選單
