@@ -174,9 +174,10 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 if(mp.isPlaying())
                     mp.pause();
                 mp.seekTo(0);
-                mp.setVolume(1000, 1000);//設置聲音
+                mp.setVolume(1000, 1000);//設置找到題目聲音
                 mp.start();
 
+                //設置執行續使用資料庫
                 new Thread(new Runnable()
                 {
                     @Override
@@ -276,6 +277,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         }
     };
 
+    //當位置變動時更新
     @Override
     public void onLocationChanged(Location location) {
 
