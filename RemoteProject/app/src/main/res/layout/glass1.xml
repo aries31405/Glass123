@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="240px"
+        android:layout_marginLeft="160px"
+        android:layout_marginRight="160px"
+        tools:ignore="UselessLeaf"
+        android:layout_gravity="center_horizontal|bottom">
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="250px"
+        android:layout_marginLeft="160px"
+        android:layout_marginRight="160px"
+        tools:ignore="UselessLeaf"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "60sp"
+            android:text="21"
+            android:id="@+id/text2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="240px"
+        android:layout_marginLeft="160px"
+        android:layout_marginRight="160px"
+        tools:ignore="UselessLeaf"
+        android:layout_gravity="center_horizontal|top">
+
+
+
+
+    </RelativeLayout>
+</FrameLayout>
