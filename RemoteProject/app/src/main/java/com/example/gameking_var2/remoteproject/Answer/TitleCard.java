@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -23,10 +24,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -62,12 +66,19 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     //定義手勢偵測
     private GestureDetector GestureDetector;
 
+    //提示1、2
+    TextView tv1, tv2;
+
+    //提示3
+    ImageView iv1;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
 
         Intent intent = this.getIntent();
+
         //取得傳遞過來的資料
         msg = intent.getStringExtra("msg");
 
@@ -91,6 +102,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         //將本體設定為用好的自定義類別
         mCardScroller.setAdapter(mAdapter);
 
+        //設定提示文字
+        tv1.setText(promptName[0]);
+        tv2.setText(promptName[1]);
+
+        //設定提示圖片
+        iv1.setImageResource(R.drawable.bg01);
+
         //設定場景
         setContentView(mCardScroller);
 
@@ -102,26 +120,41 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
     }
 
-
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context)
     {
         //List的卡片創建
         ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
 
+        //在外面做CardBuilder  這樣才能抓裡面的View元件
+        CardBuilder cb1, cb2, cb3;
+
+        //定義
+        cb1 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_one).setTimestamp("前往提示二");
+        cb2 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_two).setFootnote("回到提示一").setTimestamp("前往提示三");
+        cb3 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_three).setFootnote("回到提示二");
+
         //逐一建造
         cards.add
         (
-            HintOne, new CardBuilder(context, CardBuilder.Layout.MENU).setText(promptName[0])
+            HintOne, cb1
         );
         cards.add
         (
-            HintTwo, new CardBuilder(context, CardBuilder.Layout.MENU).setText(promptName[1])
+            HintTwo, cb2
         );
         cards.add
         (
-            HintThree, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.bg01)
+            HintThree, cb3
         );
+
+        //建立完之後抓元件
+        //抓提示1、2 文字欄    Textview
+        tv1 = (TextView) cb1.getView().findViewById(R.id.prom_one);
+        tv2 = (TextView) cb2.getView().findViewById(R.id.prom_two);
+
+        //抓提示三 ImageView
+        iv1 = (ImageView) cb3.getView().findViewById(R.id.prom_three);
 
         return cards;
     }
