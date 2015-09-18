@@ -10,6 +10,8 @@ import com.example.gameking_var2.remoteproject.Login.Login;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.google.android.glass.media.Sounds;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
@@ -29,11 +31,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -57,7 +64,7 @@ import static android.widget.Toast.LENGTH_LONG;
 連結至MainLine頁面
 */
 
-public class StartCard extends Activity
+public class StartCard extends Activity  implements GestureDetector.BaseListener
 {
 
     //不知道
@@ -78,7 +85,11 @@ public class StartCard extends Activity
     //現在的卡片  用來判斷開啟哪個選單
     private int nowCard = -1;
 
-    private View mView;
+    //定義viewFlipper
+    private ViewFlipper vfSex;
+
+    //定義手勢偵測
+    private GestureDetector GestureDetector;
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -148,7 +159,12 @@ public class StartCard extends Activity
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_SHORT).show();
             this.finish();
         }
+
+        //手勢偵測此場景.基本偵測
+        GestureDetector = new GestureDetector(this).setBaseListener(this);
+
     }
+
 
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context,int position)
@@ -177,14 +193,21 @@ public class StartCard extends Activity
             case Sex:
                 cards.add
                         (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
+                                1, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.sex)
                         );
-                break;
-            case Age:
                 cards.add
                         (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
+                                2, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.age)
                         );
+                Toast.makeText(StartCard.this,"SEXbghvgh",Toast.LENGTH_SHORT).show();
+                break;
+            case Age:
+                Toast.makeText(StartCard.this,"YEEbghvgh",Toast.LENGTH_SHORT).show();
+                cards.add
+                        (
+                                1, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.age)
+                        );
+                Toast.makeText(StartCard.this,"YEEbghvgh",Toast.LENGTH_SHORT).show();
                 break;
             case Success:
                 cards.add
@@ -221,22 +244,32 @@ public class StartCard extends Activity
                         break;
 
                     case Profile:
-                        if (USER == ALREADY_USER) {
+                        if (USER == ALREADY_USER)
+                        {
                             mAdapter = new CardAdapter(createCards(StartCard.this, Success));
                             Log.e("ALREADY_USER", "123");
-                        } else if (USER == NOT_USER) {
+                        }
+                        else if (USER == NOT_USER)
+                        {
                             mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
                             Log.e("NOT_USER", "123");
-                        } else {
+                        }
+                        else
+                        {
                             Log.e("ELSE", "123");
                         }
                         deleteCard(0);
-                        if (USER == ALREADY_USER) {
+                        if (USER == ALREADY_USER)
+                        {
                             nowCard = Success;
-                        } else if (USER == NOT_USER) {
+                        }
+                        else if (USER == NOT_USER)
+                        {
                             nowCard = Sex;
                         }
                         Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
+                        //建立性別選單
+                        //createMenu();
                         break;
 
                     case Sex:
@@ -244,6 +277,8 @@ public class StartCard extends Activity
                         Toast.makeText(StartCard.this, "Sex", Toast.LENGTH_SHORT).show();
                         openOptionsMenu();
                         deleteCard(0);
+                        //建立性別選單
+                        createMenu();
                         break;
 
                     case Age:
@@ -251,6 +286,8 @@ public class StartCard extends Activity
                         Toast.makeText(StartCard.this, "Age", Toast.LENGTH_SHORT).show();
                         openOptionsMenu();
                         deleteCard(0);
+                        //建立性別選單
+                        createMenu();
                         break;
 
                     case Success:
@@ -272,10 +309,91 @@ public class StartCard extends Activity
         });
     }
 
+    public void createMenu()
+    {
+
+
+        vfSex = (ViewFlipper) findViewById(R.id.vf_sex);
+
+        TextView tv = new TextView(StartCard.this);
+        tv.setText("男");
+
+        LinearLayout lq = new LinearLayout(StartCard.this);
+        lq.addView(tv);
+
+        TextView tv2 = new TextView(StartCard.this);
+        tv.setText("女");
+
+        LinearLayout lq2 = new LinearLayout(StartCard.this);
+        lq2.addView(tv2);
+
+        vfSex.addView(lq);
+
+        vfSex.addView(lq2);
+
+        int i = 0;
+
+
+/*
+        for(i = 0; i < 30; i++)
+        {
+
+            TextView tv = new TextView(this);
+            tv.setText("男");
+
+            LinearLayout lq = new LinearLayout(this);
+            lq.addView(tv);
+
+
+            viewFlipper.addView(lq);
+        }
+*/
+        //vfSex.setOnTouchListener(this);
+    }
+
+    //偵測手勢動作，回傳事件
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event)
+    {
+        return GestureDetector.onMotionEvent(event);
+    }
+
+    @Override
+    public boolean onGesture(Gesture gesture)
+    {
+        //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
+        switch( gesture.name() )
+        {
+            case "SWIPE_UP":
+                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
+                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
+                vfSex.showPrevious();
+                break;
+            case "SWIPE_DOWN":
+                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in));
+                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
+                vfSex.showNext();
+                break;
+            case "TWO_SWIPE_DOWN":
+                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_a));
+                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_a));
+                vfSex.setDisplayedChild(vfSex.getDisplayedChild() + 10);
+                break;
+            case "TWO_SWIPE_UP":
+                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in_a));
+                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out_a));
+                vfSex.setDisplayedChild( vfSex.getDisplayedChild() - 10 );
+                break;
+
+        }
+        return true;
+    }
+
     //給當開啟選單時就會呼叫一次
     @Override
     public boolean onPrepareOptionsMenu (Menu menu)
     {
+        /*
         //清除之前選單
         menu.clear();
 
@@ -295,6 +413,7 @@ public class StartCard extends Activity
                 Toast.makeText(StartCard.this, "選單發生錯誤！", LENGTH_LONG).show();
                 break;
         }
+        */
         Log.e("nowCard",nowCard+"!");
         return true;
     }
@@ -633,11 +752,14 @@ public class StartCard extends Activity
         // Delete card in the adapter, but don't call notifyDataSetChanged() yet.
         // Instead, request proper animation for deleted card from card scroller,
         // which will notify the adapter at the right time during the animation.
+
         Log.e("deleteCard",position + "?");
         mCardScroller.animate(position, CardScrollView.Animation.DELETION);
         cards.remove(position);
         nowCard = nowCard+1;
-    }
 
+
+
+    }
 
 }

@@ -9,13 +9,27 @@
     <RelativeLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="240px"
+        android:layout_height="120dp"
         android:layout_marginLeft="160px"
         android:layout_marginRight="160px"
         tools:ignore="UselessLeaf"
         android:layout_gravity="center_horizontal|bottom">
 
 
+        <ImageView
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:id="@+id/imageView3"
+            android:src="@drawable/down"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/downline"
+            android:layout_below="@+id/imageView3" />
 
     </RelativeLayout>
 
@@ -28,6 +42,20 @@
         tools:ignore="UselessLeaf"
         android:layout_gravity="center">
 
+        <ViewFlipper
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vf_age"
+            android:textSize = "60sp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" >
+
+
+        </ViewFlipper>
+
+        <!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,6 +67,7 @@
             android:layout_marginTop="40dp">
 
         </TextView>
+        -->
 
     </RelativeLayout>
 
@@ -52,7 +81,14 @@
         android:layout_gravity="center_horizontal|top">
 
 
-
+        <ImageView
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:id="@+id/imageView"
+            android:src="@drawable/up"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
+
 </FrameLayout>
