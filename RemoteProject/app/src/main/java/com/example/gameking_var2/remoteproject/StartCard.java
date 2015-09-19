@@ -79,14 +79,14 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     static final int Success = 5;
 
     //上滑動佈景 下是滑動卡片
-    private CardScrollAdapter mAdapter;
+    private CardAdapter mAdapter;
     private CardScrollView mCardScroller;
 
     //現在的卡片  用來判斷開啟哪個選單
     private int nowCard = -1;
 
     //定義viewFlipper
-    private ViewFlipper vfSex;
+    private ViewFlipper vfSex, vfAge;
 
     //定義手勢偵測
     private GestureDetector GestureDetector;
@@ -178,43 +178,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                                 0, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
                         );
                 break;
-            case Login:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
-                        );
-                break;
-            case Profile:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
-                        );
-                break;
-            case Sex:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.sex)
-                        );
-                cards.add
-                        (
-                                2, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.age)
-                        );
-                Toast.makeText(StartCard.this,"SEXbghvgh",Toast.LENGTH_SHORT).show();
-                break;
-            case Age:
-                Toast.makeText(StartCard.this,"YEEbghvgh",Toast.LENGTH_SHORT).show();
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.age)
-                        );
-                Toast.makeText(StartCard.this,"YEEbghvgh",Toast.LENGTH_SHORT).show();
-                break;
-            case Success:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
-                        );
-                break;
+
         }
 
         return cards;
@@ -244,27 +208,19 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                         break;
 
                     case Profile:
-                        if (USER == ALREADY_USER)
-                        {
-                            mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+                        if (USER == ALREADY_USER) {
+                            insertNewCard(Success);
                             Log.e("ALREADY_USER", "123");
-                        }
-                        else if (USER == NOT_USER)
-                        {
-                            mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+                        } else if (USER == NOT_USER) {
+                            insertNewCard(Sex);
                             Log.e("NOT_USER", "123");
-                        }
-                        else
-                        {
+                        } else {
                             Log.e("ELSE", "123");
                         }
                         deleteCard(0);
-                        if (USER == ALREADY_USER)
-                        {
+                        if (USER == ALREADY_USER) {
                             nowCard = Success;
-                        }
-                        else if (USER == NOT_USER)
-                        {
+                        } else if (USER == NOT_USER) {
                             nowCard = Sex;
                         }
                         Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
@@ -273,21 +229,15 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                         break;
 
                     case Sex:
-                        mAdapter = new CardAdapter(createCards(StartCard.this, Age));
+                        insertNewCard(Age);
                         Toast.makeText(StartCard.this, "Sex", Toast.LENGTH_SHORT).show();
-                        openOptionsMenu();
                         deleteCard(0);
-                        //建立性別選單
-                        createMenu();
                         break;
 
                     case Age:
-                        mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+                        insertNewCard(Success);
                         Toast.makeText(StartCard.this, "Age", Toast.LENGTH_SHORT).show();
-                        openOptionsMenu();
                         deleteCard(0);
-                        //建立性別選單
-                        createMenu();
                         break;
 
                     case Success:
@@ -309,10 +259,73 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         });
     }
 
-    public void createMenu()
+    //----------------------變更卡片---------------------//
+
+    //刪除卡片
+    private void deleteCard(int position)
     {
+        //刪除卡片  刪除Adapter裡的CardBuilder之一
+        mAdapter.deleteCard(0);
 
+        //將現在卡片進行刪除
+        mCardScroller.animate(0, CardScrollView.Animation.DELETION);
 
+        nowCard = nowCard+1;
+    }
+
+    //移動卡片
+    private void navigateToCard(int position)
+    {
+        //將現在的卡片進行移動位置
+        mCardScroller.animate(position, CardScrollView.Animation.NAVIGATION);
+    }
+
+    //新增卡片
+    private void insertNewCard(int position)
+    {
+        //新增的卡片
+        CardBuilder card;
+        switch ( position )
+        {
+            case Login:
+                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
+                card.addImage(R.drawable.signin);
+                break;
+            case Profile:
+                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
+                card.addImage(R.drawable.profile);
+                break;
+            case Sex:
+                card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
+                card.setEmbeddedLayout(R.layout.sex);
+                break;
+            case Age:
+                card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
+                card.setEmbeddedLayout(R.layout.age);
+                break;
+            case Success:
+                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
+                card.addImage(R.drawable.success);
+                break;
+            default:
+                return;
+        }
+
+        //進行新增  Adapter裡的變數(CardBuilder)
+        mAdapter.insertCard(1, card);
+
+        //將現在的卡片進行更新(新增)
+        mCardScroller.animate(1, CardScrollView.Animation.INSERTION);
+
+        if( position == Sex )
+            createSex();
+        if( position == Age )
+            createAge();
+
+    }
+
+    public void createSex()
+    {
         vfSex = (ViewFlipper) findViewById(R.id.vf_sex);
 
         TextView tv = new TextView(StartCard.this);
@@ -331,24 +344,26 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
 
         vfSex.addView(lq2);
 
+    }
+
+    public void createAge()
+    {
+        vfAge = (ViewFlipper) findViewById(R.id.vf_age);
+
         int i = 0;
 
-
-/*
-        for(i = 0; i < 30; i++)
+        for(i = 15; i < 70; i++)
         {
 
             TextView tv = new TextView(this);
-            tv.setText("男");
+            tv.setText( i + "歲" );
 
             LinearLayout lq = new LinearLayout(this);
             lq.addView(tv);
 
-
-            viewFlipper.addView(lq);
+            vfAge.addView(lq);
         }
-*/
-        //vfSex.setOnTouchListener(this);
+
     }
 
     //偵測手勢動作，回傳事件
@@ -361,30 +376,61 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     @Override
     public boolean onGesture(Gesture gesture)
     {
-        //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
-        switch( gesture.name() )
+        if(nowCard == Sex)
         {
-            case "SWIPE_UP":
-                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
-                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
-                vfSex.showPrevious();
-                break;
-            case "SWIPE_DOWN":
-                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in));
-                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
-                vfSex.showNext();
-                break;
-            case "TWO_SWIPE_DOWN":
-                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_a));
-                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_a));
-                vfSex.setDisplayedChild(vfSex.getDisplayedChild() + 10);
-                break;
-            case "TWO_SWIPE_UP":
-                vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in_a));
-                vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out_a));
-                vfSex.setDisplayedChild( vfSex.getDisplayedChild() - 10 );
-                break;
+            //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
+            switch (gesture.name())
+            {
+                case "SWIPE_DOWN":
+                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
+                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
+                    vfSex.showPrevious();
+                    break;
+                case "SWIPE_UP":
+                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in));
+                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
+                    vfSex.showNext();
+                    break;
+                case "TWO_SWIPE_UP":
+                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_a));
+                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_a));
+                    vfSex.setDisplayedChild(vfSex.getDisplayedChild() + 10);
+                    break;
+                case "TWO_SWIPE_DOWN":
+                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in_a));
+                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out_a));
+                    vfSex.setDisplayedChild(vfSex.getDisplayedChild() - 10);
+                    break;
 
+            }
+        }
+        else if(nowCard == Age)
+        {
+            //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
+            switch (gesture.name())
+            {
+                case "SWIPE_DOWN":
+                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
+                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
+                    vfAge.showPrevious();
+                    break;
+                case "SWIPE_UP":
+                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in));
+                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
+                    vfAge.showNext();
+                    break;
+                case "TWO_SWIPE_UP":
+                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_a));
+                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_a));
+                    vfAge.setDisplayedChild(vfSex.getDisplayedChild() + 10);
+                    break;
+                case "TWO_SWIPE_DOWN":
+                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in_a));
+                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out_a));
+                    vfAge.setDisplayedChild(vfSex.getDisplayedChild() - 10);
+                    break;
+
+            }
         }
         return true;
     }
@@ -393,28 +439,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     @Override
     public boolean onPrepareOptionsMenu (Menu menu)
     {
-        /*
-        //清除之前選單
-        menu.clear();
-
-        //宣告選單
-        MenuInflater inflater = getMenuInflater();
-
-        //判斷位置取得選單
-        switch(nowCard)
-        {
-            case Sex:
-                inflater.inflate(R.menu.sex_menu, menu);
-                break;
-            case Age:
-                inflater.inflate(R.menu.age_menu, menu);
-                break;
-            default:
-                Toast.makeText(StartCard.this, "選單發生錯誤！", LENGTH_LONG).show();
-                break;
-        }
-        */
-        Log.e("nowCard",nowCard+"!");
+        Log.e("nowCard", nowCard + "!");
         return true;
     }
 
@@ -422,17 +447,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
-        {
-            case R.id.question:
 
-                return true;
-            case R.id.answer:
-
-                return true;
-            default:
-                return true;
-        }
+            return true;
     }
 
     //檢查藍芽是否開啟
@@ -602,7 +618,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
 
                         //藍芽連線成功後加入卡片
-                        mAdapter = new CardAdapter(createCards(StartCard.this,Login));
+                        insertNewCard(Profile);
 
                         // 刪除前一張卡片
                         deleteCard(0);
@@ -681,7 +697,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     } else {
                         Toast.makeText(StartCard.this, "Google帳戶登入失敗", Toast.LENGTH_SHORT).show();
                     }
-                    mAdapter = new CardAdapter(createCards(StartCard.this, Profile));
+                    insertNewCard(Profile);
                     deleteCard(0);
                 }
                 //失敗傳回HTTP狀態碼
@@ -748,7 +764,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     }
 
     // 刪除卡片
-    private void deleteCard(int position) {
+    private void deleteCarda(int position) {
         // Delete card in the adapter, but don't call notifyDataSetChanged() yet.
         // Instead, request proper animation for deleted card from card scroller,
         // which will notify the adapter at the right time during the animation.

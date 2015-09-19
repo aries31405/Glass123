@@ -32,8 +32,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,7 @@ import static android.widget.Toast.LENGTH_LONG;
 
 
 public class Searchq extends Activity implements GestureDetector.BaseListener,LocationListener
-{
+{private ViewFlipper vfSex;
     //不知道
     private static final String TAG = Searchq.class.getSimpleName();
 
@@ -199,14 +201,16 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     private void insertNewCard(int position)
     {
         //新增的卡片
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.COLUMNS);
-        card.setText("addNew");
+        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
+        card.setEmbeddedLayout(R.layout.sex);
 
         //進行新增  Adapter裡的變數(CardBuilder)
         mAdapter.insertCard(position, card);
 
         //將現在的卡片進行更新(新增)
         mCardScroller.animate(position, CardScrollView.Animation.INSERTION);
+
+        createMenu();
     }
 
     //----------------------選單------------------------//
@@ -413,6 +417,48 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     {
         mCardScroller.deactivate();
         super.onPause();
+    }
+
+    public void createMenu()
+    {
+
+
+        vfSex = (ViewFlipper) findViewById(R.id.vf_sex);
+
+        TextView tv = new TextView(this);
+        tv.setText("男");
+
+        LinearLayout lq = new LinearLayout(this);
+        lq.addView(tv);
+
+        TextView tv2 = new TextView(this);
+        tv2.setText("女");
+
+        LinearLayout lq2 = new LinearLayout(this);
+        lq2.addView(tv2);
+
+        vfSex.addView(lq);
+
+        vfSex.addView(lq2);
+
+        int i = 0;
+
+
+/*
+        for(i = 0; i < 30; i++)
+        {
+
+            TextView tv = new TextView(this);
+            tv.setText("男");
+
+            LinearLayout lq = new LinearLayout(this);
+            lq.addView(tv);
+
+
+            viewFlipper.addView(lq);
+        }
+*/
+        //vfSex.setOnTouchListener(this);
     }
 
 }
