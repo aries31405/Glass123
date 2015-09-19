@@ -21,6 +21,7 @@ public class Topic  extends Activity {
     {
         super.onCreate(bundle);
 
+        
         card = new Card(this);
         card.setText("沒東西");
         View view = card.getView();
