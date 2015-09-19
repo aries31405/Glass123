@@ -11,6 +11,8 @@
     <string name="title_activity_options">Options</string>
     <string name="title_activity_searchq">Search Question</string>
     <string name="title_activity_rank">Give Rank</string>
+    <string name="title_activity_Topic">Topic</string>
+    <string name="title_activity_ReplyCompare">ReplyCompare</string>
 
     <!--  BluetoothChat -->
     <string name="send">Send</string>

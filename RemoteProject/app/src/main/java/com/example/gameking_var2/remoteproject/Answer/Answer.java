@@ -1,27 +1,19 @@
 package com.example.gameking_var2.remoteproject.Answer;
 
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
-import com.example.gameking_var2.remoteproject.R;
-import com.example.gameking_var2.remoteproject.Rank.Rank;
 import com.google.android.glass.app.Card;
-import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
-import com.google.android.glass.widget.CardBuilder;
-import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
@@ -39,7 +31,9 @@ import java.util.ArrayList;
 
 public class Answer extends Activity  implements GestureDetector.BaseListener
 {
-    String id = null,Answer=null;
+    private Thread thread;
+    private Handler handler  = new Handler();
+    String id = null,Answer=null,msg=null;
 
     protected static final int RESULT_SPEECH = 1;
 
@@ -102,8 +96,8 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
                     public void run()
                     {
                         GetServerMessage message = new GetServerMessage();
-                        String msg = message.all("http://163.17.135.75/glass/UserAnswer.php","titleId=2&Id="+ id+"&Answer="+Answer);
-                        finish();
+                        msg = message.all("http://163.17.135.75/glass/UserAnswer.php","titleId=2&Id="+ id+"&Answer="+Answer);
+                        handler.post(updata);
                     }
 
                 }).start();
@@ -111,6 +105,20 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
         }
         return false;
     }
+
+    //執行續
+    final Runnable updata = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            Intent intent = new Intent();
+            intent.setClass(Answer.this,ReplyCompare.class);
+            intent .putExtra("msg", msg);//可放所有基本類別
+            // 切換Activity
+            startActivity(intent);
+        }
+    };
 
     //啟用語音輸入
    private void speech() {
