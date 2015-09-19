@@ -123,14 +123,20 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         //建立卡片建立元件
         CardBuilder cb1 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.search_layout);
 
+        View view = cb1.getView();
+
+        //抓點點文字View
+        tv1 = (TextView) view.findViewById(R.id.dot_d);
+
+        tv1.setText("......");
+
         //建立尋找頁面
         cards.add
         (
             0, cb1
         );
 
-        //抓點點文字View
-        tv1 = (TextView) cb1.getView().findViewById(R.id.dot_d);
+
 
         return cards;
     }

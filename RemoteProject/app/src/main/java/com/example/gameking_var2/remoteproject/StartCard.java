@@ -322,7 +322,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         lq.addView(tv);
 
         TextView tv2 = new TextView(StartCard.this);
-        tv.setText("女");
+        tv2.setText("女");
 
         LinearLayout lq2 = new LinearLayout(StartCard.this);
         lq2.addView(tv2);
