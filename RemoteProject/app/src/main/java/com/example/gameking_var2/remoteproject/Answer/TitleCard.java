@@ -49,7 +49,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
     String[] promptName,promptStore;
     String msg;
-
+    int i=0;
 
     //不知道
     private static final String TAG = TitleCard.class.getSimpleName();
@@ -140,13 +140,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             HintOne, cb1
         );
         cards.add
-        (
-            HintTwo, cb2
-        );
+                (
+                        HintTwo, cb2
+                );
         cards.add
-        (
-            HintThree, cb3
-        );
+                (
+                        HintThree, cb3
+                );
 
         //建立完之後抓元件
         //抓提示1、2 文字欄    Textview
@@ -176,15 +176,11 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                 switch (position)
                 {
                     case HintOne:
-                        //設定音檔位置
-                        player = new Player("http://163.17.135.75"+promptStore[0]);
-                        player.play();
+
                         break;
 
                     case HintTwo:
-                        //設定音檔位置
-                        player = new Player("http://163.17.135.75"+promptStore[1]);
-                        player.play();
+
                         break;
 
                     case HintThree:
@@ -229,13 +225,39 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             case "SWIPE_DOWN":
                 finish();
                 break;
+            case  "SWIPE_RIGHT":
+                Playmusic();
+                break;
+            case "SWIPE_LEFT":
+                Playmusic();
+                break;
         }
         return false;
     }
 
+    //播放影音檔
+    public  void Playmusic()
+    {
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try {
+                    Thread.sleep(1000);
+                    if(mCardScroller.getSelectedItemPosition() < 2 )
+                    {
+                        //設定音檔位置
+                        player = new Player("http://163.17.135.75"+promptStore[mCardScroller.getSelectedItemPosition()]);
+                        player.play();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
-
-
+        }).start();
+    }
 
 
 

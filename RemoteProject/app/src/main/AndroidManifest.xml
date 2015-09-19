@@ -60,6 +60,16 @@
             android:icon="@drawable/ic_glass_logo"
             android:label="@string/title_activity_rank" >
         </activity>
+        <activity
+            android:name=".Answer.ReplyCompare"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_ReplyCompare" >
+        </activity>
+        <activity
+            android:name=".Topic.Topic"
+            android:icon="@drawable/ic_glass_logo"
+            android:label="@string/title_activity_Topic" >
+        </activity>
     </application>
 
 </manifest>
