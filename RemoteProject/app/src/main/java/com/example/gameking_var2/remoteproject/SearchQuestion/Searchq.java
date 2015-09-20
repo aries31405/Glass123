@@ -25,6 +25,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -111,7 +112,12 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         thread = new Thread(getlocal);
         thread.start();
 
-        tv1.setText("...");
+        View view = LayoutInflater.from(this).inflate(R.layout.search_layout, null);
+
+        //抓點點文字View
+        tv1 = (TextView) view.findViewById(R.id.dot_d);
+
+
     }
 
     //------------------------------建立卡片-----------------------------//
@@ -122,23 +128,11 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         //List的卡片創建
         ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
 
-        //建立卡片建立元件
-        CardBuilder cb1 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.search_layout);
-
-        View view = cb1.getView();
-
-        //抓點點文字View
-        tv1 = (TextView) view.findViewById(R.id.dot_d);
-
-        tv1.setText("......");
-
         //建立尋找頁面
         cards.add
         (
-            0, cb1
+            0, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.search_layout)
         );
-
-
 
         return cards;
     }
@@ -161,6 +155,8 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 {
                     case 0:
                         insertNewCard(1);
+                        tv1.setText("......");
+                        tv1.setText("...");
                         break;
                     case 1:
                         deleteCard(1);
@@ -202,15 +198,13 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     {
         //新增的卡片
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
-        card.setEmbeddedLayout(R.layout.sex);
+        card.setEmbeddedLayout(R.layout.search_layout);
 
         //進行新增  Adapter裡的變數(CardBuilder)
         mAdapter.insertCard(position, card);
 
         //將現在的卡片進行更新(新增)
         mCardScroller.animate(position, CardScrollView.Animation.INSERTION);
-
-        createMenu();
     }
 
     //----------------------選單------------------------//
@@ -419,46 +413,5 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         super.onPause();
     }
 
-    public void createMenu()
-    {
-
-
-        vfSex = (ViewFlipper) findViewById(R.id.vf_sex);
-
-        TextView tv = new TextView(this);
-        tv.setText("男");
-
-        LinearLayout lq = new LinearLayout(this);
-        lq.addView(tv);
-
-        TextView tv2 = new TextView(this);
-        tv2.setText("女");
-
-        LinearLayout lq2 = new LinearLayout(this);
-        lq2.addView(tv2);
-
-        vfSex.addView(lq);
-
-        vfSex.addView(lq2);
-
-        int i = 0;
-
-
-/*
-        for(i = 0; i < 30; i++)
-        {
-
-            TextView tv = new TextView(this);
-            tv.setText("男");
-
-            LinearLayout lq = new LinearLayout(this);
-            lq.addView(tv);
-
-
-            viewFlipper.addView(lq);
-        }
-*/
-        //vfSex.setOnTouchListener(this);
-    }
 
 }

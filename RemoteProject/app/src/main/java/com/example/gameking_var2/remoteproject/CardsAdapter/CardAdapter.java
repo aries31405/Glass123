@@ -3,6 +3,7 @@ package com.example.gameking_var2.remoteproject.CardsAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ViewFlipper;
 
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -72,4 +73,11 @@ public class CardAdapter extends CardScrollAdapter
     {
         mCards.remove(position);
     }
+
+    //清除
+    public void clearCard()
+    {
+        mCards.clear();
+    }
+
 }

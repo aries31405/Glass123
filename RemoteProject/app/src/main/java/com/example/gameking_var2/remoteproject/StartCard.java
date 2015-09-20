@@ -119,9 +119,6 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     //基本資料
     Profile mProfile = new Profile();
 
-    //List的卡片創建
-    ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
-
     // 使用者是否已經存在資料庫
     private int USER;
     private final int NOT_USER = 0;
@@ -131,8 +128,6 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-
-        cards.clear();
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this,Connection));
@@ -165,22 +160,21 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
 
     }
 
+    //-----------------------建立卡片--------------------//
 
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context,int position)
     {
+        //List的卡片創建
+        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
+
         Log.e("createCards",position + "!");
-        switch(position)
-        {
-            case Connection:
-                cards.add
-                        (
-                                0, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
-                        );
-                break;
 
-        }
-
+        //新增卡片
+        cards.add
+        (
+            0, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
+        );
         return cards;
     }
 
@@ -188,56 +182,63 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (nowCard) {
+                switch (nowCard)
+                {
                     case Connection:
                         Toast.makeText(StartCard.this, "Connection", Toast.LENGTH_SHORT).show();
                         break;
 
                     case Login:
-                        //mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
-                        //deleteCard(0);
                         Toast.makeText(StartCard.this, "Login", Toast.LENGTH_SHORT).show();
                         break;
 
                     case Profile:
-                        if (USER == ALREADY_USER) {
+                        if (USER == ALREADY_USER)
+                        {
                             insertNewCard(Success);
                             Log.e("ALREADY_USER", "123");
-                        } else if (USER == NOT_USER) {
+                        }
+                        else if (USER == NOT_USER)
+                        {
                             insertNewCard(Sex);
                             Log.e("NOT_USER", "123");
-                        } else {
+                        }
+                        else
+                        {
                             Log.e("ELSE", "123");
                         }
-                        deleteCard(0);
-                        if (USER == ALREADY_USER) {
+                        if (USER == ALREADY_USER)
+                        {
                             nowCard = Success;
-                        } else if (USER == NOT_USER) {
+                        }
+                        else if (USER == NOT_USER)
+                        {
                             nowCard = Sex;
                         }
                         Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
-                        //建立性別選單
-                        //createMenu();
+                        //deleteCard(0);
                         break;
 
                     case Sex:
                         insertNewCard(Age);
                         Toast.makeText(StartCard.this, "Sex", Toast.LENGTH_SHORT).show();
-                        deleteCard(0);
+                        //deleteCard(0);
                         break;
 
                     case Age:
                         insertNewCard(Success);
                         Toast.makeText(StartCard.this, "Age", Toast.LENGTH_SHORT).show();
-                        deleteCard(0);
+                        //deleteCard(0);
                         break;
 
                     case Success:
@@ -311,18 +312,26 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 return;
         }
 
+        mAdapter.clearCard();
+
         //進行新增  Adapter裡的變數(CardBuilder)
-        mAdapter.insertCard(1, card);
+        mAdapter.insertCard(0, card);
 
         //將現在的卡片進行更新(新增)
-        mCardScroller.animate(1, CardScrollView.Animation.INSERTION);
+        mCardScroller.animate(0, CardScrollView.Animation.INSERTION);
 
-        if( position == Sex )
+
+        //依據位置創建選單
+        if( position == Sex)
             createSex();
         if( position == Age )
             createAge();
 
+        nowCard = position;
+
     }
+
+    //---------------------建立滑動清單---------------------//
 
     public void createSex()
     {
@@ -361,10 +370,12 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
             LinearLayout lq = new LinearLayout(this);
             lq.addView(tv);
 
-            vfAge.addView(lq);
+            //vfAge.addView(lq);
         }
 
     }
+
+    //--------------------手勢動作------------------//
 
     //偵測手勢動作，回傳事件
     @Override
@@ -376,6 +387,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     @Override
     public boolean onGesture(Gesture gesture)
     {
+        //在選擇性別頁面動作
         if(nowCard == Sex)
         {
             //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
@@ -404,6 +416,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
 
             }
         }
+
+        //在選擇年齡頁面動作
         else if(nowCard == Age)
         {
             //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
@@ -422,18 +436,19 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 case "TWO_SWIPE_UP":
                     vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_a));
                     vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_a));
-                    vfAge.setDisplayedChild(vfSex.getDisplayedChild() + 10);
+                    vfAge.setDisplayedChild(vfAge.getDisplayedChild() + 10);
                     break;
                 case "TWO_SWIPE_DOWN":
                     vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in_a));
                     vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out_a));
-                    vfAge.setDisplayedChild(vfSex.getDisplayedChild() - 10);
+                    vfAge.setDisplayedChild(vfAge.getDisplayedChild() - 10);
                     break;
-
             }
         }
         return true;
     }
+
+    //------------------------內建選單----------------------//
 
     //給當開啟選單時就會呼叫一次
     @Override
@@ -450,6 +465,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
 
             return true;
     }
+
+    //--------------------------藍芽-----------------------//
 
     //檢查藍芽是否開啟
     @Override
@@ -613,19 +630,21 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 case Constants.MESSAGE_DEVICE_NAME:
                     // 儲存已連結的裝置名稱
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    if (null != StartCard.this) {
+                    if (null != StartCard.this)
+                    {
                         Toast.makeText(StartCard.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
 
                         //藍芽連線成功後加入卡片
-                        insertNewCard(Profile);
+                        //insertNewCard(Profile);
 
                         // 刪除前一張卡片
-                        deleteCard(0);
+                        //deleteCard(0);
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
-                    if (null != StartCard.this) {
+                    if (null != StartCard.this)
+                    {
                         Toast.makeText(StartCard.this, msg.getData().getString(Constants.TOAST),
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -698,7 +717,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                         Toast.makeText(StartCard.this, "Google帳戶登入失敗", Toast.LENGTH_SHORT).show();
                     }
                     insertNewCard(Profile);
-                    deleteCard(0);
+                    //deleteCard(0);
                 }
                 //失敗傳回HTTP狀態碼
                 else {
@@ -761,21 +780,6 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 }
             }
         });
-    }
-
-    // 刪除卡片
-    private void deleteCarda(int position) {
-        // Delete card in the adapter, but don't call notifyDataSetChanged() yet.
-        // Instead, request proper animation for deleted card from card scroller,
-        // which will notify the adapter at the right time during the animation.
-
-        Log.e("deleteCard",position + "?");
-        mCardScroller.animate(position, CardScrollView.Animation.DELETION);
-        cards.remove(position);
-        nowCard = nowCard+1;
-
-
-
     }
 
 }
