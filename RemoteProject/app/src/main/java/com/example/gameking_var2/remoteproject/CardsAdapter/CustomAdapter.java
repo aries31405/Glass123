@@ -1,22 +1,22 @@
 package com.example.gameking_var2.remoteproject.CardsAdapter;
 
+
+//CustomXml Adapter
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ViewFlipper;
 
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 
 import java.util.List;
 
-//CardBuilder Adapter
-
-public class CardAdapter extends CardScrollAdapter
+public class CustomAdapter extends CardScrollAdapter
 {
-    final List<CardBuilder> mCards;
+    final List<View> mCards;
 
-    public CardAdapter(List<CardBuilder> cards)
+    public CustomAdapter(List<View> cards)
     {
         mCards = cards;
     }
@@ -36,7 +36,7 @@ public class CardAdapter extends CardScrollAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        return mCards.get(position).getView(convertView, parent);
+        return mCards.get(position);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CardAdapter extends CardScrollAdapter
     @Override
     public int getItemViewType(int position)
     {
-        return mCards.get(position).getItemViewType();
+        return 0;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class CardAdapter extends CardScrollAdapter
     }
 
     //新增卡片
-    public void insertCard(int position, CardBuilder card)
+    public void insertCard(int position, View card)
     {
         mCards.add(position, card);
     }
@@ -81,5 +81,4 @@ public class CardAdapter extends CardScrollAdapter
     {
         mCards.clear();
     }
-
 }

@@ -1,6 +1,7 @@
 package com.example.gameking_var2.remoteproject.Answer;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.Mplayer.Player;
 import com.example.gameking_var2.remoteproject.R;
@@ -60,7 +61,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     static final int HintThree = 2;
 
     ////上滑動佈景 下是滑動卡片
-    private CardScrollAdapter mAdapter;
+    private CustomAdapter mAdapter;
     private CardScrollView mCardScroller;
 
     //定義手勢偵測
@@ -94,7 +95,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         promptStore=all[1].split(",");
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
-        mAdapter = new CardAdapter(createCards(this));
+        mAdapter = new CustomAdapter(createCards(this));
 
         //預設 抓本體
         mCardScroller = new CardScrollView(this);
@@ -102,15 +103,15 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         //將本體設定為用好的自定義類別
         mCardScroller.setAdapter(mAdapter);
 
+        //設定場景
+        setContentView(mCardScroller);
+
         //設定提示文字
         tv1.setText(promptName[0]);
         tv2.setText(promptName[1]);
 
         //設定提示圖片
         iv1.setImageResource(R.drawable.bg01);
-
-        //設定場景
-        setContentView(mCardScroller);
 
         //設定卡片點擊事件
         setCardScrollerListener();
@@ -121,40 +122,37 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     }
 
     //建立滑動卡片 使用List
-    private List<CardBuilder> createCards(Context context)
+    private List<View> createCards(Context context)
     {
         //List的卡片創建
-        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
+        ArrayList<View> cards = new ArrayList<View>();
 
-        //在外面做CardBuilder  這樣才能抓裡面的View元件
-        CardBuilder cb1, cb2, cb3;
-
-        //定義
-        cb1 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_one).setTimestamp("前往提示二");
-        cb2 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_two).setFootnote("回到提示一").setTimestamp("前往提示三");
-        cb3 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_three).setFootnote("回到提示二");
+        //抓XML的View
+        View view_one = View.inflate(context, R.layout.prompt_one, null);
+        View view_two = View.inflate(context, R.layout.prompt_two, null);
+        View view_three = View.inflate(context, R.layout.prompt_three, null);
 
         //逐一建造
         cards.add
         (
-            HintOne, cb1
+            HintOne, view_one
         );
         cards.add
-                (
-                        HintTwo, cb2
-                );
+        (
+            HintTwo, view_two
+        );
         cards.add
-                (
-                        HintThree, cb3
-                );
+        (
+            HintThree, view_three
+        );
 
         //建立完之後抓元件
         //抓提示1、2 文字欄    Textview
-        tv1 = (TextView) cb1.getView().findViewById(R.id.prom_one);
-        tv2 = (TextView) cb2.getView().findViewById(R.id.prom_two);
+        tv1 = (TextView) view_one.findViewById(R.id.prom_one);
+        tv2 = (TextView) view_two.findViewById(R.id.prom_two);
 
         //抓提示三 ImageView
-        iv1 = (ImageView) cb3.getView().findViewById(R.id.prom_three);
+        iv1 = (ImageView) view_three.findViewById(R.id.prom_three);
 
         return cards;
     }
