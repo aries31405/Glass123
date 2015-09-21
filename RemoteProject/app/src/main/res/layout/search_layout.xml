@@ -6,41 +6,6 @@
     android:layout_height="match_parent"
     >
 
-    <RelativeLayout
-        android:id="@+id/bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="240px"
-        android:layout_marginLeft="160px"
-        android:layout_marginRight="160px"
-        tools:ignore="UselessLeaf"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="640px"
-            android:layout_height="wrap_content"
-            android:textSize = "20sp"
-            android:text="四處走走以尋找題目"
-            android:id="@+id/sear_bar"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp">
-
-        </TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize = "40sp"
-            android:text=""
-            android:id="@+id/dot_d"
-            android:layout_toRightOf="@+id/sear_bar"
-            android:layout_marginTop="40dp"
-            >
-
-        </TextView>
-
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/footer_container"
         android:layout_width="match_parent"
@@ -65,5 +30,39 @@
         >
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="571dp"
+        android:layout_height="295dp"
+        android:layout_marginLeft="160px"
+        android:layout_marginRight="160px"
+        tools:ignore="UselessLeaf"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "20sp"
+            android:text="四處走走以尋找題目"
+            android:id="@+id/sear_bar"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "40sp"
+            android:text=""
+            android:id="@+id/dot_d"
+            android:layout_toEndOf="@+id/sear_bar"
+            android:layout_marginTop="40dp"
+            >
+
+        </TextView>
+
+    </RelativeLayout>
 
 </FrameLayout>

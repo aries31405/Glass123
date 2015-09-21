@@ -2,6 +2,8 @@ package com.example.gameking_var2.remoteproject.SearchQuestion;
 
 import com.example.gameking_var2.remoteproject.Answer.TitleCard;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
+import com.example.gameking_var2.remoteproject.CardsAdapter.MoreCustomSameLayout;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.R;
 import com.example.gameking_var2.remoteproject.Select_QorA.Selectqa;
@@ -51,7 +53,7 @@ import static android.widget.Toast.LENGTH_LONG;
 
 
 public class Searchq extends Activity implements GestureDetector.BaseListener,LocationListener
-{private ViewFlipper vfSex;
+{
     //不知道
     private static final String TAG = Searchq.class.getSimpleName();
 
@@ -71,8 +73,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     String floor = "6";
 
     //上滑動佈景 下是滑動卡片
-    //private CardScrollAdapter mAdapter;
-    private CardAdapter mAdapter;
+    private CustomAdapter mAdapter;
     private CardScrollView mCardScroller;
 
     //定義手勢偵測
@@ -87,7 +88,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         super.onCreate(bundle);
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
-        mAdapter = new CardAdapter(createCards(this));
+        mAdapter = new CustomAdapter(createCards(this));
 
         //預設 抓本體
         mCardScroller = new CardScrollView(this);
@@ -112,27 +113,27 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         thread = new Thread(getlocal);
         thread.start();
 
-        View view = LayoutInflater.from(this).inflate(R.layout.search_layout, null);
-
-        //抓點點文字View
-        tv1 = (TextView) view.findViewById(R.id.dot_d);
-
-
     }
 
     //------------------------------建立卡片-----------------------------//
 
     //建立滑動卡片 使用List
-    private List<CardBuilder> createCards(Context context)
+    private List<View> createCards(Context context)
     {
         //List的卡片創建
-        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
+        ArrayList<View> cards = new ArrayList<View>();
+
+        //抓XML的View
+        View search_view = View.inflate(context, R.layout.search_layout, null);
 
         //建立尋找頁面
         cards.add
         (
-            0, new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.search_layout)
+            0, search_view
         );
+
+        //抓點點文字View
+        tv1 = (TextView) search_view.findViewById(R.id.dot_d);
 
         return cards;
     }
@@ -154,12 +155,10 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 switch (position)
                 {
                     case 0:
-                        insertNewCard(1);
-                        tv1.setText("......");
-                        tv1.setText("...");
+                        insertNewCard(1, 2, 50, 5, 90, "chen zu nae");
                         break;
                     case 1:
-                        deleteCard(1);
+                        insertNewCard(2, 0, 49, 4, 80, "chen zu qqq");
                         break;
 
                     default:
@@ -194,14 +193,13 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     }
 
     //新增卡片
-    private void insertNewCard(int position)
+    private void insertNewCard(int position, int states, int titleNumber, int star, int percent, String createName)
     {
         //新增的卡片
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
-        card.setEmbeddedLayout(R.layout.search_layout);
+        View addTitleCard = new MoreCustomSameLayout(this, R.layout.title_layout, states, titleNumber, star, percent, createName);
 
         //進行新增  Adapter裡的變數(CardBuilder)
-        mAdapter.insertCard(position, card);
+        mAdapter.insertCard(position, addTitleCard);
 
         //將現在的卡片進行更新(新增)
         mCardScroller.animate(position, CardScrollView.Animation.INSERTION);
@@ -248,8 +246,6 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 finish();
                 break;
             case "TWO_TAP":
-                //跳出題目評價
-               // Toast.makeText(Searchq.this, "跳出題目評價", Toast.LENGTH_SHORT).show();
                 Toast.makeText(Searchq.this,"找到題目", LENGTH_LONG).show();
                 if(mp.isPlaying())
                     mp.pause();
@@ -338,7 +334,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 intent.setClass(Searchq.this,TitleCard.class);
                 intent .putExtra("msg", msg);//可放所有基本類別
                 // 切換Activity
-                startActivity(intent);
+                //startActivity(intent);
             }
             catch(Exception e)
             {
@@ -377,6 +373,9 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             }).start();
         }
         i = 1;
+
+        tv1.setText( tv1.getText() + "." );
+
     }
 
     @Override
@@ -397,7 +396,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
 
     }
 
-    //---------------------無---------------------------//
+    //--------------------------無---------------------------//
 
     @Override
     protected void onResume()

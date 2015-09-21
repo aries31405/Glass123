@@ -590,7 +590,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     switch (msg.arg1) {
                         case BluetoothChatService.STATE_CONNECTED:
                             setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-                            //mConversationArrayAdapter.clear();
+                            //mConversationArrayAdapter.clear_text();
                             break;
 
                         case BluetoothChatService.STATE_CONNECTING:
