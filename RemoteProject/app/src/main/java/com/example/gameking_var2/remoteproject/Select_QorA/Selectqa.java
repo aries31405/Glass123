@@ -4,6 +4,7 @@ import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.R;
 import com.example.gameking_var2.remoteproject.SearchQuestion.Searchq;
+import com.example.gameking_var2.remoteproject.Topic.Topic;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -117,11 +118,11 @@ public class Selectqa extends Activity
                     //    break;
 
                     case Multiple:
-                        startActivity(new Intent(Selectqa.this, Searchq.class));
+                        startActivity(new Intent(Selectqa.this, Topic.class));
                         break;
 
                     case Topic:
-
+                        startActivity(new Intent(Selectqa.this, Searchq.class));
                         break;
 
                     default:

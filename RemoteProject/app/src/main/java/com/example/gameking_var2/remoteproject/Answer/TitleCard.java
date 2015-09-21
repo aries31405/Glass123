@@ -1,5 +1,6 @@
 package com.example.gameking_var2.remoteproject.Answer;
 
+import com.androidquery.AQuery;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
@@ -12,6 +13,8 @@ import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
@@ -48,12 +51,15 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     //用來串流撥放音檔
     private Player player;
 
+    protected ImageLoader imageLoader;
+    DisplayImageOptions options;
+
     String[] promptName,promptStore;
     String msg;
     int i=0;
 
     //不知道
-    private static final String TAG = TitleCard.class.getSimpleName();
+    private static final String TAG = TitleCard.class.getSimpleName(),url="http://163.17.135.75";
 
     //定義卡片順序 方便了解
     static final int HintOne = 0;
@@ -111,7 +117,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         tv2.setText(promptName[1]);
 
         //設定提示圖片
-        iv1.setImageResource(R.drawable.bg01);
+        //iv1.setImageResource(R.drawable.bg01);
 
         //設定卡片點擊事件
         setCardScrollerListener();
@@ -152,6 +158,12 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         tv2 = (TextView) view_two.findViewById(R.id.prom_two);
 
         //抓提示三 ImageView
+        AQuery aq = new AQuery(this);
+        // 相片很大，不用記體體快取
+        boolean memCache = false;
+        boolean fileCache = true;
+
+        aq.id(R.id.prom_three).image(url + promptStore[2], memCache, fileCache);
         iv1 = (ImageView) view_three.findViewById(R.id.prom_three);
 
         return cards;
@@ -256,6 +268,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
         }).start();
     }
+
 
 
 

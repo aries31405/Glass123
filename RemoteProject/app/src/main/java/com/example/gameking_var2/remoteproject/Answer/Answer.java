@@ -102,6 +102,8 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
 
                 }).start();
                 break;
+            case  "SWIPE_DOWN":
+                break;
         }
         return false;
     }

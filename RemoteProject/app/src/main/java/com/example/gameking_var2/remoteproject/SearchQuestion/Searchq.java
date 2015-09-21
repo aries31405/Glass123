@@ -334,7 +334,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 intent.setClass(Searchq.this,TitleCard.class);
                 intent .putExtra("msg", msg);//可放所有基本類別
                 // 切換Activity
-                //startActivity(intent);
+                startActivity(intent);
             }
             catch(Exception e)
             {

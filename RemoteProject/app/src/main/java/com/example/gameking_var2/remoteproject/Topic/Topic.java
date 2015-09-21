@@ -1,32 +1,223 @@
 package com.example.gameking_var2.remoteproject.Topic;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
+import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * Created by 孔雀舞 on 2015/9/17.
  */
-public class Topic  extends Activity {
+public class Topic  extends Activity  implements GestureDetector.BaseListener{
 
+    //計算已出的卡片
+    int i =1;
+
+    protected static final int RESULT_SPEECH = 1;
+
+    String floor,Topic=null;
     Card card;
+
+    //上滑動佈景 下是滑動卡片
+    //private CardScrollAdapter mAdapter;
+    private CardAdapter mAdapter;
+    private CardScrollView mCardScroller;
+
+    //定義手勢偵測
+    private GestureDetector GestureDetector;
 
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
 
-        
-        card = new Card(this);
-        card.setText("沒東西");
-        View view = card.getView();
-        setContentView(view);
+        //暫定6樓
+        floor ="6";
+
+        //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
+        mAdapter = new CardAdapter(createCards(this));
+
+        //預設 抓本體
+        mCardScroller = new CardScrollView(this);
+
+        //將本體設定為用好的自定義類別
+        mCardScroller.setAdapter(mAdapter);
+
+        //設定場景
+        setContentView(mCardScroller);
+
+        //手勢偵測此場景.基本偵測
+        GestureDetector = new GestureDetector(this).setBaseListener(this);
+
+
+
     }
 
+    //------------------------------建立卡片-----------------------------//
 
+    //建立滑動卡片 使用List
+    private List<CardBuilder> createCards(Context context)
+    {
+        //List的卡片創建
+        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
+
+        //建立尋找頁面
+        cards.add
+                (
+                        0, new CardBuilder(context, CardBuilder.Layout.TEXT).setText("請點擊並語音出題")
+                );
+
+        return cards;
+    }
+
+    //---------------------------手勢偵測------------------------------//
+
+    //偵測手勢動作，回傳事件
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event)
+    {
+        return GestureDetector.onMotionEvent(event);
+    }
+
+    @Override
+    public boolean onGesture(Gesture gesture)
+    {
+        //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
+        switch( gesture.name() )
+        {
+            case "TAP":
+                if(i < 3)
+                {
+                    speech();
+                }
+                else if(i == 3)
+                {
+
+                    i++;
+                }
+                else
+                {
+                    Toast.makeText(Topic.this,"提示已滿",Toast.LENGTH_LONG).show();
+                }
+
+                break;
+            case "TWO_TAP":
+                if(i != 0 && mCardScroller.getSelectedItemPosition()!=0)
+                {
+                    deleteCard(mCardScroller.getSelectedItemPosition());
+                    i =i - 1;
+                }
+
+                break;
+        }
+        return false;
+    }
+
+    //----------------------變更卡片---------------------//
+    //刪除卡片
+    private void deleteCard(int position)
+    {
+        //刪除卡片  刪除Adapter裡的CardBuilder之一
+        mAdapter.deleteCard(position);
+
+        //將現在卡片進行刪除
+        mCardScroller.animate(position, CardScrollView.Animation.DELETION);
+    }
+
+    //新增卡片
+    private void insertNewCard(int position)
+    {
+        //新增的卡片
+        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.MENU);
+        if(i < 3)
+        {
+            //提示文字
+            card.setText(Topic);
+        }
+        else
+        {
+            //提示圖片
+
+        }
+
+
+        //進行新增  Adapter裡的變數(CardBuilder)
+        mAdapter.insertCard(position, card);
+
+        //將現在的卡片進行更新(新增)
+        mCardScroller.animate(position, CardScrollView.Animation.INSERTION);
+    }
+
+    //---------------------------------啟用語音輸入---------------------------//
+    private void speech() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+        //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.EXTRA_LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-us");
+
+        try {
+            startActivityForResult(intent, RESULT_SPEECH);
+        } catch (ActivityNotFoundException a) {
+            Toast t = Toast.makeText(getApplicationContext(), "Ops! Your device doesn't support Speech to Text", Toast.LENGTH_SHORT);
+            t.show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RESULT_SPEECH: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    //語音輸入文字
+                    Topic=text.get(0).toString();
+
+                    //新增卡片
+                    insertNewCard(i);
+                    i++;
+                }
+                break;
+            }
+
+        }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mCardScroller.activate();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        mCardScroller.deactivate();
+        super.onPause();
+    }
 }
