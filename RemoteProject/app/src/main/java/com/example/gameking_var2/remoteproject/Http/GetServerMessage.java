@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+/*
+使用POST來網路連線
+ */
 public class GetServerMessage {
 	public String all(String url,String alldata)
 	{
@@ -24,7 +26,7 @@ public class GetServerMessage {
 				  con.setDoOutput(true);
 				  con.setDoInput(true);   
 				  
-				  
+				  //傳送資料
 				  DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 				  wr.write(alldata.getBytes("big5"));//為了傳送utf8的文字改成這個
 				  wr.flush();
@@ -32,7 +34,8 @@ public class GetServerMessage {
 				  
 				  int responseCode = con.getResponseCode();
 				  
-				 
+
+				  //回傳資料
 				  BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream(),"big5"));
 				  String inputLine;
 				  StringBuffer response = new StringBuffer();
@@ -41,7 +44,10 @@ public class GetServerMessage {
 					 response.append(inputLine);
 				  }
 				  in.close();
-				  
+
+				  //斷開連接
+				  con.disconnect();
+
 				  return(response.toString()); 
 				  
 	         }

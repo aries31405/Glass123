@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Camera;
+import android.media.CameraProfile;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.CaptioningManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,10 +39,11 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     //計算已出的卡片
     int i =1;
 
-    protected static final int RESULT_SPEECH = 1;
+    protected static final int RESULT_SPEECH = 1,TAKE_PICTURE_REQUEST = 007;
 
     String floor,Topic=null;
     Card card;
+
 
     //上滑動佈景 下是滑動卡片
     //private CardScrollAdapter mAdapter;
@@ -107,27 +112,29 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         switch( gesture.name() )
         {
             case "TAP":
-                if(i < 3)
+                if(i < 3 )
                 {
                     speech();
                 }
-                else if(i == 3)
-                {
-
-                    i++;
-                }
                 else
                 {
-                    Toast.makeText(Topic.this,"提示已滿",Toast.LENGTH_LONG).show();
+                    startCapture();
                 }
 
                 break;
             case "TWO_TAP":
-                if(i != 0 && mCardScroller.getSelectedItemPosition()!=0)
+                if(mCardScroller.getSelectedItemPosition() != 0 && mCardScroller.getSelectedItemPosition() != 3)
                 {
                     deleteCard(mCardScroller.getSelectedItemPosition());
                     i =i - 1;
                 }
+                else if(mCardScroller.getSelectedItemPosition() != 0)
+                {
+                    deleteCard(mCardScroller.getSelectedItemPosition());
+                }
+
+                break;
+            case "LONG_PRESS":
 
                 break;
         }
@@ -184,6 +191,14 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         }
     }
 
+    //-----------------------------------啟動拍照函示---------------------//
+
+    private void startCapture()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -191,7 +206,6 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         switch (requestCode) {
             case RESULT_SPEECH: {
                 if (resultCode == RESULT_OK && null != data) {
-
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                     //語音輸入文字
@@ -203,9 +217,22 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
                 }
                 break;
             }
+            case TAKE_PICTURE_REQUEST:
+            {
+                if (resultCode == RESULT_OK && null != data) {
+                    Bundle extras = data.getExtras();
+                    //String pctureFilePath = extras.getString(Camera);
 
+
+                }
+                break;
+            }
         }
+
     }
+
+
+
 
     @Override
     protected void onResume()

@@ -88,7 +88,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
                 //語音輸入
                 speech();
                 break;
-            case  "TWO_TAP":
+            case "LONG_PRESS":
                 //設置執行續使用資料庫
                 new Thread(new Runnable()
                 {
