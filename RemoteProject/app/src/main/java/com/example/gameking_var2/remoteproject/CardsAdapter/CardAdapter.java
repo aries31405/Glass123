@@ -3,11 +3,14 @@ package com.example.gameking_var2.remoteproject.CardsAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ViewFlipper;
 
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 
 import java.util.List;
+
+//CardBuilder Adapter
 
 public class CardAdapter extends CardScrollAdapter
 {
@@ -60,4 +63,23 @@ public class CardAdapter extends CardScrollAdapter
         }
         return AdapterView.INVALID_POSITION;
     }
+
+    //新增卡片
+    public void insertCard(int position, CardBuilder card)
+    {
+        mCards.add(position, card);
+    }
+
+    //刪除卡片
+    public void deleteCard(int position)
+    {
+        mCards.remove(position);
+    }
+
+    //清除
+    public void clearCard()
+    {
+        mCards.clear();
+    }
+
 }

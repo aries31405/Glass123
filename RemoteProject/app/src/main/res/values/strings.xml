@@ -11,6 +11,8 @@
     <string name="title_activity_options">Options</string>
     <string name="title_activity_searchq">Search Question</string>
     <string name="title_activity_rank">Give Rank</string>
+    <string name="title_activity_Topic">Topic</string>
+    <string name="title_activity_ReplyCompare">ReplyCompare</string>
 
     <!--  BluetoothChat -->
     <string name="send">Send</string>
@@ -33,4 +35,5 @@
     <string name="secure_connect">Connect a device - Secure</string>
     <string name="insecure_connect">Connect a device - Insecure</string>
     <string name="discoverable">Make discoverable</string>
+    <string name="title_activity_test">Hello World Immersion</string>
 </resources>

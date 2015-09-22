@@ -1,6 +1,8 @@
 package com.example.gameking_var2.remoteproject.Answer;
 
+import com.androidquery.AQuery;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.Mplayer.Player;
 import com.example.gameking_var2.remoteproject.R;
@@ -11,10 +13,13 @@ import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.Image;
 import android.os.Bundle;
@@ -28,6 +33,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -47,12 +54,15 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     //用來串流撥放音檔
     private Player player;
 
+    protected ImageLoader imageLoader;
+    DisplayImageOptions options;
+
     String[] promptName,promptStore;
     String msg;
-
+    int i=0;
 
     //不知道
-    private static final String TAG = TitleCard.class.getSimpleName();
+    private static final String TAG = TitleCard.class.getSimpleName(),url="http://163.17.135.75";
 
     //定義卡片順序 方便了解
     static final int HintOne = 0;
@@ -60,7 +70,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     static final int HintThree = 2;
 
     ////上滑動佈景 下是滑動卡片
-    private CardScrollAdapter mAdapter;
+    private CustomAdapter mAdapter;
     private CardScrollView mCardScroller;
 
     //定義手勢偵測
@@ -94,7 +104,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         promptStore=all[1].split(",");
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
-        mAdapter = new CardAdapter(createCards(this));
+        mAdapter = new CustomAdapter(createCards(this));
 
         //預設 抓本體
         mCardScroller = new CardScrollView(this);
@@ -102,15 +112,15 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         //將本體設定為用好的自定義類別
         mCardScroller.setAdapter(mAdapter);
 
+        //設定場景
+        setContentView(mCardScroller);
+
         //設定提示文字
         tv1.setText(promptName[0]);
         tv2.setText(promptName[1]);
 
         //設定提示圖片
-        iv1.setImageResource(R.drawable.bg01);
-
-        //設定場景
-        setContentView(mCardScroller);
+        iv1.setImageDrawable(loadImageFromURL(url+promptStore[2]));
 
         //設定卡片點擊事件
         setCardScrollerListener();
@@ -121,40 +131,37 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     }
 
     //建立滑動卡片 使用List
-    private List<CardBuilder> createCards(Context context)
+    private List<View> createCards(Context context)
     {
         //List的卡片創建
-        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
+        ArrayList<View> cards = new ArrayList<View>();
 
-        //在外面做CardBuilder  這樣才能抓裡面的View元件
-        CardBuilder cb1, cb2, cb3;
-
-        //定義
-        cb1 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_one).setTimestamp("前往提示二");
-        cb2 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_two).setFootnote("回到提示一").setTimestamp("前往提示三");
-        cb3 = new CardBuilder(context, CardBuilder.Layout.EMBED_INSIDE).setEmbeddedLayout(R.layout.prompt_three).setFootnote("回到提示二");
+        //抓XML的View
+        View view_one = View.inflate(context, R.layout.prompt_one, null);
+        View view_two = View.inflate(context, R.layout.prompt_two, null);
+        View view_three = View.inflate(context, R.layout.prompt_three, null);
 
         //逐一建造
         cards.add
         (
-            HintOne, cb1
+            HintOne, view_one
         );
         cards.add
-        (
-            HintTwo, cb2
-        );
+                (
+                        HintTwo, view_two
+                );
         cards.add
-        (
-            HintThree, cb3
-        );
+                (
+                        HintThree, view_three
+                );
 
         //建立完之後抓元件
         //抓提示1、2 文字欄    Textview
-        tv1 = (TextView) cb1.getView().findViewById(R.id.prom_one);
-        tv2 = (TextView) cb2.getView().findViewById(R.id.prom_two);
+        tv1 = (TextView) view_one.findViewById(R.id.prom_one);
+        tv2 = (TextView) view_two.findViewById(R.id.prom_two);
 
         //抓提示三 ImageView
-        iv1 = (ImageView) cb3.getView().findViewById(R.id.prom_three);
+        iv1 = (ImageView) view_three.findViewById(R.id.prom_three);
 
         return cards;
     }
@@ -176,15 +183,11 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                 switch (position)
                 {
                     case HintOne:
-                        //設定音檔位置
-                        player = new Player("http://163.17.135.75"+promptStore[0]);
-                        player.play();
+
                         break;
 
                     case HintTwo:
-                        //設定音檔位置
-                        player = new Player("http://163.17.135.75"+promptStore[1]);
-                        player.play();
+
                         break;
 
                     case HintThree:
@@ -229,12 +232,53 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             case "SWIPE_DOWN":
                 finish();
                 break;
+            case  "SWIPE_RIGHT":
+                Playmusic();
+                break;
+            case "SWIPE_LEFT":
+                Playmusic();
+                break;
         }
         return false;
     }
 
+    //播放影音檔
+    public  void Playmusic()
+    {
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try {
+                    Thread.sleep(1000);
+                    if(mCardScroller.getSelectedItemPosition() < 2 )
+                    {
+                        //設定音檔位置
+                        player = new Player("http://163.17.135.75"+promptStore[mCardScroller.getSelectedItemPosition()]);
+                        player.play();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
+        }).start();
+    }
 
+    //從網路加載圖片
+    private Drawable loadImageFromURL(String url){
+        try{
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable draw = Drawable.createFromStream(is, "src");
+            is.close();
+            return draw;
+        }catch (Exception e) {
+            //TODO handle error
+            Log.i("loadingImg", e.toString());
+            return null;
+        }
+    }
 
 
 
