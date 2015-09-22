@@ -403,17 +403,6 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
                     vfSex.showNext();
                     break;
-                case "TWO_SWIPE_UP":
-                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_a));
-                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_a));
-                    vfSex.setDisplayedChild(vfSex.getDisplayedChild() + 10);
-                    break;
-                case "TWO_SWIPE_DOWN":
-                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in_a));
-                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out_a));
-                    vfSex.setDisplayedChild(vfSex.getDisplayedChild() - 10);
-                    break;
-
             }
         }
 
@@ -432,16 +421,6 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in));
                     vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
                     vfAge.showNext();
-                    break;
-                case "TWO_SWIPE_UP":
-                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_a));
-                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_a));
-                    vfAge.setDisplayedChild(vfAge.getDisplayedChild() + 10);
-                    break;
-                case "TWO_SWIPE_DOWN":
-                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in_a));
-                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out_a));
-                    vfAge.setDisplayedChild(vfAge.getDisplayedChild() - 10);
                     break;
             }
         }
