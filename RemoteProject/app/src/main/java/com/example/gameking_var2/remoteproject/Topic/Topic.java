@@ -221,7 +221,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             {
                 if (resultCode == RESULT_OK && null != data) {
                     Bundle extras = data.getExtras();
-                    //String pctureFilePath = extras.getString(Camera);
+                    //String pctureFilePath = extras.getString();
 
 
                 }

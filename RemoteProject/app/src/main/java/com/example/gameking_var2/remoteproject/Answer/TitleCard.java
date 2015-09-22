@@ -161,12 +161,6 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         tv2 = (TextView) view_two.findViewById(R.id.prom_two);
 
         //抓提示三 ImageView
-        AQuery aq = new AQuery(this);
-        // 相片很大，不用記體體快取
-        boolean memCache = false;
-        boolean fileCache = true;
-
-        aq.id(R.id.prom_three).image(url + promptStore[2], memCache, fileCache);
         iv1 = (ImageView) view_three.findViewById(R.id.prom_three);
 
         return cards;

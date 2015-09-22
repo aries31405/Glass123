@@ -54,12 +54,19 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class Searchq extends Activity implements GestureDetector.BaseListener,LocationListener
 {
+    LocationManager mlocation;
+
+
+
+
     //不知道
     private static final String TAG = Searchq.class.getSimpleName();
 
-    String[] all;
+    String[] titleId,latitude1,longitude1,all,userId,being,newtitleId;
     private double latitude=0.0,longitude=0.0;
-    private int i =0;
+
+    //計算有幾張CARD
+    private int i =1;
 
     //播放語音
     private static MediaPlayer mp = new MediaPlayer();
@@ -81,6 +88,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
 
     //點點
     TextView tv1;
+
 
     @Override
     protected void onCreate(Bundle bundle)
@@ -155,10 +163,11 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 switch (position)
                 {
                     case 0:
-                        insertNewCard(1, 2, 50, 5, 90, "chen zu nae");
+                        //位置    狀態    題目編號   星數   答對率   出題者
+                        //insertNewCard(1, 2, 50, 5, 90, "chen zu nae");
                         break;
                     case 1:
-                        insertNewCard(2, 0, 49, 4, 80, "chen zu qqq");
+                        //insertNewCard(2, 0, 49, 4, 80, "chen zu qqq");
                         break;
 
                     default:
@@ -195,6 +204,10 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     //新增卡片
     private void insertNewCard(int position, int states, int titleNumber, int star, int percent, String createName)
     {
+        if(i <titleId.length)
+        {
+            i++;
+        }
         //新增的卡片
         View addTitleCard = new MoreCustomSameLayout(this, R.layout.title_layout, states, titleNumber, star, percent, createName);
 
@@ -296,17 +309,27 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         {
             if(!msg.equals("No wifi"))
             {
+                all = msg.split("&");
+
+                titleId = all[0].split(",");
+                userId = all[1].split(",");
+                latitude1 =all[2].split(",");
+                longitude1 =all[3].split(",");
+                being = all[4].split(",");
+                newtitleId = new String[titleId.length];
+
                 //設定向使用者連接的手持裝置取得位置
-                LocationManager mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
+                mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
                 Criteria criteria = new Criteria();
                 criteria.setAccuracy(Criteria.ACCURACY_FINE);
                 criteria.setAltitudeRequired(true);
-                List<String> providers = mlocation.getProviders(criteria,true);
+                //List<String> providers = mlocation.getProviders(criteria,true);
 
-                for(String provider : providers)
+                mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Searchq.this);
+                /*for(String provider : providers)
                 {
                     mlocation.requestLocationUpdates(provider,1000,0,Searchq.this);
-                }
+                }*/
 
                 try {
                     //R.raw.error 是ogg格式的音頻 放在res/raw/下
@@ -351,30 +374,20 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        if(i ==0)
+        tv1.setText(tv1.getText() + ".");
+
+        mlocation.removeUpdates(Searchq.this);
+        for (int ii =0;ii < titleId.length; ii++)
         {
-            Toast.makeText(Searchq.this,"找到題目", LENGTH_LONG).show();
-            if(mp.isPlaying())
-                mp.pause();
-            mp.seekTo(0);
-            mp.setVolume(1000, 1000);//設置聲音
-            mp.start();
-
-            new Thread(new Runnable()
+           if(latitude >= (Double.parseDouble(latitude1[ii]) - 0.00001) && latitude <= (Double.parseDouble(latitude1[ii]) + 0.00001) && being[ii].equals("no"))
             {
-                @Override
-                public void run()
-                {
-                    GetServerMessage message = new GetServerMessage();
-                    msg = message.all("http://163.17.135.75/glass/question.php","titleId=2");
-                    handler.post(getprompt);
-                }
-
-            }).start();
+                //位置    狀態    題目編號   星數   答對率   出題者
+                insertNewCard(i,0,Integer.parseInt(titleId[ii]),4,90,userId[ii]);
+                newtitleId[i-1] = titleId[ii];
+                being[ii].equals("yes");
+            }
         }
-        i = 1;
 
-        tv1.setText( tv1.getText() + "." );
 
     }
 
@@ -395,6 +408,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     {
 
     }
+
 
     //--------------------------無---------------------------//
 
