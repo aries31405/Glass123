@@ -24,9 +24,9 @@
         android:layout_height="30dp"
         android:id="@+id/imageView5"
         android:src="@drawable/up"
-        android:layout_above="@+id/viewFlipper1"
-        android:layout_toLeftOf="@+id/textView5"
-        android:layout_toStartOf="@+id/textView5" />
+        android:layout_below="@+id/textView5"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignStart="@+id/textView5" />
 
     <ImageView
         android:layout_width="30dp"
@@ -35,36 +35,37 @@
         android:src="@drawable/down"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/imageView5"
-        android:layout_alignStart="@+id/imageView5" />
+        android:layout_alignStart="@+id/imageView5"
+        />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:id="@+id/imageView9"
         android:src="@drawable/up"
-        android:layout_above="@+id/viewFlipper2"
-        android:layout_alignLeft="@+id/imageView10"
-        android:layout_alignStart="@+id/imageView10" />
+        android:layout_alignTop="@+id/imageView5"
+        android:layout_alignRight="@+id/textView5"
+        android:layout_alignEnd="@+id/textView5"
+         />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:id="@+id/imageView10"
         android:src="@drawable/down"
-        android:layout_alignTop="@+id/imageView8"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/imageView9"
+        android:layout_alignStart="@+id/imageView9" />
 
     <ViewFlipper
         android:layout_width="200dp"
         android:layout_height="300dp"
         android:id="@+id/viewFlipper1"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/set_age_forward"
-        android:layout_toEndOf="@+id/set_age_forward"
-        android:layout_marginLeft="158dp"
-        android:layout_marginBottom="25dp"
-        android:paddingLeft="35dp">
+        android:layout_alignRight="@+id/textView5"
+        android:layout_marginRight="140dp"
+        android:layout_below="@id/imageView5"
+        android:layout_marginTop="0dp"
+       >
 
     </ViewFlipper>
 
@@ -72,29 +73,33 @@
         android:layout_width="200dp"
         android:layout_height="300dp"
         android:id="@+id/viewFlipper2"
-        android:layout_alignTop="@+id/viewFlipper1"
-        android:layout_toRightOf="@+id/viewFlipper1"
-        android:layout_toEndOf="@+id/viewFlipper1"
-        android:layout_marginLeft="17dp">
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_below="@id/imageView9"
+
+
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="240dp">
 
     </ViewFlipper>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:text="@string/forward"
         android:id="@+id/set_age_forward"
         android:layout_alignTop="@+id/set_age_next"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/white" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:id="@+id/set_age_next"
         android:text="@string/next"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

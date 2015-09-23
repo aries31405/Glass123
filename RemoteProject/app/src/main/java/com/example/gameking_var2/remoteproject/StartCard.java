@@ -182,18 +182,15 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (nowCard)
-                {
+                switch (nowCard) {
                     case Connection:
                         Toast.makeText(StartCard.this, "Connection", Toast.LENGTH_SHORT).show();
                         break;
@@ -203,26 +200,18 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                         break;
 
                     case Profile:
-                        if (USER == ALREADY_USER)
-                        {
+                        if (USER == ALREADY_USER) {
                             insertNewCard(Success);
                             Log.e("ALREADY_USER", "123");
-                        }
-                        else if (USER == NOT_USER)
-                        {
+                        } else if (USER == NOT_USER) {
                             insertNewCard(Sex);
                             Log.e("NOT_USER", "123");
-                        }
-                        else
-                        {
+                        } else {
                             Log.e("ELSE", "123");
                         }
-                        if (USER == ALREADY_USER)
-                        {
+                        if (USER == ALREADY_USER) {
                             nowCard = Success;
-                        }
-                        else if (USER == NOT_USER)
-                        {
+                        } else if (USER == NOT_USER) {
                             nowCard = Sex;
                         }
                         Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
@@ -599,9 +588,19 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     String[] mreadMessage = readMessage.split(",");
                     mProfile.USER_NAME = mreadMessage[0];
                     mProfile.USER_EMAIL= mreadMessage[1];
+                    mProfile.USER_AGE=mreadMessage[2];
+                    mProfile.USER_SEX=mreadMessage[3];
+
+                    //若傳來的值為null，代表資料庫已有使用者年齡及性別資料
+                    if(mProfile.USER_AGE.equals("null")){
+                        mProfile.USER_AGE = "20";
+                    }
+                    if(mProfile.USER_SEX.equals( "null")){
+                        mProfile.USER_SEX = "0";
+                    }
 
                     //資料成功傳到Glass
-                    LoginSuccess(mProfile.USER_NAME);
+                    LoginSuccess(mProfile.USER_NAME+mProfile.USER_EMAIL+mProfile.USER_AGE+mProfile.USER_SEX);
 
                     // 檢查是否已經為使用者，之後跳轉到 profile頁面
                     connDb0();
@@ -717,8 +716,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         //測試用
         params.put("name", mProfile.USER_NAME);
         params.put("email", mProfile.USER_EMAIL);
-        params.put("age", 20);
-        params.put("gender", 0);
+        params.put("age", Integer.parseInt(mProfile.USER_AGE));
+        params.put("gender", Integer.parseInt(mProfile.USER_SEX));
 
         aq.ajax(url, params, String.class, new AjaxCallback<String>() {
 

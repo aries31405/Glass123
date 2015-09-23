@@ -269,7 +269,7 @@ public class BluetoothChatFragment extends Activity{
 
                         Toast.makeText(BluetoothChatFragment.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                        String message = mProfile.USER_NAME +","+ mProfile.USER_EMAIL;
+                        String message = mProfile.USER_NAME +","+ mProfile.USER_EMAIL +","+mProfile.USER_AGE+","+mProfile.USER_SEX;
                         sendProfileMessage(message);
                         onLoginConnectSuccess();
                     }

@@ -7,71 +7,6 @@
     tools:context="com.example.glass123.glasslogin.SetProfile"
     android:background="#444341">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/forward"
-        android:id="@+id/set_forward"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:id="@+id/set_next"
-        android:layout_alignTop="@+id/set_forward"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:id="@+id/male_image"
-        android:src ="@drawable/male"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/set_forward"
-        android:layout_toEndOf="@+id/set_forward" />
-
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:id="@+id/female_image"
-        android:src ="@drawable/female"
-        android:layout_alignTop="@+id/male_image"
-        android:layout_toLeftOf="@+id/set_next"
-        android:layout_toStartOf="@+id/set_next" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/male"
-        android:id="@+id/male_radio"
-        android:textSize="30dp"
-        android:onClick="onRadioButtonClicked"
-        android:layout_below="@+id/male_image"
-        android:layout_alignRight="@+id/male_image"
-        android:layout_alignEnd="@+id/male_image"
-        android:layout_marginRight="70dp"
-        android:checked="true"
-        android:textColor="#FFFFFF" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/female"
-        android:id="@+id/female_radio"
-        android:textSize="30dp"
-        android:onClick="onRadioButtonClicked"
-        android:checked="false"
-        android:layout_gravity="right"
-        android:layout_alignTop="@+id/male_radio"
-        android:layout_alignLeft="@+id/female_image"
-        android:layout_alignStart="@+id/female_image"
-        android:layout_marginLeft="70dp"
-        android:textColor="#FFFFFF" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,5 +18,69 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:textColor="#FFFFFF"/>
+
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:text="@string/forward"
+        android:id="@+id/set_forward"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/white" />
+
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:id="@+id/set_next"
+        android:layout_alignTop="@+id/set_forward"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/white" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/male_image"
+        android:src ="@drawable/male"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/textView4"
+    />
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/female_image"
+        android:src ="@drawable/female"
+        android:layout_alignTop="@+id/male_image"
+        android:layout_toRightOf="@id/textView4"
+        />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/male"
+        android:id="@+id/male_radio"
+        android:textSize="30dp"
+        android:onClick="onRadioButtonClicked"
+        android:layout_below="@+id/male_image"
+        android:layout_toLeftOf="@id/textView4"
+        android:checked="true"
+        android:textColor="#FFFFFF"
+        android:layout_marginRight="50dp" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/female"
+        android:id="@+id/female_radio"
+        android:textSize="30dp"
+        android:onClick="onRadioButtonClicked"
+        android:checked="false"
+        android:layout_gravity="right"
+        android:layout_alignTop="@+id/male_radio"
+        android:layout_toRightOf="@id/textView4"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="40dp" />
 
 </RelativeLayout>
