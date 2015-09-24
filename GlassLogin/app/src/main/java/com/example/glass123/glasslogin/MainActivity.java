@@ -141,7 +141,7 @@ public class MainActivity extends Activity implements
 
         // Show a message to the user that we are signing in.
         mStatus.setText(R.string.signing_in);
-        Toast.makeText(this, "onSignInClicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onSignInClicked", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -152,7 +152,7 @@ public class MainActivity extends Activity implements
         if(mGoogleApiClient.isConnected()){
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
             mGoogleApiClient.disconnect();
-            Toast.makeText(this, "onSignOutClick", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "onSignOutClick", Toast.LENGTH_SHORT).show();
         }
 
         // 清空使用者資料
@@ -182,7 +182,7 @@ public class MainActivity extends Activity implements
         // We call connect() to attempt to re-establish the connection or get a
         // ConnectionResult that we can attempt to resolve.
         mGoogleApiClient.connect();
-        Toast.makeText(this, "onConnectionSuspended", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onConnectionSuspended", Toast.LENGTH_SHORT).show();
 
     }
     @Override
@@ -208,7 +208,7 @@ public class MainActivity extends Activity implements
         mProfile.USER_IMAGE = mProfile.USER_IMAGE.split("=")[0]+"="+300;
         Log.e(TAG, "TTT" + mProfile.USER_IMAGE);
 
-        Toast.makeText(this, "onConnected", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onConnected", Toast.LENGTH_SHORT).show();
         onGlassLoginClick();
 
     }
@@ -239,7 +239,7 @@ public class MainActivity extends Activity implements
             // Show the signed-out UI
             //showSignedOutUI();
         }
-        Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -257,21 +257,8 @@ public class MainActivity extends Activity implements
             mIsResolving = false;
             mGoogleApiClient.connect();
         }
-        Toast.makeText(this, "onActivityResult", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onActivityResult", Toast.LENGTH_SHORT).show();
 
-    }
-
-    // 從 URL中取得圖片
-    private Drawable loadImageFromURL(String url){
-        try{
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable dr = Drawable.createFromStream(is,"src");
-            return dr;
-        }
-        catch (Exception e){
-            Log.e("loadImageFromURL",e.toString());
-            return null;
-        }
     }
 
     /*

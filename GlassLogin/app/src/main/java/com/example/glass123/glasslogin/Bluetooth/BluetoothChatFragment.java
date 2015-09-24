@@ -93,7 +93,7 @@ public class BluetoothChatFragment extends Activity{
         mProfile.USER_SEX = bundle.getString("usersex");
         mProfile.USER_AGE = bundle.getString("userage");
 
-        Toast.makeText(getApplicationContext(),mProfile.USER_SEX +" and "+ mProfile.USER_AGE,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),mProfile.USER_SEX +" and "+ mProfile.USER_AGE,Toast.LENGTH_SHORT).show();
         // 顯示使用者Google帳戶資料
         //mUserProfileText.setText(mProfile.USER_NAME + ", " + mProfile.USER_EMAIL);
     }
@@ -110,6 +110,14 @@ public class BluetoothChatFragment extends Activity{
             // Otherwise, setup the chat session
         } else if (mChatService == null) {
             setupChat();
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (mChatService != null) {
+            mChatService.stop();
         }
     }
 
@@ -276,8 +284,8 @@ public class BluetoothChatFragment extends Activity{
                     break;
                 case Constants.MESSAGE_TOAST:
                     if (null != BluetoothChatFragment.this) {
-                        Toast.makeText(BluetoothChatFragment.this, msg.getData().getString(Constants.TOAST),
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BluetoothChatFragment.this, msg.getData().getString(Constants.TOAST),
+//                                Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
