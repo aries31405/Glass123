@@ -126,7 +126,6 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
             intent.setClass(Answer.this,ReplyCompare.class);
             intent .putExtra("msg", msg);//可放所有基本類別
             intent.putExtra("Tid",Tid);
-            intent.putExtra("Id",id);
 
             // 切換Activity
             startActivity(intent);

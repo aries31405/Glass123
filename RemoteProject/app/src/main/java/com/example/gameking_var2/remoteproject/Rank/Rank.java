@@ -29,6 +29,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import static android.widget.Toast.LENGTH_LONG;
 
 /*
@@ -57,7 +60,19 @@ public class Rank extends Activity implements GestureDetector.BaseListener
 
         //取得傳遞過來的資料
         Tid = intent.getStringExtra("Tid");
-        id = intent.getStringExtra("Id");
+
+        try//取得ID
+        {
+            FileInputStream in = openFileInput("Id.txt");
+            byte[] data = new byte[128];
+            in.read(data);
+            in.close();
+            id = new String(data);
+        }
+        catch(IOException e)
+        {
+
+        }
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
