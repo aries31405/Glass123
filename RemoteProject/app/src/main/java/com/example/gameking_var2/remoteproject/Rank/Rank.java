@@ -1,5 +1,6 @@
 package com.example.gameking_var2.remoteproject.Rank;
 
+import com.example.gameking_var2.remoteproject.Answer.TitleCard;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.R;
@@ -134,9 +135,10 @@ public class Rank extends Activity implements GestureDetector.BaseListener
                 vf_rank.showNext();
                 break;
             case "TAP":
-                startActivity(new Intent( Rank.this, MainLine.class));
+                /*startActivity(new Intent( Rank.this, MainLine.class));
                 Toast.makeText(this, String.valueOf(vf_rank.getDisplayedChild()) + "星", Toast.LENGTH_SHORT).show();
-                finish();
+                finish();*/
+                Toast.makeText(this, "titleId="+Tid+"\nUserId="+id, Toast.LENGTH_SHORT).show();
                 break;
             case "LONG_PRESS":
                 new Thread(new Runnable()
@@ -146,6 +148,7 @@ public class Rank extends Activity implements GestureDetector.BaseListener
                     {
                         GetServerMessage message = new GetServerMessage();
                         msg = message.all("163.17.135.75/glass/add_evaluation.php","titleId="+Tid+"&UserId="+id+"&Star="+String.valueOf(vf_rank.getDisplayedChild()));
+                        finish();
                     }
 
                 }).start();
