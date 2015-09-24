@@ -254,6 +254,12 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        //this.finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_set_profile_age, menu);
