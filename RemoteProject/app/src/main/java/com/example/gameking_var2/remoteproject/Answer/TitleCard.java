@@ -58,7 +58,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     DisplayImageOptions options;
 
     String[] promptName,promptStore;
-    String msg;
+    String msg,Tid;
     int i=0;
 
     //不知道
@@ -91,6 +91,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
         //取得傳遞過來的資料
         msg = intent.getStringExtra("msg");
+        Tid = intent.getStringExtra("Tid");
 
         gocreat();
     }
@@ -120,10 +121,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         tv2.setText(promptName[1]);
 
         //設定提示圖片
-        iv1.setImageDrawable(loadImageFromURL(url+promptStore[2]));
-
-        //設定卡片點擊事件
-        setCardScrollerListener();
+        iv1.setImageDrawable(loadImageFromURL(url + promptStore[2]));
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
@@ -166,46 +164,6 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         return cards;
     }
 
-    //設定卡片點擊監聽
-    private void setCardScrollerListener()
-    {
-        //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                //不知道
-                Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
-                int soundEffect = Sounds.TAP;
-
-                //判斷點擊哪個卡片
-                switch (position)
-                {
-                    case HintOne:
-
-                        break;
-
-                    case HintTwo:
-
-                        break;
-
-                    case HintThree:
-
-                        break;
-
-                    default:
-                        soundEffect = Sounds.ERROR;
-                        Log.d(TAG, "Don't show anything");
-                }
-
-                // Play sound.
-                AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                am.playSoundEffect(soundEffect);
-            }
-        });
-    }
-
 
     //偵測手勢動作，回傳事件
     @Override
@@ -220,9 +178,14 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
         switch( gesture.name() )
         {
-            case "TWO_TAP":
+            case "TAP":
                 //答題
-                startActivity(new Intent(TitleCard.this, Answer.class));
+                Intent intent = new Intent();
+                intent.setClass(TitleCard.this, Answer.class);
+                intent .putExtra("Tid",Tid);//可放所有基本類別
+
+                // 切換Activity
+                startActivity(intent);
                 finish();
                 break;
             case "THREE_TAP":

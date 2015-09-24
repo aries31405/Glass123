@@ -35,7 +35,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
 {
     private Thread thread;
     private Handler handler  = new Handler();
-    String id = null,Answer=null,msg=null;
+    String id = null,Answer=null,msg=null,Tid;
 
     protected static final int RESULT_SPEECH = 1;
 
@@ -51,6 +51,11 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+        Intent intent = this.getIntent();
+
+        //取得傳遞過來的資料
+        Tid = intent.getStringExtra("Tid");
+
         try//取得ID
         {
             FileInputStream in = openFileInput("Id.txt");
@@ -99,7 +104,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
                     public void run()
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.75/glass/UserAnswer.php","titleId=2&Id="+ id+"&Answer="+Answer);
+                        msg = message.all("http://163.17.135.75/glass/UserAnswer.php","titleId="+Tid+"&Id="+ id+"&Answer="+Answer);
                         handler.post(updata);
                     }
 

@@ -1,5 +1,6 @@
 package com.example.gameking_var2.remoteproject.Rank;
 
+import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.media.Sounds;
@@ -35,6 +36,8 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class Rank extends Activity implements GestureDetector.BaseListener
 {
+
+    String msg = "";
 
     //星等的ViewFliper
     ViewFlipper vf_rank;
@@ -128,6 +131,18 @@ public class Rank extends Activity implements GestureDetector.BaseListener
                 startActivity(new Intent( Rank.this, MainLine.class));
                 Toast.makeText(this, String.valueOf(vf_rank.getDisplayedChild()) + "星", Toast.LENGTH_SHORT).show();
                 finish();
+                break;
+            case "LONG_PRESS":
+                /*new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        GetServerMessage message = new GetServerMessage();
+                        msg = message.all(allurl,alldata);
+                    }
+
+                }).start();*/
                 break;
         }
         return true;
