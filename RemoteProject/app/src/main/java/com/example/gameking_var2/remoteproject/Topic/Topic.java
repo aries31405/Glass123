@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Camera;
 import android.media.CameraProfile;
 import android.os.Bundle;
+import android.os.FileObserver;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
@@ -20,12 +21,14 @@ import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
+import com.google.android.glass.content.Intents;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,9 +224,8 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             {
                 if (resultCode == RESULT_OK && null != data) {
                     Bundle extras = data.getExtras();
-                    //String pctureFilePath = extras.getString();
-
-
+                    String pctureFilePath = extras.getString(Intents.EXTRA_PICTURE_FILE_PATH);
+                    processPictureWhenReady(pctureFilePath);
                 }
                 break;
             }
@@ -231,7 +233,42 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
 
     }
 
+    private void processPictureWhenReady(final String picturePath){
+        final File pictureFile = new File(picturePath);
 
+        if(pictureFile.exists())
+        {
+            //照片準備好
+
+        }
+        else
+        {
+            final File parenDirectory = pictureFile.getParentFile();
+            FileObserver observer = new FileObserver(parenDirectory.getPath()) {
+                private boolean isFileWritten;
+                @Override
+                public void onEvent(int event, String path) {
+                    if(!isFileWritten)
+                    {
+                        File affectedFile = new File(parenDirectory,path);
+                        isFileWritten = (event == FileObserver.CLOSE_WRITE && affectedFile.equals(pictureFile));
+                        if(isFileWritten)
+                        {
+                            stopWatching();
+                          runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    processPictureWhenReady(picturePath);
+                                }
+                            });
+                        }
+                    }
+
+                }
+            };
+            observer.startWatching();
+        }
+    }
 
 
     @Override
