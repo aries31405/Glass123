@@ -338,7 +338,6 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             {
                 if(latitude >= (sp.getX(ii) - 0.00001) && latitude <= (sp.getY(ii) + 0.00001) )
                 {
-                    Toast.makeText(Searchq.this,"找到題目", LENGTH_LONG).show();
                     if(mp.isPlaying())
                         mp.pause();
                     mp.seekTo(0);

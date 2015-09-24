@@ -74,11 +74,11 @@ public class Options extends Activity
 
         cards.add
         (
-            GiveUp, new CardBuilder(context, CardBuilder.Layout.MENU).setText("放棄")
+            GiveUp, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Give up")
         );
         cards.add
         (
-            Help, new CardBuilder(context, CardBuilder.Layout.MENU).setText("幫助")
+            Help, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Help")
         );
 
         return cards;

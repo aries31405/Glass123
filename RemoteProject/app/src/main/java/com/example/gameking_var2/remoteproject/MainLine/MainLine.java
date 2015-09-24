@@ -89,15 +89,15 @@ public class MainLine extends Activity
         //逐一建造
         cards.add
         (
-            Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("開始").setIcon(R.drawable.ic_select_link_50)
+            Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Start").setIcon(R.drawable.ic_select_link_50)
         );
         cards.add
         (
-            Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("紀錄").setIcon(R.drawable.ic_select_link_50)
+            Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Record").setIcon(R.drawable.ic_select_link_50)
         );
         cards.add
         (
-            About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於").setIcon(R.drawable.ic_select_link_50)
+            About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("About").setIcon(R.drawable.ic_select_link_50)
         );
         return cards;
     }
@@ -126,7 +126,7 @@ public class MainLine extends Activity
                         break;
 
                     case About:
-                        Toast.makeText(MainLine.this, "Prowered by 成之內貳點零 Version b1.0", LENGTH_LONG).show();
+                        Toast.makeText(MainLine.this, "Powered by 成之內貳點零 Version b1.0", LENGTH_LONG).show();
                         break;
 
                     default:

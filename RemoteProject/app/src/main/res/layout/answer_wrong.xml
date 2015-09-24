@@ -5,7 +5,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="可惜答錯了，請再接再厲！"
+        android:text="Wrong Answer, please try again"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal|bottom"
         android:textSize="30dp"

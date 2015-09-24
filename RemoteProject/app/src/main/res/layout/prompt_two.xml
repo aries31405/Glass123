@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize = "60sp"
-            android:text="題示二" />
+            android:text="Hint2" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/footer_container1"
@@ -64,7 +64,7 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="回到題示一"
+            android:text="Hint1"
             android:ellipsize="end"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -74,7 +74,7 @@
             android:id="@+id/timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="前往題示三"
+            android:text="Hint3"
             android:ellipsize="end"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceSmall"

@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize = "20sp"
-            android:text="四處走走以尋找題目"
+            android:text="Walk around to find questions"
             android:id="@+id/sear_bar"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true">

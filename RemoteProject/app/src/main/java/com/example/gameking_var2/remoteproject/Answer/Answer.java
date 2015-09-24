@@ -70,7 +70,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
         }
 
         card = new Card(this);
-        card.setText("請點擊並語音輸入");
+        card.setText("Tap to speak your answer");
         View view = card.getView();
         setContentView(R.layout.answer_reply);
 

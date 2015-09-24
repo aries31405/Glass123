@@ -90,11 +90,11 @@ public class Selectqa extends Activity
         //);
         cards.add
         (
-            Multiple, new CardBuilder(context, CardBuilder.Layout.MENU).setText("出題模組")
+            Multiple, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Create Question")
         );
         cards.add
         (
-            Topic, new CardBuilder(context, CardBuilder.Layout.MENU).setText("解題模組")
+            Topic, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Answer Question")
         );
 
         return cards;
