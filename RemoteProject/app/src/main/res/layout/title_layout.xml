@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="125px"
+        android:layout_height="125px"
+        android:id="@+id/logo"
+        android:src="@drawable/logo"
+        android:layout_marginStart="25dp"
+        android:layout_below="@+id/neworclear"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="90px"
+        android:layout_height="60px"
+        android:id="@+id/neworclear"
+        android:src="@drawable/new_text"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginStart="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/logo" />
+
+    <TextView
+        android:layout_width="250px"
+        android:layout_height="70px"
+        android:text="Number"
+        android:textSize = "40sp"
+        android:id="@+id/title_number"
+        android:layout_below="@+id/neworclear"
+        android:layout_alignStart="@+id/neworclear" />
+
+    <ImageView
+        android:layout_width="200px"
+        android:layout_height="120px"
+        android:id="@+id/rank_star"
+        android:src="@drawable/one_star"
+        android:layout_below="@+id/title_number"
+        android:layout_alignStart="@+id/title_number" />
+
+    <TextView
+        android:layout_width="250px"
+        android:layout_height="80px"
+        android:text="%%%%"
+        android:textSize = "20sp"
+        android:id="@+id/percent"
+        android:layout_below="@+id/rank_star"
+        android:layout_alignStart="@+id/rank_star"
+        android:layout_alignEnd="@+id/title_number" />
+
+    <TextView
+        android:layout_width="200px"
+        android:layout_height="40px"
+        android:text="user"
+        android:textSize = "20sp"
+        android:id="@+id/create_name"
+        android:layout_alignBottom="@+id/percent"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

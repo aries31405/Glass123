@@ -10,6 +10,8 @@ import com.example.gameking_var2.remoteproject.Login.Login;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.google.android.glass.media.Sounds;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
@@ -29,11 +31,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -57,7 +64,7 @@ import static android.widget.Toast.LENGTH_LONG;
 連結至MainLine頁面
 */
 
-public class StartCard extends Activity
+public class StartCard extends Activity  implements GestureDetector.BaseListener
 {
 
     //不知道
@@ -72,13 +79,17 @@ public class StartCard extends Activity
     static final int Success = 5;
 
     //上滑動佈景 下是滑動卡片
-    private CardScrollAdapter mAdapter;
+    private CardAdapter mAdapter;
     private CardScrollView mCardScroller;
 
     //現在的卡片  用來判斷開啟哪個選單
     private int nowCard = -1;
 
-    private View mView;
+    //定義viewFlipper
+    private ViewFlipper vfSex, vfAge;
+
+    //定義手勢偵測
+    private GestureDetector GestureDetector;
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -108,9 +119,6 @@ public class StartCard extends Activity
     //基本資料
     Profile mProfile = new Profile();
 
-    //List的卡片創建
-    ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
-
     // 使用者是否已經存在資料庫
     private int USER;
     private final int NOT_USER = 0;
@@ -120,8 +128,6 @@ public class StartCard extends Activity
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-
-        cards.clear();
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this,Connection));
@@ -148,52 +154,27 @@ public class StartCard extends Activity
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_SHORT).show();
             this.finish();
         }
+
+        //手勢偵測此場景.基本偵測
+        GestureDetector = new GestureDetector(this).setBaseListener(this);
+
     }
+
+    //-----------------------建立卡片--------------------//
 
     //建立滑動卡片 使用List
     private List<CardBuilder> createCards(Context context,int position)
     {
-        Log.e("createCards",position + "!");
-        switch(position)
-        {
-            case Connection:
-                cards.add
-                        (
-                                0, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
-                        );
-                break;
-            case Login:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.signin)
-                        );
-                break;
-            case Profile:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.profile)
-                        );
-                break;
-            case Sex:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.sex)
-                        );
-                break;
-            case Age:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.age)
-                        );
-                break;
-            case Success:
-                cards.add
-                        (
-                                1, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.success)
-                        );
-                break;
-        }
+        //List的卡片創建
+        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
 
+        Log.e("createCards",position + "!");
+
+        //新增卡片
+        cards.add
+        (
+            0, new CardBuilder(context, CardBuilder.Layout.CAPTION).addImage(R.drawable.con_r)
+        );
         return cards;
     }
 
@@ -215,42 +196,38 @@ public class StartCard extends Activity
                         break;
 
                     case Login:
-                        //mAdapter = new CardAdapter(createCards(StartCard.this,Profile));
-                        //deleteCard(0);
                         Toast.makeText(StartCard.this, "Login", Toast.LENGTH_SHORT).show();
                         break;
 
                     case Profile:
                         if (USER == ALREADY_USER) {
-                            mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+                            insertNewCard(Success);
                             Log.e("ALREADY_USER", "123");
                         } else if (USER == NOT_USER) {
-                            mAdapter = new CardAdapter(createCards(StartCard.this, Sex));
+                            insertNewCard(Sex);
                             Log.e("NOT_USER", "123");
                         } else {
                             Log.e("ELSE", "123");
                         }
-                        deleteCard(0);
                         if (USER == ALREADY_USER) {
                             nowCard = Success;
                         } else if (USER == NOT_USER) {
                             nowCard = Sex;
                         }
                         Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
+                        //deleteCard(0);
                         break;
 
                     case Sex:
-                        mAdapter = new CardAdapter(createCards(StartCard.this, Age));
+                        insertNewCard(Age);
                         Toast.makeText(StartCard.this, "Sex", Toast.LENGTH_SHORT).show();
-                        openOptionsMenu();
-                        deleteCard(0);
+                        //deleteCard(0);
                         break;
 
                     case Age:
-                        mAdapter = new CardAdapter(createCards(StartCard.this, Success));
+                        insertNewCard(Success);
                         Toast.makeText(StartCard.this, "Age", Toast.LENGTH_SHORT).show();
-                        openOptionsMenu();
-                        deleteCard(0);
+                        //deleteCard(0);
                         break;
 
                     case Success:
@@ -272,30 +249,180 @@ public class StartCard extends Activity
         });
     }
 
+    //----------------------變更卡片---------------------//
+
+    //刪除卡片
+    private void deleteCard(int position)
+    {
+        //刪除卡片  刪除Adapter裡的CardBuilder之一
+        mAdapter.deleteCard(0);
+
+        //將現在卡片進行刪除
+        mCardScroller.animate(0, CardScrollView.Animation.DELETION);
+
+        nowCard = nowCard+1;
+    }
+
+    //移動卡片
+    private void navigateToCard(int position)
+    {
+        //將現在的卡片進行移動位置
+        mCardScroller.animate(position, CardScrollView.Animation.NAVIGATION);
+    }
+
+    //新增卡片
+    private void insertNewCard(int position)
+    {
+        //新增的卡片
+        CardBuilder card;
+        switch ( position )
+        {
+            case Login:
+                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
+                card.addImage(R.drawable.signin);
+                break;
+            case Profile:
+                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
+                card.addImage(R.drawable.profile);
+                break;
+            case Sex:
+                card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
+                card.setEmbeddedLayout(R.layout.sex);
+                break;
+            case Age:
+                card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
+                card.setEmbeddedLayout(R.layout.age);
+                break;
+            case Success:
+                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
+                card.addImage(R.drawable.success);
+                break;
+            default:
+                return;
+        }
+
+        mAdapter.clearCard();
+
+        //進行新增  Adapter裡的變數(CardBuilder)
+        mAdapter.insertCard(0, card);
+
+        //將現在的卡片進行更新(新增)
+        mCardScroller.animate(0, CardScrollView.Animation.INSERTION);
+
+
+        //依據位置創建選單
+        if( position == Sex)
+            createSex();
+        if( position == Age )
+            createAge();
+
+        nowCard = position;
+
+    }
+
+    //---------------------建立滑動清單---------------------//
+
+    public void createSex()
+    {
+        vfSex = (ViewFlipper) findViewById(R.id.vf_sex);
+
+        TextView tv = new TextView(StartCard.this);
+        tv.setText("男");
+
+        LinearLayout lq = new LinearLayout(StartCard.this);
+        lq.addView(tv);
+
+        TextView tv2 = new TextView(StartCard.this);
+        tv2.setText("女");
+
+        LinearLayout lq2 = new LinearLayout(StartCard.this);
+        lq2.addView(tv2);
+
+        vfSex.addView(lq);
+
+        vfSex.addView(lq2);
+
+    }
+
+    public void createAge()
+    {
+        vfAge = (ViewFlipper) findViewById(R.id.vf_age);
+
+        int i = 0;
+
+        for(i = 15; i < 70; i++)
+        {
+
+            TextView tv = new TextView(this);
+            tv.setText( i + "歲" );
+
+            LinearLayout lq = new LinearLayout(this);
+            lq.addView(tv);
+
+            //vfAge.addView(lq);
+        }
+
+    }
+
+    //--------------------手勢動作------------------//
+
+    //偵測手勢動作，回傳事件
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event)
+    {
+        return GestureDetector.onMotionEvent(event);
+    }
+
+    @Override
+    public boolean onGesture(Gesture gesture)
+    {
+        //在選擇性別頁面動作
+        if(nowCard == Sex)
+        {
+            //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
+            switch (gesture.name())
+            {
+                case "SWIPE_DOWN":
+                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
+                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
+                    vfSex.showPrevious();
+                    break;
+                case "SWIPE_UP":
+                    vfSex.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in));
+                    vfSex.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
+                    vfSex.showNext();
+                    break;
+            }
+        }
+
+        //在選擇年齡頁面動作
+        else if(nowCard == Age)
+        {
+            //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
+            switch (gesture.name())
+            {
+                case "SWIPE_DOWN":
+                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
+                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
+                    vfAge.showPrevious();
+                    break;
+                case "SWIPE_UP":
+                    vfAge.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_in));
+                    vfAge.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_down_out));
+                    vfAge.showNext();
+                    break;
+            }
+        }
+        return true;
+    }
+
+    //------------------------內建選單----------------------//
+
     //給當開啟選單時就會呼叫一次
     @Override
     public boolean onPrepareOptionsMenu (Menu menu)
     {
-        //清除之前選單
-        menu.clear();
-
-        //宣告選單
-        MenuInflater inflater = getMenuInflater();
-
-        //判斷位置取得選單
-        switch(nowCard)
-        {
-            case Sex:
-                inflater.inflate(R.menu.sex_menu, menu);
-                break;
-            case Age:
-                inflater.inflate(R.menu.age_menu, menu);
-                break;
-            default:
-                Toast.makeText(StartCard.this, "選單發生錯誤！", LENGTH_LONG).show();
-                break;
-        }
-        Log.e("nowCard",nowCard+"!");
+        Log.e("nowCard", nowCard + "!");
         return true;
     }
 
@@ -303,18 +430,11 @@ public class StartCard extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
-        {
-            case R.id.question:
 
-                return true;
-            case R.id.answer:
-
-                return true;
-            default:
-                return true;
-        }
+            return true;
     }
+
+    //--------------------------藍芽-----------------------//
 
     //檢查藍芽是否開啟
     @Override
@@ -438,7 +558,7 @@ public class StartCard extends Activity
                     switch (msg.arg1) {
                         case BluetoothChatService.STATE_CONNECTED:
                             setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-                            //mConversationArrayAdapter.clear();
+                            //mConversationArrayAdapter.clear_text();
                             break;
 
                         case BluetoothChatService.STATE_CONNECTING:
@@ -468,9 +588,19 @@ public class StartCard extends Activity
                     String[] mreadMessage = readMessage.split(",");
                     mProfile.USER_NAME = mreadMessage[0];
                     mProfile.USER_EMAIL= mreadMessage[1];
+                    mProfile.USER_AGE=mreadMessage[2];
+                    mProfile.USER_SEX=mreadMessage[3];
+
+                    //若傳來的值為null，代表資料庫已有使用者年齡及性別資料
+                    if(mProfile.USER_AGE.equals("null")){
+                        mProfile.USER_AGE = "20";
+                    }
+                    if(mProfile.USER_SEX.equals( "null")){
+                        mProfile.USER_SEX = "0";
+                    }
 
                     //資料成功傳到Glass
-                    LoginSuccess(mProfile.USER_NAME);
+                    LoginSuccess(mProfile.USER_NAME+mProfile.USER_EMAIL+mProfile.USER_AGE+mProfile.USER_SEX);
 
                     // 檢查是否已經為使用者，之後跳轉到 profile頁面
                     connDb0();
@@ -478,19 +608,21 @@ public class StartCard extends Activity
                 case Constants.MESSAGE_DEVICE_NAME:
                     // 儲存已連結的裝置名稱
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    if (null != StartCard.this) {
+                    if (null != StartCard.this)
+                    {
                         Toast.makeText(StartCard.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
 
                         //藍芽連線成功後加入卡片
-                        mAdapter = new CardAdapter(createCards(StartCard.this,Login));
+                        //insertNewCard(Profile);
 
                         // 刪除前一張卡片
-                        deleteCard(0);
+                        //deleteCard(0);
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
-                    if (null != StartCard.this) {
+                    if (null != StartCard.this)
+                    {
                         Toast.makeText(StartCard.this, msg.getData().getString(Constants.TOAST),
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -562,8 +694,8 @@ public class StartCard extends Activity
                     } else {
                         Toast.makeText(StartCard.this, "Google帳戶登入失敗", Toast.LENGTH_SHORT).show();
                     }
-                    mAdapter = new CardAdapter(createCards(StartCard.this, Profile));
-                    deleteCard(0);
+                    insertNewCard(Profile);
+                    //deleteCard(0);
                 }
                 //失敗傳回HTTP狀態碼
                 else {
@@ -584,8 +716,8 @@ public class StartCard extends Activity
         //測試用
         params.put("name", mProfile.USER_NAME);
         params.put("email", mProfile.USER_EMAIL);
-        params.put("age", 20);
-        params.put("gender", 0);
+        params.put("age", Integer.parseInt(mProfile.USER_AGE));
+        params.put("gender", Integer.parseInt(mProfile.USER_SEX));
 
         aq.ajax(url, params, String.class, new AjaxCallback<String>() {
 
@@ -627,17 +759,5 @@ public class StartCard extends Activity
             }
         });
     }
-
-    // 刪除卡片
-    private void deleteCard(int position) {
-        // Delete card in the adapter, but don't call notifyDataSetChanged() yet.
-        // Instead, request proper animation for deleted card from card scroller,
-        // which will notify the adapter at the right time during the animation.
-        Log.e("deleteCard",position + "?");
-        mCardScroller.animate(position, CardScrollView.Animation.DELETION);
-        cards.remove(position);
-        nowCard = nowCard+1;
-    }
-
 
 }

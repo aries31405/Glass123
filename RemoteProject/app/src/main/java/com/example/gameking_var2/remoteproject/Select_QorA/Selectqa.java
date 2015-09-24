@@ -4,6 +4,7 @@ import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
 import com.example.gameking_var2.remoteproject.R;
 import com.example.gameking_var2.remoteproject.SearchQuestion.Searchq;
+import com.example.gameking_var2.remoteproject.Topic.Topic;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -46,9 +47,9 @@ public class Selectqa extends Activity
     private static final String TAG = Selectqa.class.getSimpleName();
 
     //定義卡片順序 方便了解
-    static final int Single = 0;
-    static final int Multiple = 1;
-    static final int Topic = 2;
+    //static final int Single = 0;
+    static final int Multiple = 0;
+    static final int Topic = 1;
 
     //上滑動佈景 下是滑動卡片
     private CardScrollAdapter mAdapter;
@@ -83,17 +84,17 @@ public class Selectqa extends Activity
         ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
 
         //逐一建造
+        //cards.add
+        //
+        //    Single, new CardBuilder(context, CardBuilder.Layout.MENU).setText("單人")
+        //);
         cards.add
         (
-            Single, new CardBuilder(context, CardBuilder.Layout.MENU).setText("單人")
+            Multiple, new CardBuilder(context, CardBuilder.Layout.MENU).setText("出題模組")
         );
         cards.add
         (
-            Multiple, new CardBuilder(context, CardBuilder.Layout.MENU).setText("多人")
-        );
-        cards.add
-        (
-            Topic, new CardBuilder(context, CardBuilder.Layout.MENU).setText("出題")
+            Topic, new CardBuilder(context, CardBuilder.Layout.MENU).setText("解題模組")
         );
 
         return cards;
@@ -112,16 +113,16 @@ public class Selectqa extends Activity
 
                 //判斷點擊哪個卡片
                 switch (position) {
-                    case Single:
-                        Toast.makeText(Selectqa.this, "敬請期待", LENGTH_LONG).show();
-                        break;
+                    //case Single:
+                    //    Toast.makeText(Selectqa.this, "敬請期待", LENGTH_LONG).show();
+                    //    break;
 
                     case Multiple:
-                        startActivity(new Intent(Selectqa.this, Searchq.class));
+                        startActivity(new Intent(Selectqa.this, Topic.class));
                         break;
 
                     case Topic:
-
+                        startActivity(new Intent(Selectqa.this, Searchq.class));
                         break;
 
                     default:

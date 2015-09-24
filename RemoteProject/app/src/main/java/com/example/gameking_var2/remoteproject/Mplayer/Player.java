@@ -10,6 +10,9 @@ import java.util.Timer;
 /**
  * Created by 孔雀舞 on 2015/8/31.
  */
+/*
+用來撥放URL音檔
+ */
 public class Player implements  OnCompletionListener,MediaPlayer.OnPreparedListener{
 
     public MediaPlayer mediaPlayer;
