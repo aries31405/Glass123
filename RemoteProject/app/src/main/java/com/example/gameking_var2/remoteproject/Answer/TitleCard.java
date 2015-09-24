@@ -187,14 +187,11 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
                 // 切換Activity
                 startActivity(intent);
-                finish();
+
                 break;
             case "TWO_TAP":
                 //進入選單
                 startActivity(new Intent(TitleCard.this, Options.class));
-                break;
-            case "SWIPE_DOWN":
-                finish();
                 break;
             case  "SWIPE_RIGHT":
                 Playmusic();

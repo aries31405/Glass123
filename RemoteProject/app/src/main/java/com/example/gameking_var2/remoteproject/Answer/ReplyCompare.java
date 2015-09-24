@@ -67,6 +67,6 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
                 startActivity(intent);
                 break;
         }
-        return false;
+        return true;
     }
 }

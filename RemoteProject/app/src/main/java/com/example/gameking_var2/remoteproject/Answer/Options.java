@@ -2,6 +2,7 @@ package com.example.gameking_var2.remoteproject.Answer;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.R;
+import com.example.gameking_var2.remoteproject.SearchQuestion.Searchq;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -9,6 +10,7 @@ import com.google.android.glass.widget.CardScrollView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,10 +78,10 @@ public class Options extends Activity
         (
             GiveUp, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Give up")
         );
-        cards.add
+        /*cards.add
         (
             Help, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Help")
-        );
+        );*/
 
         return cards;
     }
@@ -100,7 +102,10 @@ public class Options extends Activity
                 //判斷點擊哪個卡片
                 switch (position)
                 {
-                    case GiveUp:
+                    case GiveUp://getApplicationContext()
+                        Intent intent = new Intent( Options.this, Searchq.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         break;
 
                     case Help:
