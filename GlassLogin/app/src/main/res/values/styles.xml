@@ -1,0 +1,16 @@
+<resources>
+
+
+    <!-- Base application theme.
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        Customize your theme here.
+    </style>
+    -->
+
+    <!-- Actitviy Themes -->
+
+    <style name="AppTheme" parent="Theme.Sample" />
+    <style name="Theme.Sample" parent="Theme.Base" />
+    <style name="Theme.Base" parent="android:Theme.Holo.Light" />
+
+</resources>

@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="#444341">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="150dp"
+        android:layout_height="160dp"
+        android:src="@drawable/notlogin"
+        app:border_width="2dp"
+        app:border_color="#55000000"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="78dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imageView7"
+        android:layout_toStartOf="@+id/imageView7" />
+
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="190dp"
+        android:id="@+id/imageView7"
+        android:src="@drawable/signal"
+        android:layout_alignBottom="@+id/imageView6"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView6"
+        android:src="@drawable/google"
+        android:layout_alignBottom="@+id/profile_image"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_marginLeft="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:text="@string/welcome"
+        android:textSize="30dp"
+        android:textColor="#FFFFFF"
+        android:layout_above="@+id/imageView6"
+        android:layout_centerHorizontal="true" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

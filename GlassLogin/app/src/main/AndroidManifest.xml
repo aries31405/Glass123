@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.glass123.glasslogin" >
+
+    <!-- Google Plus Login -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- Bluetooth -->
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyProfile"
+            android:label="@string/title_activity_my_profile"
+            android:screenOrientation="landscape" >
+        </activity>
+        <!-- Bluetooth Connect Activity -->
+        <activity
+            android:name=".Bluetooth.BluetoothChatFragment"
+            android:screenOrientation="landscape" />
+
+        <!-- Bluetooth Connect Device List -->
+        <activity
+            android:name=".Bluetooth.DeviceListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/select_device"
+            android:theme="@android:style/Theme.Holo.Dialog" >
+        </activity>
+        <activity
+            android:name=".ConnectSuccess"
+            android:label="@string/title_activity_connect_success"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".SetProfile"
+            android:label="@string/title_activity_set_profile"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".SetProfileAge"
+            android:label="@string/title_activity_set_profile_age"
+            android:screenOrientation="landscape" >
+        </activity>
+    </application>
+
+</manifest>
