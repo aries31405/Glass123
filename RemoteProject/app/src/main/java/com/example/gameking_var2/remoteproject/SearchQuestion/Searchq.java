@@ -235,7 +235,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                     }
                 }).start();
                 break;
-            case "THREE_TAP":
+            case "TWO_TAP":
                 //樓層選單
                 openOptionsMenu();
                 break;

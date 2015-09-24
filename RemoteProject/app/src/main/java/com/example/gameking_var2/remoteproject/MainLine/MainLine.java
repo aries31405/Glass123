@@ -122,11 +122,11 @@ public class MainLine extends Activity
                         break;
 
                     case Record:
-                        openOptionsMenu();
+                        //openOptionsMenu();
                         break;
 
                     case About:
-                        Toast.makeText(MainLine.this, "馬德沒這玩意兒 By 成之內", LENGTH_LONG).show();
+                        Toast.makeText(MainLine.this, "Prowered by 成之內貳點零 Version b1.0", LENGTH_LONG).show();
                         break;
 
                     default:
