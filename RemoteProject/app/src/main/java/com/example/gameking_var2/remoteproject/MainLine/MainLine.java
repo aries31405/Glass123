@@ -47,8 +47,8 @@ public class MainLine extends Activity
 
     //定義卡片順序 方便了解
     static final int Start = 0;
-    static final int Record = 1;
-    static final int About = 2;
+//    static final int Record = 1;
+    static final int About = 1;
 
     //上滑動佈景 下是滑動卡片
     private CardScrollAdapter mAdapter;
@@ -91,22 +91,25 @@ public class MainLine extends Activity
         (
             Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Start").setIcon(R.drawable.ic_select_link_50)
         );
-        /*cards.add
+        /*
+        cards.add
         (
-<<<<<<< HEAD
+
             Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("Record").setIcon(R.drawable.ic_select_link_50)
         );
+        */
         cards.add
         (
             About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("About").setIcon(R.drawable.ic_select_link_50)
-=======
+        );
+/*
             Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("紀錄").setIcon(R.drawable.ic_select_link_50)
-        );*/
+        );
         cards.add
         (
             1, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於").setIcon(R.drawable.ic_select_link_50)
->>>>>>> 300b80ac0693c2887036b3c3a8b9837b6e697583
         );
+        */
         return cards;
     }
 
@@ -129,11 +132,12 @@ public class MainLine extends Activity
                         startActivity(new Intent(MainLine.this, Selectqa.class));
                         break;
 
+                    /*
                     case Record:
                         //openOptionsMenu();
                         Toast.makeText(MainLine.this, "Prowered by 成之內貳點零 Version b1.0", LENGTH_LONG).show();
                         break;
-
+*/
                     case About:
                         Toast.makeText(MainLine.this, "Powered by 成之內貳點零 Version b1.0", LENGTH_LONG).show();
                         break;

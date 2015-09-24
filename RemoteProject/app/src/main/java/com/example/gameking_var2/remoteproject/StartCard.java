@@ -480,7 +480,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     }
 
                     //資料成功傳到Glass
-                    LoginSuccess(mProfile.USER_NAME+mProfile.USER_EMAIL+mProfile.USER_AGE+mProfile.USER_SEX);
+                    LoginSuccess(mProfile.USER_NAME);
 
                     // 檢查是否已經為使用者，之後跳轉到 profile頁面
                     connDb0();
@@ -490,8 +490,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
                     if (null != StartCard.this)
                     {
-                        Toast.makeText(StartCard.this, "Connected to "
-                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(StartCard.this, "Connected to "
+                        //+ mConnectedDeviceName, Toast.LENGTH_SHORT).show();
 
                         //藍芽連線成功後加入卡片
                         //insertNewCard(Profile);
@@ -503,8 +503,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 case Constants.MESSAGE_TOAST:
                     if (null != StartCard.this)
                     {
-                        Toast.makeText(StartCard.this, msg.getData().getString(Constants.TOAST),
-                                Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(StartCard.this, msg.getData().getString(Constants.TOAST),
+                         //       Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:
@@ -548,7 +548,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     // 接收到登入資料後，Toast出來
     public void LoginSuccess(String userName)
     {
-        Toast.makeText(StartCard.this,userName+"，登入成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(StartCard.this,userName+", Login Success!",Toast.LENGTH_SHORT).show();
     }
 
     // 登入，檢查是否已註冊為使用者，之後跳轉到 profile頁面
@@ -575,16 +575,16 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     if (result.equals("2"))
                     {
                         USER = ALREADY_USER;
-                        Toast.makeText(StartCard.this, "ALREADY_USER", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(StartCard.this, "ALREADY_USER", Toast.LENGTH_SHORT).show();
                     }
                     else if (result.equals("0"))
                     {
                         USER = NOT_USER;
-                        Toast.makeText(StartCard.this, "NOT_USER", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(StartCard.this, "NOT_USER", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Toast.makeText(StartCard.this, "Google帳戶登入失敗", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StartCard.this, "Google account login failed", Toast.LENGTH_SHORT).show();
                     }
                     insertNewCard(Success);
                 }
@@ -623,13 +623,12 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     //登入失敗
                     if (result.equals("1"))
                     {
-                        Toast.makeText(getApplicationContext(), "登入失敗，請再登入一次。", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Login failed, please login again", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         // 登入系統成功
-                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext(), "你好，" + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Hi, " + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
                         mProfile.USER_ID = result;
 
                         try//將ID存起來
