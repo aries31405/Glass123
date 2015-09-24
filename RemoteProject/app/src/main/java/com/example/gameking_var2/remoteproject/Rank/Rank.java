@@ -37,7 +37,7 @@ import static android.widget.Toast.LENGTH_LONG;
 public class Rank extends Activity implements GestureDetector.BaseListener
 {
 
-    String msg = "";
+    String msg = "",Tid,id;
 
     //星等的ViewFliper
     ViewFlipper vf_rank;
@@ -51,6 +51,12 @@ public class Rank extends Activity implements GestureDetector.BaseListener
         super.onCreate(bundle);
 
         setContentView(R.layout.rank_stars);
+
+        Intent intent = this.getIntent();
+
+        //取得傳遞過來的資料
+        Tid = intent.getStringExtra("Tid");
+        id = intent.getStringExtra("Id");
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
@@ -133,16 +139,16 @@ public class Rank extends Activity implements GestureDetector.BaseListener
                 finish();
                 break;
             case "LONG_PRESS":
-                /*new Thread(new Runnable()
+                new Thread(new Runnable()
                 {
                     @Override
                     public void run()
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all(allurl,alldata);
+                        msg = message.all("163.17.135.75/glass/add_evaluation.php","titleId="+Tid+"&UserId="+id+"&Star="+String.valueOf(vf_rank.getDisplayedChild()));
                     }
 
-                }).start();*/
+                }).start();
                 break;
         }
         return true;
