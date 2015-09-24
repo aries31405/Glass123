@@ -31,7 +31,7 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
         super.onCreate(bundle);
 
         Intent intent = this.getIntent();
-        //取得傳遞過來的資料
+        //取得傳遞過來的資料*
         msg = intent.getStringExtra("msg");
         Tid = intent.getStringExtra("Tid");
 
@@ -53,7 +53,8 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
     }
 
     @Override
-    public boolean onGesture(Gesture gesture) {
+    public boolean onGesture(Gesture gesture)
+    {
         //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
         switch( gesture.name() )
         {

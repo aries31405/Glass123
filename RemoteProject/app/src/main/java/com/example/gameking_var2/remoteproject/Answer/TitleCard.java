@@ -146,13 +146,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             HintOne, view_one
         );
         cards.add
-                (
-                        HintTwo, view_two
-                );
+        (
+            HintTwo, view_two
+        );
         cards.add
-                (
-                        HintThree, view_three
-                );
+        (
+            HintThree, view_three
+        );
 
         //建立完之後抓元件
         //抓提示1、2 文字欄    Textview
@@ -214,7 +214,8 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             @Override
             public void run()
             {
-                try {
+                try
+                {
                     Thread.sleep(1000);
                     if(mCardScroller.getSelectedItemPosition() < 2 )
                     {
@@ -222,7 +223,9 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                         player = new Player("http://163.17.135.75"+promptStore[mCardScroller.getSelectedItemPosition()]);
                         player.play();
                     }
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -231,13 +234,17 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     }
 
     //從網路加載圖片
-    private Drawable loadImageFromURL(String url){
-        try{
+    private Drawable loadImageFromURL(String url)
+    {
+        try
+        {
             InputStream is = (InputStream) new URL(url).getContent();
             Drawable draw = Drawable.createFromStream(is, "src");
             is.close();
             return draw;
-        }catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             //TODO handle error
             Log.i("loadingImg", e.toString());
             return null;

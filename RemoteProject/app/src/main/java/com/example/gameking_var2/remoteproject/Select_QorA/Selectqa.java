@@ -60,7 +60,6 @@ public class Selectqa extends Activity
     {
         super.onCreate(bundle);
 
-
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this));
 
@@ -104,15 +103,18 @@ public class Selectqa extends Activity
     private void setCardScrollerListener()
     {
         //卡片的View 設定監聽
-        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 //不知道
                 Log.d(TAG, "Clicked view at position " + position + ", row-id " + id);
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (position) {
+                switch (position)
+                {
                     //case Single:
                     //    Toast.makeText(Selectqa.this, "敬請期待", LENGTH_LONG).show();
                     //    break;
