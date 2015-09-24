@@ -90,7 +90,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         //建立尋找頁面
         cards.add
                 (
-                        0, new CardBuilder(context, CardBuilder.Layout.TEXT).setText("請點擊並語音出題")
+                        0, new CardBuilder(context, CardBuilder.Layout.TEXT).setText("Tap to speak your question")
                 );
 
         return cards;

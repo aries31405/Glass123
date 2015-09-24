@@ -70,7 +70,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
         }
 
         card = new Card(this);
-        card.setText("請點擊並語音輸入");
+        card.setText("Tap to speak your answer");
         View view = card.getView();
         setContentView(R.layout.answer_reply);
 
@@ -88,7 +88,8 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
     }
 
     @Override
-    public boolean onGesture(Gesture gesture) {
+    public boolean onGesture(Gesture gesture)
+    {
         //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
         switch( gesture.name() )
         {
@@ -125,21 +126,27 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
             Intent intent = new Intent();
             intent.setClass(Answer.this,ReplyCompare.class);
             intent .putExtra("msg", msg);//可放所有基本類別
+            intent.putExtra("Tid",Tid);
+
             // 切換Activity
             startActivity(intent);
         }
     };
 
     //啟用語音輸入
-   private void speech() {
+   private void speech()
+   {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
         //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.EXTRA_LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-us");
 
-        try {
+        try
+        {
             startActivityForResult(intent, RESULT_SPEECH);
-        } catch (ActivityNotFoundException a) {
+        }
+        catch (ActivityNotFoundException a)
+        {
             Toast t = Toast.makeText(getApplicationContext(), "Ops! Your device doesn't support Speech to Text", Toast.LENGTH_SHORT);
             t.show();
         }

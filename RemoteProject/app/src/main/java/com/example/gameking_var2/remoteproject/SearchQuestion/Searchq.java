@@ -235,7 +235,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                     }
                 }).start();
                 break;
-            case "THREE_TAP":
+            case "TWO_TAP":
                 //樓層選單
                 openOptionsMenu();
                 break;
@@ -273,14 +273,17 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Searchq.this);
 
 
-                try {
+                try
+                {
                     //R.raw.error 是ogg格式的音頻 放在res/raw/下
                     AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.error);
                     mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                     mp.setAudioStreamType(AudioManager.STREAM_RING);
                     afd.close();
                     mp.prepare();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -338,7 +341,6 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             {
                 if(latitude >= (sp.getX(ii) - 0.00001) && latitude <= (sp.getY(ii) + 0.00001) )
                 {
-                    Toast.makeText(Searchq.this,"找到題目", LENGTH_LONG).show();
                     if(mp.isPlaying())
                         mp.pause();
                     mp.seekTo(0);

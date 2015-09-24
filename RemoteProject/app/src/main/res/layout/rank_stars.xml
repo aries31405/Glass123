@@ -6,7 +6,7 @@
         android:layout_width="376dp"
         android:layout_height="wrap_content"
         android:textSize="40sp"
-        android:text="請您評價此題目"
+        android:text="Please give stars"
         android:id="@+id/textView7"
         android:layout_weight="0.38"
         android:layout_gravity="center_horizontal|top" />
