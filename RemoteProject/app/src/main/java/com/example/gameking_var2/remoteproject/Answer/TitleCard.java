@@ -121,7 +121,8 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         tv2.setText(promptName[1]);
 
         //設定提示圖片
-        iv1.setImageDrawable(loadImageFromURL(url + promptStore[2]));
+        //iv1.setImageDrawable(loadImageFromURL(/*url + promptStore[2]*/"http://163.17.135.75/TTS/2/Koala.jpg"));
+        iv1.setImageResource(R.drawable.bg01);
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);

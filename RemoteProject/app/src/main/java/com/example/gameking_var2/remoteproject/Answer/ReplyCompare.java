@@ -23,7 +23,7 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
     //定義手勢偵測
     private GestureDetector GestureDetector;
 
-    String msg,Tid;
+    String msg,Tid,id;
 
     @Override
     protected void onCreate(Bundle bundle)
@@ -33,7 +33,7 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
         Intent intent = this.getIntent();
         //取得傳遞過來的資料*
         msg = intent.getStringExtra("msg");
-
+        Tid = intent.getStringExtra("Tid");
 
         //判斷對錯給版面
         if( msg.equals("true") )
@@ -59,7 +59,12 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
         switch( gesture.name() )
         {
             case "TAP":
-                startActivity(new Intent(ReplyCompare.this, Rank.class));
+                Intent intent = new Intent();
+                intent.setClass(ReplyCompare.this,Rank.class);
+                intent.putExtra("Tid",Tid);
+
+                // 切換Activity
+                startActivity(intent);
                 break;
         }
         return false;
