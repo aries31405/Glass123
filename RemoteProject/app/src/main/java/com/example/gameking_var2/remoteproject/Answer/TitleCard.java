@@ -188,7 +188,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                 startActivity(intent);
                 finish();
                 break;
-            case "THREE_TAP":
+            case "TWO_TAP":
                 //進入選單
                 startActivity(new Intent(TitleCard.this, Options.class));
                 break;
@@ -202,7 +202,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                 Playmusic();
                 break;
         }
-        return false;
+        return true;
     }
 
     //播放影音檔
