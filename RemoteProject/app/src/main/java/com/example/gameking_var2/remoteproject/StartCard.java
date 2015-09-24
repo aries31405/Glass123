@@ -190,46 +190,11 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 int soundEffect = Sounds.TAP;
 
                 //判斷點擊哪個卡片
-                switch (nowCard) {
+                switch (nowCard)
+                {
                     case Connection:
                         Toast.makeText(StartCard.this, "Connection", Toast.LENGTH_SHORT).show();
                         break;
-
-                    case Login:
-                        Toast.makeText(StartCard.this, "Login", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case Profile:
-                        if (USER == ALREADY_USER) {
-                            insertNewCard(Success);
-                            Log.e("ALREADY_USER", "123");
-                        } else if (USER == NOT_USER) {
-                            insertNewCard(Sex);
-                            Log.e("NOT_USER", "123");
-                        } else {
-                            Log.e("ELSE", "123");
-                        }
-                        if (USER == ALREADY_USER) {
-                            nowCard = Success;
-                        } else if (USER == NOT_USER) {
-                            nowCard = Sex;
-                        }
-                        Toast.makeText(StartCard.this, "Profile", Toast.LENGTH_SHORT).show();
-                        //deleteCard(0);
-                        break;
-
-                    case Sex:
-                        insertNewCard(Age);
-                        Toast.makeText(StartCard.this, "Sex", Toast.LENGTH_SHORT).show();
-                        //deleteCard(0);
-                        break;
-
-                    case Age:
-                        insertNewCard(Success);
-                        Toast.makeText(StartCard.this, "Age", Toast.LENGTH_SHORT).show();
-                        //deleteCard(0);
-                        break;
-
                     case Success:
                         connDb();
                         Toast.makeText(StartCard.this, "Success", Toast.LENGTH_SHORT);
@@ -251,25 +216,6 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
 
     //----------------------變更卡片---------------------//
 
-    //刪除卡片
-    private void deleteCard(int position)
-    {
-        //刪除卡片  刪除Adapter裡的CardBuilder之一
-        mAdapter.deleteCard(0);
-
-        //將現在卡片進行刪除
-        mCardScroller.animate(0, CardScrollView.Animation.DELETION);
-
-        nowCard = nowCard+1;
-    }
-
-    //移動卡片
-    private void navigateToCard(int position)
-    {
-        //將現在的卡片進行移動位置
-        mCardScroller.animate(position, CardScrollView.Animation.NAVIGATION);
-    }
-
     //新增卡片
     private void insertNewCard(int position)
     {
@@ -277,22 +223,6 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         CardBuilder card;
         switch ( position )
         {
-            case Login:
-                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
-                card.addImage(R.drawable.signin);
-                break;
-            case Profile:
-                card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
-                card.addImage(R.drawable.profile);
-                break;
-            case Sex:
-                card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
-                card.setEmbeddedLayout(R.layout.sex);
-                break;
-            case Age:
-                card = new CardBuilder(this, CardBuilder.Layout.EMBED_INSIDE);
-                card.setEmbeddedLayout(R.layout.age);
-                break;
             case Success:
                 card = new CardBuilder(this, CardBuilder.Layout.CAPTION);
                 card.addImage(R.drawable.success);
@@ -309,58 +239,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         //將現在的卡片進行更新(新增)
         mCardScroller.animate(0, CardScrollView.Animation.INSERTION);
 
-
-        //依據位置創建選單
-        if( position == Sex)
-            createSex();
-        if( position == Age )
-            createAge();
-
         nowCard = position;
-
-    }
-
-    //---------------------建立滑動清單---------------------//
-
-    public void createSex()
-    {
-        vfSex = (ViewFlipper) findViewById(R.id.vf_sex);
-
-        TextView tv = new TextView(StartCard.this);
-        tv.setText("男");
-
-        LinearLayout lq = new LinearLayout(StartCard.this);
-        lq.addView(tv);
-
-        TextView tv2 = new TextView(StartCard.this);
-        tv2.setText("女");
-
-        LinearLayout lq2 = new LinearLayout(StartCard.this);
-        lq2.addView(tv2);
-
-        vfSex.addView(lq);
-
-        vfSex.addView(lq2);
-
-    }
-
-    public void createAge()
-    {
-        vfAge = (ViewFlipper) findViewById(R.id.vf_age);
-
-        int i = 0;
-
-        for(i = 15; i < 70; i++)
-        {
-
-            TextView tv = new TextView(this);
-            tv.setText( i + "歲" );
-
-            LinearLayout lq = new LinearLayout(this);
-            lq.addView(tv);
-
-            //vfAge.addView(lq);
-        }
 
     }
 
@@ -555,7 +434,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
             {
 
                 case Constants.MESSAGE_STATE_CHANGE:
-                    switch (msg.arg1) {
+                    switch (msg.arg1)
+                    {
                         case BluetoothChatService.STATE_CONNECTED:
                             setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
                             //mConversationArrayAdapter.clear_text();
@@ -649,10 +529,13 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 break;
             case REQUEST_ENABLE_BT:
                 // 允許藍芽要求後
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK)
+                {
                     // 藍芽允許後設定
                     setupChat();
-                } else {
+                }
+                else
+                {
                     // 使用者沒有允許藍芽開啟或發生錯誤
                     Log.d(TAG, "BT not enabled");
                     Toast.makeText(StartCard.this, R.string.bt_not_enabled_leaving,
@@ -663,7 +546,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     }
 
     // 接收到登入資料後，Toast出來
-    public void LoginSuccess(String userName){
+    public void LoginSuccess(String userName)
+    {
         Toast.makeText(StartCard.this,userName+"，登入成功",Toast.LENGTH_SHORT).show();
     }
 
@@ -678,24 +562,31 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         //測試用
         params.put("email", mProfile.USER_EMAIL);
 
-        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+        aq.ajax(url, params, String.class, new AjaxCallback<String>()
+        {
 
             @Override
-            public void callback(String url, String result, AjaxStatus status) {
+            public void callback(String url, String result, AjaxStatus status)
+            {
                 //連線成功
-                if (status.getCode() == 200) {
+                if (status.getCode() == 200)
+                {
                     //資料庫已經有使用者資料
-                    if (result.equals("2")) {
+                    if (result.equals("2"))
+                    {
                         USER = ALREADY_USER;
                         Toast.makeText(StartCard.this, "ALREADY_USER", Toast.LENGTH_SHORT).show();
-                    } else if (result.equals("0")) {
+                    }
+                    else if (result.equals("0"))
+                    {
                         USER = NOT_USER;
                         Toast.makeText(StartCard.this, "NOT_USER", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
+                    else
+                    {
                         Toast.makeText(StartCard.this, "Google帳戶登入失敗", Toast.LENGTH_SHORT).show();
                     }
-                    insertNewCard(Profile);
-                    //deleteCard(0);
+                    insertNewCard(Success);
                 }
                 //失敗傳回HTTP狀態碼
                 else {
@@ -706,7 +597,8 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
     }
 
     // 註冊為使用者，若已經是使用者則不再註冊
-    private void connDb() {
+    private void connDb()
+    {
 
         AQuery aq = new AQuery(this);
         String url = "http://163.17.135.76/db/addusers.php";
@@ -719,16 +611,22 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         params.put("age", Integer.parseInt(mProfile.USER_AGE));
         params.put("gender", Integer.parseInt(mProfile.USER_SEX));
 
-        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+        aq.ajax(url, params, String.class, new AjaxCallback<String>()
+        {
 
             @Override
-            public void callback(String url, String result, AjaxStatus status) {
+            public void callback(String url, String result, AjaxStatus status)
+            {
                 //連線成功
-                if (status.getCode() == 200) {
+                if (status.getCode() == 200)
+                {
                     //登入失敗
-                    if (result.equals("1")) {
+                    if (result.equals("1"))
+                    {
                         Toast.makeText(getApplicationContext(), "登入失敗，請再登入一次。", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
+                    else
+                    {
                         // 登入系統成功
                         Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                         Toast.makeText(getApplicationContext(), "你好，" + mProfile.USER_NAME, Toast.LENGTH_SHORT).show();
@@ -753,11 +651,11 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                     }
                 }
                 //失敗傳回HTTP狀態碼
-                else {
+                else
+                {
                     Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
 }

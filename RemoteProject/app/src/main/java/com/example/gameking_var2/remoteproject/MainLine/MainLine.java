@@ -91,13 +91,13 @@ public class MainLine extends Activity
         (
             Start, new CardBuilder(context, CardBuilder.Layout.MENU).setText("開始").setIcon(R.drawable.ic_select_link_50)
         );
-        cards.add
+        /*cards.add
         (
             Record, new CardBuilder(context, CardBuilder.Layout.MENU).setText("紀錄").setIcon(R.drawable.ic_select_link_50)
-        );
+        );*/
         cards.add
         (
-            About, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於").setIcon(R.drawable.ic_select_link_50)
+            1, new CardBuilder(context, CardBuilder.Layout.MENU).setText("關於").setIcon(R.drawable.ic_select_link_50)
         );
         return cards;
     }
@@ -123,6 +123,7 @@ public class MainLine extends Activity
 
                     case Record:
                         //openOptionsMenu();
+                        Toast.makeText(MainLine.this, "Prowered by 成之內貳點零 Version b1.0", LENGTH_LONG).show();
                         break;
 
                     case About:

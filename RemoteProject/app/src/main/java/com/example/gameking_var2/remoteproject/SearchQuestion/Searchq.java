@@ -273,14 +273,17 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Searchq.this);
 
 
-                try {
+                try
+                {
                     //R.raw.error 是ogg格式的音頻 放在res/raw/下
                     AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.error);
                     mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                     mp.setAudioStreamType(AudioManager.STREAM_RING);
                     afd.close();
                     mp.prepare();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }

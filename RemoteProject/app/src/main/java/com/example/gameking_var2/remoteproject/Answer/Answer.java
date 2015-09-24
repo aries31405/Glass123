@@ -88,7 +88,8 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
     }
 
     @Override
-    public boolean onGesture(Gesture gesture) {
+    public boolean onGesture(Gesture gesture)
+    {
         //會傳入手勢  gesture.name()會取得手勢名稱 或是另一種 gesture ＝ Gesture.SWIPE_UP
         switch( gesture.name() )
         {
@@ -131,15 +132,19 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
     };
 
     //啟用語音輸入
-   private void speech() {
+   private void speech()
+   {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
         //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.EXTRA_LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-us");
 
-        try {
+        try
+        {
             startActivityForResult(intent, RESULT_SPEECH);
-        } catch (ActivityNotFoundException a) {
+        }
+        catch (ActivityNotFoundException a)
+        {
             Toast t = Toast.makeText(getApplicationContext(), "Ops! Your device doesn't support Speech to Text", Toast.LENGTH_SHORT);
             t.show();
         }
