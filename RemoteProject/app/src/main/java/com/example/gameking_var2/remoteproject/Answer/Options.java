@@ -1,6 +1,7 @@
 package com.example.gameking_var2.remoteproject.Answer;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.example.gameking_var2.remoteproject.R;
 import com.example.gameking_var2.remoteproject.SearchQuestion.Searchq;
 import com.google.android.glass.media.Sounds;
@@ -45,12 +46,16 @@ public class Options extends Activity
     private CardScrollAdapter mAdapter;
     private CardScrollView mCardScroller;
 
+    //Activity
+    Profile act;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
 
-
+        //抓本Activity
+        act = new Profile();
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CardAdapter(createCards(this));
@@ -102,10 +107,10 @@ public class Options extends Activity
                 //判斷點擊哪個卡片
                 switch (position)
                 {
-                    case GiveUp://getApplicationContext()
-                        Intent intent = new Intent( Options.this, Searchq.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                    case GiveUp:
+                        startActivity(new Intent(Options.this, Searchq.class));
+                        act.TitleCard.finish();
+                        finish();
                         break;
 
                     case Help:

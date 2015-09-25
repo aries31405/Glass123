@@ -193,17 +193,12 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
                 switch (nowCard)
                 {
                     case Connection:
-<<<<<<< HEAD
-//                        Toast.makeText(StartCard.this, "Connection", Toast.LENGTH_SHORT).show();
-=======
                         Toast.makeText(StartCard.this, "Connection", Toast.LENGTH_SHORT).show();
->>>>>>> 43c6b8d279a78342c750719f5dc86f9afd4ce42e
                         String a = "off";
-                        int b = Integer.parseInt(a);
+//                        int b = Integer.parseInt(a);
                         break;
                     case Success:
                         connDb();
-//                        Toast.makeText(StartCard.this, "Success", Toast.LENGTH_SHORT);
                         break;
 
                     default:

@@ -203,12 +203,16 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-            case RESULT_SPEECH: {
-                if (resultCode == RESULT_OK && null != data) {
+        switch (requestCode)
+        {
+            case RESULT_SPEECH:
+            {
+                if (resultCode == RESULT_OK && null != data)
+                {
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                     //語音輸入文字
@@ -222,7 +226,8 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             }
             case TAKE_PICTURE_REQUEST:
             {
-                if (resultCode == RESULT_OK && null != data) {
+                if (resultCode == RESULT_OK && null != data)
+                {
                     Bundle extras = data.getExtras();
                     String pctureFilePath = extras.getString(Intents.EXTRA_PICTURE_FILE_PATH);
                     processPictureWhenReady(pctureFilePath);
@@ -233,7 +238,8 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
 
     }
 
-    private void processPictureWhenReady(final String picturePath){
+    private void processPictureWhenReady(final String picturePath)
+    {
         final File pictureFile = new File(picturePath);
 
         if(pictureFile.exists())
@@ -244,10 +250,12 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         else
         {
             final File parenDirectory = pictureFile.getParentFile();
-            FileObserver observer = new FileObserver(parenDirectory.getPath()) {
+            FileObserver observer = new FileObserver(parenDirectory.getPath())
+            {
                 private boolean isFileWritten;
                 @Override
-                public void onEvent(int event, String path) {
+                public void onEvent(int event, String path)
+                {
                     if(!isFileWritten)
                     {
                         File affectedFile = new File(parenDirectory,path);
@@ -255,9 +263,11 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
                         if(isFileWritten)
                         {
                             stopWatching();
-                          runOnUiThread(new Runnable() {
+                          runOnUiThread(new Runnable()
+                          {
                                 @Override
-                                public void run() {
+                                public void run()
+                                {
                                     processPictureWhenReady(picturePath);
                                 }
                             });

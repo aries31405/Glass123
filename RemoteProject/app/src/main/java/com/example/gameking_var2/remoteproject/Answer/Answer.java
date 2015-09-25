@@ -1,6 +1,7 @@
 package com.example.gameking_var2.remoteproject.Answer;
 
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
+import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.touchpad.Gesture;
@@ -47,10 +48,18 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
 
     Card card;
 
+    //Activity
+    Profile act;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+
+        //抓本Activity
+        act = new Profile();
+        act.Answers = Answer.this;
+
         Intent intent = this.getIntent();
 
         //取得傳遞過來的資料

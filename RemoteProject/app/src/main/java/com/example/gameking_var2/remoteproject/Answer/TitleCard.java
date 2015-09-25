@@ -5,6 +5,7 @@ import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.Mplayer.Player;
+import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.media.Sounds;
@@ -82,10 +83,17 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     //提示3
     ImageView iv1;
 
+    //Activity
+    Profile act;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+
+        //抓本Activity
+        act = new Profile();
+        act.TitleCard = TitleCard.this;
 
         Intent intent = this.getIntent();
 

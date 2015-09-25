@@ -3,6 +3,7 @@ package com.example.gameking_var2.remoteproject.Rank;
 import com.example.gameking_var2.remoteproject.Answer.TitleCard;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.MainLine.MainLine;
+import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.example.gameking_var2.remoteproject.R;
 import com.example.gameking_var2.remoteproject.SearchQuestion.Searchq;
 import com.google.android.glass.media.Sounds;
@@ -50,10 +51,17 @@ public class Rank extends Activity implements GestureDetector.BaseListener
     //定義手勢偵測
     private GestureDetector GestureDetector;
 
+    //Activity
+    Profile act;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+
+        //抓本Activity
+        act = new Profile();
+        act.Rank = Rank.this;
 
         setContentView(R.layout.rank_stars);
 
@@ -154,9 +162,15 @@ public class Rank extends Activity implements GestureDetector.BaseListener
                 /*startActivity(new Intent( Rank.this, MainLine.class));
                 Toast.makeText(this, String.valueOf(vf_rank.getDisplayedChild()) + "星", Toast.LENGTH_SHORT).show();
                 finish();*/
-                Intent intent = new Intent( Rank.this, Searchq.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+
+                startActivity( new Intent(this, Searchq.class) );
+
+                //清除底層
+                act.TitleCard.finish();
+                act.Answers.finish();
+                act.ReplyCompare.finish();
+                act.Rank.finish();
+
                 //Toast.makeText(this, "titleId="+Tid+"\nUserId="+id, Toast.LENGTH_SHORT).show();
                 break;
             case "LONG_PRESS":

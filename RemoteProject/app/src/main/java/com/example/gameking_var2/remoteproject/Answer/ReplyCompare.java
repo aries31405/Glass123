@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
+import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.example.gameking_var2.remoteproject.R;
 import com.example.gameking_var2.remoteproject.Rank.Rank;
 import com.example.gameking_var2.remoteproject.Topic.Topic;
@@ -25,10 +26,18 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
 
     String msg,Tid,id;
 
+    //Activity
+    Profile act;
+
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+
+        //抓本Activity
+        act = new Profile();
+        act.ReplyCompare = ReplyCompare.this;
+
 
         Intent intent = this.getIntent();
         //取得傳遞過來的資料*
