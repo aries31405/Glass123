@@ -347,7 +347,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                     mp.setVolume(1000, 1000);//設置找到題目聲音
                     mp.start();
                     //位置    狀態    題目編號   星數   答對率   出題者
-                    insertNewCard(i+1, 0, sp.getTid(ii), 4, 90, sp.getUname(ii));
+                    insertNewCard(i+1, 0, sp.getTid(ii), sp.getStar(ii), sp.getCorrect(ii), sp.getUname(ii));
                     sp.remandadd(i - 1, ii);
                     sp.upend();
                     break;

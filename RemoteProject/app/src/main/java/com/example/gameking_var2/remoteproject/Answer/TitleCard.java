@@ -5,7 +5,6 @@ import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.Mplayer.Player;
-import com.example.gameking_var2.remoteproject.Profile.Profile;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.media.Sounds;
@@ -20,6 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.Image;
@@ -34,7 +35,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,17 +87,10 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     //提示3
     ImageView iv1;
 
-    //Activity
-    Profile act;
-
     @Override
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-
-        //抓本Activity
-        act = new Profile();
-        act.TitleCard = TitleCard.this;
 
         Intent intent = this.getIntent();
 
@@ -130,11 +127,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
         //設定提示圖片
         //iv1.setImageDrawable(loadImageFromURL(/*url + promptStore[2]*/"http://163.17.135.75/TTS/2/Koala.jpg"));
-        iv1.setImageResource(R.drawable.bg01);
+        iv1.setImageBitmap(returnBitMap("http://163.17.135.75/TTS/2/Koala.jpg"));
+        //iv1.setImageResource(R.drawable.bg01);
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
 
+        Playmusic();
     }
 
     //建立滑動卡片 使用List
@@ -150,17 +149,17 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
         //逐一建造
         cards.add
-        (
-            HintOne, view_one
-        );
+                (
+                        HintOne, view_one
+                );
         cards.add
-        (
-            HintTwo, view_two
-        );
+                (
+                        HintTwo, view_two
+                );
         cards.add
-        (
-            HintThree, view_three
-        );
+                (
+                        HintThree, view_three
+                );
 
         //建立完之後抓元件
         //抓提示1、2 文字欄    Textview
@@ -195,13 +194,14 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
                 // 切換Activity
                 startActivity(intent);
-
+                finish();
                 break;
             case "TWO_TAP":
                 //進入選單
                 startActivity(new Intent(TitleCard.this, Options.class));
                 break;
             case "SWIPE_DOWN":
+                finish();
                 break;
             case  "SWIPE_RIGHT":
                 Playmusic();
@@ -221,20 +221,12 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             @Override
             public void run()
             {
-                try
-                {
-                    Thread.sleep(1000);
                     if(mCardScroller.getSelectedItemPosition() < 2 )
                     {
                         //設定音檔位置
                         player = new Player("http://163.17.135.75"+promptStore[mCardScroller.getSelectedItemPosition()]);
                         player.play();
                     }
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
             }
 
         }).start();
@@ -259,14 +251,26 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     }
 
 
-
-
-
-
-
-
-
-
+    public Bitmap returnBitMap(String url) {
+        URL myFileUrl = null;
+        Bitmap bitmap = null;
+        try {
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 
 
 

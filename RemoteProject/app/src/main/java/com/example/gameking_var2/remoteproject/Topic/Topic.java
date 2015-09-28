@@ -2,14 +2,22 @@ package com.example.gameking_var2.remoteproject.Topic;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.CameraProfile;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.FileObserver;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +36,13 @@ import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +53,18 @@ import static android.widget.Toast.LENGTH_LONG;
  */
 public class Topic  extends Activity  implements GestureDetector.BaseListener{
 
+    private static final String NAMESPACE = "http://tts.itri.org.tw";
+    private static final String URL = "http://tts.itri.org.tw/TTSService/Soap_1_3.php?wsdl";
+
+    private static final String Account = "s1100b026";
+    private static final String Password = "Ss23851339";
+    private String Result_Soap;
+    private String text;//TTS文字
+    private String id;//轉換後ID
+    private String url;//下載網址
+
+    String[] Ttext = new String[2];
+
     //計算已出的卡片
     int i =1;
 
@@ -46,7 +72,9 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
 
     String floor,Topic=null;
     Card card;
-
+    ContentResolver cr;
+    Bitmap bitmap;
+    Uri uri;
 
     //上滑動佈景 下是滑動卡片
     //private CardScrollAdapter mAdapter;
@@ -115,14 +143,14 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         switch( gesture.name() )
         {
             case "TAP":
-                if(i < 3 )
+               /* if(i < 3 )
                 {
                     speech();
                 }
                 else
-                {
+                {*/
                     startCapture();
-                }
+               // }
 
                 break;
             case "TWO_TAP":
@@ -160,16 +188,15 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     {
         //新增的卡片
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.MENU);
-        if(i < 3)
+       /* if(i < 3)
         {
             //提示文字
             card.setText(Topic);
         }
         else
-        {
+        {*/
             //提示圖片
-
-        }
+        //}
 
 
         //進行新增  Adapter裡的變數(CardBuilder)
@@ -203,16 +230,10 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode)
-        {
-            case RESULT_SPEECH:
-            {
-                if (resultCode == RESULT_OK && null != data)
-                {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RESULT_SPEECH: {
+                if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                     //語音輸入文字
@@ -220,57 +241,62 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
 
                     //新增卡片
                     insertNewCard(i);
+                    Ttext[i-1] = Topic;
                     i++;
                 }
                 break;
             }
             case TAKE_PICTURE_REQUEST:
             {
-                if (resultCode == RESULT_OK && null != data)
-                {
+                if (resultCode == RESULT_OK && null != data) {
                     Bundle extras = data.getExtras();
+                    uri = data.getData();
+                    cr = this.getContentResolver();
                     String pctureFilePath = extras.getString(Intents.EXTRA_PICTURE_FILE_PATH);
-                    processPictureWhenReady(pctureFilePath);
+                   // processPictureWhenReady(pctureFilePath);
+                    try {
+                        bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                    } catch (FileNotFoundException e) {
+                        Log.e("Exception", e.getMessage(),e);
+                    }
                 }
                 break;
             }
         }
-
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void processPictureWhenReady(final String picturePath)
-    {
+    private void processPictureWhenReady(final String picturePath){
         final File pictureFile = new File(picturePath);
 
         if(pictureFile.exists())
         {
+
             //照片準備好
+
+            /*insertNewCard(i);
+            i++;*/
 
         }
         else
         {
             final File parenDirectory = pictureFile.getParentFile();
-            FileObserver observer = new FileObserver(parenDirectory.getPath())
-            {
+            FileObserver observer = new FileObserver(parenDirectory.getPath()) {
                 private boolean isFileWritten;
                 @Override
-                public void onEvent(int event, String path)
-                {
+                public void onEvent(int event, String path) {
                     if(!isFileWritten)
                     {
                         File affectedFile = new File(parenDirectory,path);
                         isFileWritten = (event == FileObserver.CLOSE_WRITE && affectedFile.equals(pictureFile));
-                        if(isFileWritten)
-                        {
+                        if(isFileWritten) {
                             stopWatching();
-                          runOnUiThread(new Runnable()
-                          {
-                                @Override
-                                public void run()
-                                {
-                                    processPictureWhenReady(picturePath);
-                                }
-                            });
+                         runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  processPictureWhenReady(picturePath);
+                              }
+                          });
                         }
                     }
 
@@ -279,6 +305,99 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             observer.startWatching();
         }
     }
+
+
+    //----------------------------------------TTS--------------------------------
+
+    //將文字轉換取得ID
+    public void CallSoapConvertSimple() {
+        String METHOD_NAME = "ConvertSimple";
+        String SOAP_ACTION = "http://tts.itri.org.tw/TTSService/"+METHOD_NAME;
+
+        try {
+            SoapObject rpc = new SoapObject(NAMESPACE, METHOD_NAME);
+            rpc.addProperty("accountID", Account);
+            rpc.addProperty("password", Password);
+            rpc.addProperty("TTStext", text);
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+
+            envelope.bodyOut = rpc;
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(rpc);
+
+            ht.call(SOAP_ACTION, envelope);
+
+            SoapObject result = (SoapObject) envelope.bodyIn;
+            Result_Soap=result.getProperty(0).toString();
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    String all[] = Result_Soap.split("&");
+                    id = all[2];
+                }
+
+
+            });
+        } catch (Exception e) {
+            Log.e("MainActivity", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    //'提供ID取得下載網址
+    public void CallSoapGetConvertStatus() {
+        String METHOD_NAME = "GetConvertStatus";
+        String SOAP_ACTION = "http://tts.itri.org.tw/TTSService/"+METHOD_NAME;
+
+        try {
+            SoapObject rpc = new SoapObject(NAMESPACE, METHOD_NAME);
+            rpc.addProperty("accountID", Account);
+            rpc.addProperty("password", Password);
+            rpc.addProperty("convertID", id);
+
+            HttpTransportSE ht = new HttpTransportSE(URL);
+            ht.debug = true;
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+
+            envelope.bodyOut = rpc;
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(rpc);
+            ht.call(SOAP_ACTION, envelope);
+
+            SoapObject result = (SoapObject) envelope.bodyIn;
+            final String Result=result.getProperty(0).toString();
+            runOnUiThread(new Runnable(){
+                @Override
+                public void run() {
+                    String[] all2;
+                    all2 =  Result.toString().split("&");
+                    url = all2[all2.length-1];
+
+                    GetServerMessage message = new GetServerMessage();
+                    String msg = message.all("http://163.17.135.75/TTS/down.php", "url=" + url);
+                }});
+
+        } catch (Exception e) {
+            Log.e("MainActivity", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     @Override

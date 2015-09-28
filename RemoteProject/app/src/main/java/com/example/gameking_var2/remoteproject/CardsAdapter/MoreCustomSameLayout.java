@@ -82,7 +82,15 @@ public class MoreCustomSameLayout extends FrameLayout
         }
 
         //設定答對率
-        persentTV.setText("Correct rate: " + persent + "%");
+        if(persent == 200)
+        {
+            persentTV.setText("--");
+        }
+        else
+        {
+            persentTV.setText("Correct rate: " + persent + "%");
+        }
+
 
         //設定出題者
         createTV.setText(createName);

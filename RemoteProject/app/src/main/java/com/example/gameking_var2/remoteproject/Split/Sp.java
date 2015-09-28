@@ -8,7 +8,7 @@ package com.example.gameking_var2.remoteproject.Split;
 public class Sp {
     boolean ok = true;
     int count = 0;
-    String[] titleId,latitude,longitude,all,userName,newtitleId;
+    String[] titleId,latitude,longitude,all,userName,newtitleId,star,correct;
     public Sp(String msg)
     {
         all = msg.split("&");
@@ -17,6 +17,8 @@ public class Sp {
         userName = all[1].split(",");
         latitude =all[2].split(",");
         longitude =all[3].split(",");
+        star =all[4].split(",");
+        correct =all[5].split(",");
 
         newtitleId = new String[titleId.length];
     }
@@ -35,6 +37,8 @@ public class Sp {
                 userName[iii] = "";
                 latitude[iii] ="";
                 longitude[iii] ="";
+                star[iii] ="";
+                correct[iii] ="";
                 count = count+1;
             }
             else
@@ -43,6 +47,8 @@ public class Sp {
                 userName[iii] = userName[iii+1];
                 latitude[iii] =latitude[iii+1];
                 longitude[iii] =longitude[iii+1];
+                star[iii] = star[iii+1];
+                correct[iii] = correct[iii+1];
             }
         }
     }
@@ -76,6 +82,10 @@ public class Sp {
     {
         return newtitleId[i];
     }
+
+    public int getStar(int i){return  Integer.parseInt(star[i]);}
+
+    public  int getCorrect(int i){return  Integer.parseInt(correct[i]);}
 
     public void upnow()
     {
