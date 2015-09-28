@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.ConnectSuccess;
+import com.example.glass123.glasslogin.Mplayer.Player;
 import com.example.glass123.glasslogin.R;
 
 
@@ -61,6 +62,8 @@ public class BluetoothChatFragment extends Activity{
     private Profile mProfile;
     //private TextView mUserProfileText;
 
+    Player player;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,8 @@ public class BluetoothChatFragment extends Activity{
 //        Toast.makeText(getApplicationContext(),mProfile.USER_SEX +" and "+ mProfile.USER_AGE,Toast.LENGTH_SHORT).show();
         // 顯示使用者Google帳戶資料
         //mUserProfileText.setText(mProfile.USER_NAME + ", " + mProfile.USER_EMAIL);
+        player = new Player("http://163.17.135.75/TTS/Lelogin/connect.mp3");
+        player.play();
     }
 
 

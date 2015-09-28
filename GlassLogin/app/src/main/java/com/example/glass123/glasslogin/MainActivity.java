@@ -21,6 +21,7 @@ import com.androidquery.AQuery;
 import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
 import com.example.glass123.glasslogin.Bluetooth.Constants;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
+import com.example.glass123.glasslogin.Mplayer.Player;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
@@ -59,6 +60,7 @@ public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
+
     private static final int RC_SIGN_IN = 0;
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "android-plus-quickstart";
@@ -81,6 +83,8 @@ public class MainActivity extends Activity implements
 
     //使用者資料
     private Profile mProfile = new Profile();
+
+    Player player;
 
     @Override
     public void onClick(View v){
@@ -118,6 +122,9 @@ public class MainActivity extends Activity implements
 
         // 設定所有按鈕監聽
         mSignInBtn.setOnClickListener(this);
+
+        player = new Player("http://163.17.135.75/TTS/Lelogin/googlelogin.mp3");
+        player.play();
     }
 
     @Override

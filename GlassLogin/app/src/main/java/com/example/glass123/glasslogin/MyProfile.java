@@ -17,6 +17,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
+import com.example.glass123.glasslogin.Mplayer.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class MyProfile extends Activity implements View.OnClickListener{
     private Button ChangeUserBtn;
     private Button NextBtn;
 
+    Player player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,8 @@ public class MyProfile extends Activity implements View.OnClickListener{
         ChangeUserBtn.setOnClickListener(this);
         NextBtn.setOnClickListener(this);
 
-
+        player = new Player("http://163.17.135.75/TTS/Lelogin/profile.mp3");
+        player.play();
     }
 
     @Override

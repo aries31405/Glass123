@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.Bluetooth.Profile;
+import com.example.glass123.glasslogin.Mplayer.Player;
 
 public class SetProfile extends Activity implements View.OnClickListener{
 
@@ -24,6 +25,8 @@ public class SetProfile extends Activity implements View.OnClickListener{
     RadioButton mFemaleRBtn;
 
     Profile mProfile;
+
+    Player player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,9 @@ public class SetProfile extends Activity implements View.OnClickListener{
 
         // 預設為男性
         mProfile.USER_SEX="0";
+
+        player = new Player("http://163.17.135.75/TTS/Lelogin/gender.mp3");
+        player.play();
     }
 
     // 覆寫View.OnClickListener的onClick

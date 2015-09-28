@@ -20,6 +20,7 @@ import android.widget.ViewFlipper;
 
 import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
+import com.example.glass123.glasslogin.Mplayer.Player;
 
 import org.w3c.dom.Text;
 
@@ -43,6 +44,8 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
     TextView TenText;
     TextView OneText;
+
+    Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,9 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
         mViewFlipper1.setOnTouchListener(this);
         mViewFlipper2.setOnTouchListener(this);
+
+        player = new Player("http://163.17.135.75/TTS/Lelogin/age.mp3");
+        player.play();
 
     }
 

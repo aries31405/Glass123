@@ -5,12 +5,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.glass123.glasslogin.Mplayer.Player;
+
 public class ConnectSuccess extends AppCompatActivity {
+    Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_success);
+
+        player = new Player("http://163.17.135.75/TTS/Lelogin/success.mp3");
+        player.play();
     }
 
     @Override
