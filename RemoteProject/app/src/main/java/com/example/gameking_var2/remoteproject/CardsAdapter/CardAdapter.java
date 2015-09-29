@@ -64,7 +64,7 @@ public class CardAdapter extends CardScrollAdapter
         return AdapterView.INVALID_POSITION;
     }
 
-    //新增卡片
+    //新增卡片 CardBuilder
     public void insertCard(int position, CardBuilder card)
     {
         mCards.add(position, card);

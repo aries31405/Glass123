@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.CameraProfile;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
+import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
+import com.example.gameking_var2.remoteproject.CardsAdapter.Imageview;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
@@ -72,17 +75,17 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
 
     String floor,Topic=null;
     Card card;
-    ContentResolver cr;
     Bitmap bitmap;
-    Uri uri;
+
 
     //上滑動佈景 下是滑動卡片
     //private CardScrollAdapter mAdapter;
-    private CardAdapter mAdapter;
+    private CustomAdapter mAdapter;
     private CardScrollView mCardScroller;
 
     //定義手勢偵測
     private GestureDetector GestureDetector;
+
 
     protected void onCreate(Bundle bundle)
     {
@@ -92,7 +95,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         floor ="6";
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
-        mAdapter = new CardAdapter(createCards(this));
+        mAdapter = new CustomAdapter(createCards(this));
 
         //預設 抓本體
         mCardScroller = new CardScrollView(this);
@@ -103,9 +106,9 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         //設定場景
         setContentView(mCardScroller);
 
+
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
-
 
 
     }
@@ -113,15 +116,18 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     //------------------------------建立卡片-----------------------------//
 
     //建立滑動卡片 使用List
-    private List<CardBuilder> createCards(Context context)
+    private List<View> createCards(Context context)
     {
         //List的卡片創建
-        ArrayList<CardBuilder> cards = new ArrayList<CardBuilder>();
+        ArrayList<View> cards = new ArrayList<View>();
+
+        //抓XML的View
+        View search_view = View.inflate(context, R.layout.topic, null);
 
         //建立尋找頁面
         cards.add
                 (
-                        0, new CardBuilder(context, CardBuilder.Layout.TEXT).setText("Tap to speak your question")
+                        0, search_view
                 );
 
         return cards;
@@ -187,7 +193,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     private void insertNewCard(int position)
     {
         //新增的卡片
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.MENU);
+        //CardBuilder card = new CardBuilder(this, CardBuilder.Layout.MENU);
        /* if(i < 3)
         {
             //提示文字
@@ -198,12 +204,22 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             //提示圖片
         //}
 
+        //進行新增  Adapter裡的變數(CardBuilder)
+       /* mAdapter.insertCard(position, card);
+
+        //將現在的卡片進行更新(新增)
+        mCardScroller.animate(position, CardScrollView.Animation.INSERTION);*/
+
+        //新增的卡片
+        View addTitleCard = new Imageview(this, R.layout.topicimage, bitmap);
 
         //進行新增  Adapter裡的變數(CardBuilder)
-        mAdapter.insertCard(position, card);
+        mAdapter.insertCard(position, addTitleCard);
 
         //將現在的卡片進行更新(新增)
         mCardScroller.animate(position, CardScrollView.Animation.INSERTION);
+
+
     }
 
     //---------------------------------啟用語音輸入---------------------------//
@@ -250,15 +266,15 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             {
                 if (resultCode == RESULT_OK && null != data) {
                     Bundle extras = data.getExtras();
-                    uri = data.getData();
-                    cr = this.getContentResolver();
+
                     String pctureFilePath = extras.getString(Intents.EXTRA_PICTURE_FILE_PATH);
-                   // processPictureWhenReady(pctureFilePath);
-                    try {
-                        bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    } catch (FileNotFoundException e) {
-                        Log.e("Exception", e.getMessage(),e);
-                    }
+
+                    /*//照片準備好
+                    File imgFile = new  File(pctureFilePath);
+
+                    bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());*/
+
+                    processPictureWhenReady(pctureFilePath);
                 }
                 break;
             }
@@ -273,35 +289,63 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         {
 
             //照片準備好
+            File imgFile = new  File(picturePath);
 
-            /*insertNewCard(i);
-            i++;*/
+            bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+            Bitmap bb = bitmap;
+
+            int bmpWidth  = bb.getWidth();
+
+            //取得圖檔高度
+            int bmpHeight  = bb.getHeight();
+
+            //設定縮圖寬度
+            float scaleWidth  = (float)  2000/ bmpWidth;
+            //按固定大小缩放sWidth,要多大有多大
+
+            //設定縮圖高度
+            float scaleHeight = (float) 1600/ bmpHeight;
+
+            //轉換矩陣
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            //產生縮圖
+            bitmap = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, false);
+
+            insertNewCard(i);
+            i++;
 
         }
         else
         {
-            final File parenDirectory = pictureFile.getParentFile();
-            FileObserver observer = new FileObserver(parenDirectory.getPath()) {
+            final File parentDirectory = pictureFile.getParentFile();
+            FileObserver observer = new FileObserver(parentDirectory.getPath()) {
+                // Protect against additional pending events after CLOSE_WRITE is
+                // handled.
                 private boolean isFileWritten;
                 @Override
                 public void onEvent(int event, String path) {
-                    if(!isFileWritten)
-                    {
-                        File affectedFile = new File(parenDirectory,path);
+                    if (!isFileWritten) {
+                        // For safety, make sure that the file that was created in
+                        // the directory is actually the one that we're expecting.
+                        File affectedFile = new File(parentDirectory, path);
                         isFileWritten = (event == FileObserver.CLOSE_WRITE && affectedFile.equals(pictureFile));
-                        if(isFileWritten) {
+
+                        if (isFileWritten) {
                             stopWatching();
-                         runOnUiThread(new Runnable() {
-                              @Override
-                              public void run() {
-                                  processPictureWhenReady(picturePath);
-                              }
-                          });
+                            // Now that the file is ready, recursively call
+                            // processPictureWhenReady again (on the UI thread).
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    processPictureWhenReady(picturePath);
+                                }
+                            });
                         }
                     }
-
-                }
-            };
+                }};
             observer.startWatching();
         }
     }
