@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -56,6 +57,9 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class TitleCard extends Activity implements GestureDetector.BaseListener
 {
+    private Handler  handler  = new Handler();
+    Bitmap bitmap;
+
     //用來串流撥放音檔
     private Player player;
 
@@ -125,10 +129,17 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         tv1.setText(promptName[0]);
         tv2.setText(promptName[1]);
 
-        //設定提示圖片
-        //iv1.setImageDrawable(loadImageFromURL(/*url + promptStore[2]*/"http://163.17.135.75/TTS/2/Koala.jpg"));
-        iv1.setImageBitmap(returnBitMap("http://163.17.135.75/TTS/2/Koala.jpg"));
-        //iv1.setImageResource(R.drawable.bg01);
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                bitmap = getBitmapFromURL(url+promptStore[2]);
+                handler.post(goui);
+            }
+
+        }).start();
+
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
@@ -204,9 +215,17 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
                 finish();
                 break;
             case  "SWIPE_RIGHT":
+                if(i < 3)
+                {
+                    i++;
+                }
                 Playmusic();
                 break;
             case "SWIPE_LEFT":
+                if(i != 0)
+                {
+                    i--;
+                }
                 Playmusic();
                 break;
         }
@@ -221,10 +240,10 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             @Override
             public void run()
             {
-                    if(mCardScroller.getSelectedItemPosition() < 2 )
+                    if(i < 2 )
                     {
                         //設定音檔位置
-                        player = new Player("http://163.17.135.75"+promptStore[mCardScroller.getSelectedItemPosition()]);
+                        player = new Player("http://163.17.135.75"+promptStore[i]);
                         player.play();
                     }
             }
@@ -233,48 +252,33 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
     }
 
     //從網路加載圖片
-    private Drawable loadImageFromURL(String url)
-    {
+    public Bitmap getBitmapFromURL(String imageUrl){
         try
         {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            is.close();
-            return draw;
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            return bitmap;
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            //TODO handle error
-            Log.i("loadingImg", e.toString());
+            e.printStackTrace();
             return null;
         }
     }
 
-
-    public Bitmap returnBitMap(String url) {
-        URL myFileUrl = null;
-        Bitmap bitmap = null;
-        try {
-            myFileUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+    //更新UI
+    final Runnable goui = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            iv1.setImageBitmap(bitmap);
         }
-        try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
-
-
-
-
+    };
 
 
 

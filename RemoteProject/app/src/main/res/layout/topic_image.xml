@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/prom_layout_three"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="500px"
+        android:layout_marginLeft="160px"
+        android:layout_marginRight="160px"
+        tools:ignore="UselessLeaf"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/t_image"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginLeft="40px"
+        android:layout_marginBottom="33px"
+        android:layout_marginRight="40px"
+        android:orientation="horizontal"
+        >
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/footer_container1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="40px"
+        android:layout_marginBottom="33px"
+        android:layout_marginRight="40px"
+        android:orientation="horizontal"
+        >
+
+    </LinearLayout>
+
+</FrameLayout>
