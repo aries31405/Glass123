@@ -2,41 +2,30 @@ package com.example.gameking_var2.remoteproject.Topic;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Camera;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.CameraProfile;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.FileObserver;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.accessibility.CaptioningManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gameking_var2.remoteproject.CardsAdapter.CardAdapter;
 import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
 import com.example.gameking_var2.remoteproject.CardsAdapter.Imageview;
+import com.example.gameking_var2.remoteproject.CardsAdapter.Toictext;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
+import com.example.gameking_var2.remoteproject.Http.UploadFile;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.content.Intents;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
-import com.google.android.glass.widget.CardBuilder;
-import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
 import org.ksoap2.SoapEnvelope;
@@ -45,11 +34,8 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * Created by 孔雀舞 on 2015/9/17.
@@ -69,7 +55,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     String[] Ttext = new String[2];
 
     //計算已出的卡片
-    int i =1;
+    int ii[] = {0,0,0};
 
     protected static final int RESULT_SPEECH = 1,TAKE_PICTURE_REQUEST = 007;
 
@@ -86,6 +72,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     //定義手勢偵測
     private GestureDetector GestureDetector;
 
+    UploadFile upf;
 
     protected void onCreate(Bundle bundle)
     {
@@ -149,27 +136,19 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         switch( gesture.name() )
         {
             case "TAP":
-               /* if(i < 3 )
+                if(ii[0] == 1 &&  ii[1] == 1)
+                {
+                    startCapture();
+                }
+                else
                 {
                     speech();
                 }
-                else
-                {*/
-                    startCapture();
-               // }
 
                 break;
             case "TWO_TAP":
-                if(mCardScroller.getSelectedItemPosition() != 0 && mCardScroller.getSelectedItemPosition() != 3)
-                {
-                    deleteCard(mCardScroller.getSelectedItemPosition());
-                    i =i - 1;
-                }
-                else if(mCardScroller.getSelectedItemPosition() != 0)
-                {
-                    deleteCard(mCardScroller.getSelectedItemPosition());
-                }
-
+                ii[mCardScroller.getSelectedItemPosition()-1] = 0;
+                deleteCard(mCardScroller.getSelectedItemPosition());
                 break;
             case "LONG_PRESS":
 
@@ -190,28 +169,23 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     }
 
     //新增卡片
-    private void insertNewCard(int position)
+    private void insertNewCard(int position,int tori)
     {
         //新增的卡片
-        //CardBuilder card = new CardBuilder(this, CardBuilder.Layout.MENU);
-       /* if(i < 3)
+        View addTitleCard;
+        //新增的卡片
+        if(tori == 0)
         {
             //提示文字
-            card.setText(Topic);
+             addTitleCard = new Toictext(this, R.layout.topic_text,Topic);
         }
         else
-        {*/
+        {
             //提示圖片
-        //}
+            addTitleCard = new Imageview(this, R.layout.topic_image, bitmap);
+        }
 
-        //進行新增  Adapter裡的變數(CardBuilder)
-       /* mAdapter.insertCard(position, card);
 
-        //將現在的卡片進行更新(新增)
-        mCardScroller.animate(position, CardScrollView.Animation.INSERTION);*/
-
-        //新增的卡片
-        View addTitleCard = new Imageview(this, R.layout.topicimage, bitmap);
 
         //進行新增  Adapter裡的變數(CardBuilder)
         mAdapter.insertCard(position, addTitleCard);
@@ -255,10 +229,20 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
                     //語音輸入文字
                     Topic=text.get(0).toString();
 
-                    //新增卡片
-                    insertNewCard(i);
-                    Ttext[i-1] = Topic;
-                    i++;
+                    if(ii[0] == 0)
+                    {
+                        //新增卡片
+                        insertNewCard(1,0);
+                        Ttext[0] = Topic;
+                        ii[0] = 1;
+                    }
+                    else
+                    {
+                        //新增卡片
+                        insertNewCard(2,0);
+                        Ttext[1] = Topic;
+                        ii[1] = 1;
+                    }
                 }
                 break;
             }
@@ -268,11 +252,6 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
                     Bundle extras = data.getExtras();
 
                     String pctureFilePath = extras.getString(Intents.EXTRA_PICTURE_FILE_PATH);
-
-                    /*//照片準備好
-                    File imgFile = new  File(pctureFilePath);
-
-                    bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());*/
 
                     processPictureWhenReady(pctureFilePath);
                 }
@@ -288,6 +267,9 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         if(pictureFile.exists())
         {
 
+            int toWidth = 640;
+            int toHeight = 360;
+
             //照片準備好
             File imgFile = new  File(picturePath);
 
@@ -300,22 +282,23 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             //取得圖檔高度
             int bmpHeight  = bb.getHeight();
 
-            //設定縮圖寬度
-            float scaleWidth  = (float)  2000/ bmpWidth;
-            //按固定大小缩放sWidth,要多大有多大
+            float scale;
+            if (bmpWidth > bmpHeight) {
+                scale = (float) toWidth/bmpWidth;
+            }else {
+                scale = (float) toHeight/bmpHeight;
+            }
 
-            //設定縮圖高度
-            float scaleHeight = (float) 1600/ bmpHeight;
 
             //轉換矩陣
             Matrix matrix = new Matrix();
-            matrix.postScale(scaleWidth, scaleHeight);
+            matrix.postScale(scale, scale);
 
             //產生縮圖
-            bitmap = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, false);
+            bitmap = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, true);
 
-            insertNewCard(i);
-            i++;
+            insertNewCard(3,1);
+            ii[2] = 1;
 
         }
         else

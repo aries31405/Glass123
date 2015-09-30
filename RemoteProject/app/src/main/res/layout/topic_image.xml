@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="240px"
+        android:layout_height="500px"
         android:layout_marginLeft="160px"
         android:layout_marginRight="160px"
         tools:ignore="UselessLeaf"
