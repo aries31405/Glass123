@@ -81,6 +81,10 @@ public class SetProfile extends Activity implements View.OnClickListener{
             Toast.makeText(getApplicationContext(),"請選擇性別！",Toast.LENGTH_SHORT).show();
         }
         else{
+            if(player.pause())
+            {
+
+            }
             Intent it = new Intent(SetProfile.this, SetProfileAge.class);
 
             Bundle bundle = new Bundle();

@@ -202,6 +202,10 @@ public class BluetoothChatFragment extends Activity{
 
     // 藍芽連線成功後，將使用者Google帳戶傳到眼鏡後，跳轉到成功頁面
     public void onLoginConnectSuccess(){
+        if(player.pause())
+        {
+
+        }
         Intent it = new Intent(BluetoothChatFragment.this, ConnectSuccess.class);
         startActivity(it);
     }

@@ -240,6 +240,10 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     private void onNextClick(){
 
         mProfile.USER_AGE = String.valueOf(mViewFlipper1.getDisplayedChild() * 10 + mViewFlipper2.getDisplayedChild());
+        if(player.pause())
+        {
+
+        }
         Intent it = new Intent(SetProfileAge.this, BluetoothChatFragment.class);
 
         Bundle bundle = new Bundle();

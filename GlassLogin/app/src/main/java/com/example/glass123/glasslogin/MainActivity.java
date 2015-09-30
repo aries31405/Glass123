@@ -170,6 +170,11 @@ public class MainActivity extends Activity implements
 
     // 按下登入Glass按鈕後，跳轉到與Glass連結的BluetoothChatFragment
     private void onGlassLoginClick(){
+        if(player.pause())
+        {
+
+        }
+
         Intent it = new Intent(MainActivity.this, MyProfile.class);
 
         Bundle bundle = new Bundle();

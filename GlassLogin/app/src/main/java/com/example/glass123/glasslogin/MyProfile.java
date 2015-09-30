@@ -127,6 +127,10 @@ public class MyProfile extends Activity implements View.OnClickListener{
                 if (status.getCode() == 200) {
                     //資料庫已經有使用者資料
                     if (result.equals("2")) {
+                        if(player.pause())
+                        {
+
+                        }
                         Intent it = new Intent(MyProfile.this, BluetoothChatFragment.class);
 
                         Bundle bundle = new Bundle();
@@ -138,6 +142,10 @@ public class MyProfile extends Activity implements View.OnClickListener{
                         startActivity(it);
                     }
                     else if (result.equals("0")) {
+                        if(player.pause())
+                        {
+
+                        }
                         Intent it = new Intent(MyProfile.this, SetProfile.class);
 
                         Bundle bundle = new Bundle();
