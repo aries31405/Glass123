@@ -14,7 +14,8 @@
         android:textSize="23dp"
         android:textColor="@color/white"
         android:layout_above="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
 
     <ImageView
         android:layout_width="91dp"

@@ -15,7 +15,7 @@
         android:id="@+id/please_gender"
         android:textSize="23dp"
         android:textColor="#FFFFFF"
-        android:layout_below="@+id/set_forward"
+        android:layout_alignBottom="@+id/set_forward"
         android:layout_centerHorizontal="true" />
 
     <Button

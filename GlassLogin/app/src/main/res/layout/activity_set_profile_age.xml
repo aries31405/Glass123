@@ -34,8 +34,7 @@
         android:src="@drawable/down"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/imageView5"
-        android:layout_alignStart="@+id/imageView5"
-        />
+        android:layout_alignStart="@+id/imageView5" />
 
     <ImageView
         android:layout_width="30dp"
@@ -64,7 +63,7 @@
         android:layout_marginRight="103dp"
         android:layout_below="@id/imageView5"
         android:layout_marginTop="0dp"
-        android:layout_above="@+id/imageView8">
+        android:layout_marginBottom="25dp">
 
     </ViewFlipper>
 
@@ -78,7 +77,7 @@
 
         android:layout_marginTop="0dp"
         android:layout_marginLeft="170dp"
-        android:layout_above="@+id/imageView10">
+        android:layout_marginBottom="25dp">
 
     </ViewFlipper>
 

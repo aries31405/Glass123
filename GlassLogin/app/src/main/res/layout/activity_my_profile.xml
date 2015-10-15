@@ -44,7 +44,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/myprofile_name"
-        android:textSize="30dp"
+        android:textSize="23dp"
         android:textColor="#FFFFFF"
         android:layout_below="@+id/myprofile_image"
         android:layout_centerHorizontal="true"
@@ -56,7 +56,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/myprofile_email"
-        android:textSize="30dp"
+        android:textSize="23dp"
         android:textColor="#FFFFFF"
         android:layout_below="@+id/myprofile_name"
         android:layout_centerHorizontal="true" />
