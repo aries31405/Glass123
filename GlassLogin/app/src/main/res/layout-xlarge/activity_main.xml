@@ -9,39 +9,42 @@
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
-        android:layout_width="113dp"
-        android:layout_height="120dp"
+        android:layout_width="225dp"
+        android:layout_height="240dp"
         android:src="@drawable/notlogin"
         app:border_width="2dp"
         app:border_color="#55000000"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="78dp"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/sign_in_button"
-        android:layout_toStartOf="@+id/sign_in_button" />
+        android:layout_toLeftOf="@+id/imageView7"
+        android:layout_toStartOf="@+id/imageView7" />
 
     <ImageView
-        android:layout_width="128dp"
-        android:layout_height="143dp"
+        android:layout_width="255dp"
+        android:layout_height="285dp"
         android:id="@+id/imageView7"
         android:src="@drawable/signal"
         android:layout_alignBottom="@+id/imageView6"
         android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:id="@+id/imageView6"
         android:src="@drawable/google"
         android:layout_alignBottom="@+id/profile_image"
-        android:layout_toRightOf="@+id/sign_in_button"
-        android:layout_toEndOf="@+id/sign_in_button" />
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:text="@string/welcome"
-        android:textSize="23dp"
+        android:textSize="40dp"
         android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
         android:layout_above="@+id/imageView6"
         android:layout_centerHorizontal="true" />
 
@@ -50,6 +53,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="92dp" />
 
 </RelativeLayout>
