@@ -81,7 +81,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
             tv1.setText(String.valueOf(i));
             tv1.setTextColor(this.getResources().getColor(R.color.white));
-            tv1.setTextSize(200);
+            tv1.setTextSize(150);
 
             LinearLayout lq1 = new LinearLayout(this);
             lq1.addView(tv1);
@@ -93,7 +93,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
             tv2.setText(String.valueOf(i));
             tv2.setTextColor(this.getResources().getColor(R.color.white));
-            tv2.setTextSize(200);
+            tv2.setTextSize(150);
 
             LinearLayout lq2 = new LinearLayout(this);
             lq2.addView(tv2);

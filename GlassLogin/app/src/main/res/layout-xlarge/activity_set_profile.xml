@@ -13,10 +13,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/please_gender"
         android:id="@+id/please_gender"
-        android:textSize="23dp"
-        android:textColor="#FFFFFF"
+        android:textSize="30dp"
         android:layout_below="@+id/set_forward"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:layout_width="125dp"
@@ -39,47 +40,49 @@
         android:textColor="@color/white" />
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:id="@+id/male_image"
         android:src ="@drawable/male"
-        android:layout_alignTop="@+id/female_image"
-        android:layout_toLeftOf="@+id/please_gender"
-        android:layout_toStartOf="@+id/please_gender" />
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/please_gender"
+    />
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:id="@+id/female_image"
         android:src ="@drawable/female"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/please_gender"
-        android:layout_toEndOf="@+id/please_gender" />
+        android:layout_alignTop="@+id/male_image"
+        android:layout_toRightOf="@id/please_gender"
+        />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/male"
         android:id="@+id/male_radio"
-        android:textSize="23dp"
+        android:textSize="30dp"
         android:onClick="onRadioButtonClicked"
         android:checked="true"
         android:textColor="#FFFFFF"
         android:layout_below="@+id/male_image"
-        android:layout_alignRight="@+id/set_forward"
-        android:layout_alignEnd="@+id/set_forward" />
+        android:layout_alignRight="@+id/male_image"
+        android:layout_alignEnd="@+id/male_image"
+        android:layout_marginRight="90dp" />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/female"
         android:id="@+id/female_radio"
-        android:textSize="23dp"
+        android:textSize="30dp"
         android:onClick="onRadioButtonClicked"
         android:checked="false"
         android:layout_gravity="right"
         android:textColor="#FFFFFF"
-        android:layout_alignTop="@+id/male_radio"
+        android:layout_below="@+id/female_image"
         android:layout_alignLeft="@+id/female_image"
-        android:layout_alignStart="@+id/female_image" />
+        android:layout_alignStart="@+id/female_image"
+        android:layout_marginLeft="60dp" />
 
 </RelativeLayout>

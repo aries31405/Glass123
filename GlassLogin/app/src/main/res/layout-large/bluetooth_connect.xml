@@ -11,14 +11,15 @@
         android:text="@string/please_connect"
         android:id="@+id/text_user_profile"
         android:layout_gravity="center_horizontal"
-        android:textSize="23dp"
+        android:textSize="30dp"
         android:textColor="@color/white"
         android:layout_above="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp" />
 
     <ImageView
-        android:layout_width="91dp"
-        android:layout_height="166dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/phone"
         android:layout_centerVertical="true"
@@ -26,16 +27,16 @@
         android:layout_toStartOf="@+id/button_bluetooth" />
 
     <ImageView
-        android:layout_width="138dp"
-        android:layout_height="113dp"
+        android:layout_width="183dp"
+        android:layout_height="150dp"
         android:id="@+id/imageView3"
         android:src="@drawable/connection"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:layout_width="140dp"
-        android:layout_height="47dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/imageView4"
         android:src="@drawable/glass"
         android:layout_centerVertical="true"

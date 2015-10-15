@@ -17,35 +17,35 @@
         android:layout_marginRight="50dp"
         android:layout_marginEnd="78dp"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/imageView7"
-        android:layout_toStartOf="@+id/imageView7" />
+        android:layout_toLeftOf="@+id/signal"
+        android:layout_toStartOf="@+id/signal" />
 
     <ImageView
         android:layout_width="170dp"
         android:layout_height="190dp"
-        android:id="@+id/imageView7"
+        android:id="@+id/signal"
         android:src="@drawable/signal"
-        android:layout_alignBottom="@+id/imageView6"
+        android:layout_alignBottom="@+id/google"
         android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:id="@+id/imageView6"
+        android:id="@+id/google"
         android:src="@drawable/google"
         android:layout_alignBottom="@+id/profile_image"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
+        android:layout_toRightOf="@+id/welcome"
+        android:layout_toEndOf="@+id/welcome"
         android:layout_marginLeft="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/welcome"
         android:text="@string/welcome"
         android:textSize="30dp"
         android:textColor="#FFFFFF"
-        android:layout_above="@+id/imageView6"
+        android:layout_above="@+id/google"
         android:layout_centerHorizontal="true" />
 
     <com.google.android.gms.common.SignInButton
