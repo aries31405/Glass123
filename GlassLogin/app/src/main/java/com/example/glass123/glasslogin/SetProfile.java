@@ -2,6 +2,7 @@ package com.example.glass123.glasslogin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
 import com.example.glass123.glasslogin.Mplayer.Player;
 
-public class SetProfile extends Activity implements View.OnClickListener{
+public class SetProfile extends Activity implements View.OnClickListener,TextToSpeech.OnInitListener{
 
     Button mNextBtn;
     Button mForwardBtn;
@@ -26,6 +27,8 @@ public class SetProfile extends Activity implements View.OnClickListener{
 
     Profile mProfile;
 
+    private static final int MY_DATA_CHECK_CODE = 0;
+    TextToSpeech tts;
     Player player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,12 @@ public class SetProfile extends Activity implements View.OnClickListener{
         // 預設為男性
         mProfile.USER_SEX="0";
 
-        player = new Player("http://163.17.135.75/TTS/Lelogin/gender.mp3");
-        player.play();
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
+
+        //player = new Player("http://163.17.135.75/TTS/Lelogin/gender.mp3");
+        //player.play();
     }
 
     // 覆寫View.OnClickListener的onClick
@@ -81,10 +88,10 @@ public class SetProfile extends Activity implements View.OnClickListener{
             Toast.makeText(getApplicationContext(),"請選擇性別！",Toast.LENGTH_SHORT).show();
         }
         else{
-            if(player.pause())
-            {
-
-            }
+//            if(player.pause())
+//            {
+//
+//            }
             Intent it = new Intent(SetProfile.this, SetProfileAge.class);
 
             Bundle bundle = new Bundle();
@@ -157,5 +164,39 @@ public class SetProfile extends Activity implements View.OnClickListener{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
+
+        switch (requestCode) {
+            case MY_DATA_CHECK_CODE:
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    // success, create the TTS instance
+                    tts = new TextToSpeech(this, this);
+                }
+                else {
+                    // missing data, install it
+                    Intent installIntent = new Intent();
+                    installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installIntent);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Toast.makeText(SetProfile.this,
+                    "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+            tts.speak("請選擇性別", TextToSpeech.QUEUE_ADD, null);
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(SetProfile.this,
+                    "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
+        }
     }
 }

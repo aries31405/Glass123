@@ -2,8 +2,10 @@ package com.example.glass123.glasslogin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +26,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyProfile extends Activity implements View.OnClickListener{
+public class MyProfile extends Activity implements View.OnClickListener,TextToSpeech.OnInitListener{
 
     private Profile mProfile;
 
@@ -36,6 +38,8 @@ public class MyProfile extends Activity implements View.OnClickListener{
     private Button ChangeUserBtn;
     private Button NextBtn;
 
+    private static final int MY_DATA_CHECK_CODE = 0;
+    private TextToSpeech tts;
     Player player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +75,12 @@ public class MyProfile extends Activity implements View.OnClickListener{
         ChangeUserBtn.setOnClickListener(this);
         NextBtn.setOnClickListener(this);
 
-        player = new Player("http://163.17.135.75/TTS/Lelogin/profile.mp3");
-        player.play();
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+
+        //player = new Player("http://163.17.135.75/TTS/Lelogin/profile.mp3");
+       // player.play();
     }
 
     @Override
@@ -82,6 +90,7 @@ public class MyProfile extends Activity implements View.OnClickListener{
         }
         else if(v.getId() == R.id.next_btn){
             onNextClick();
+            Log.e("onClick","123456");
         }
     }
 
@@ -127,10 +136,9 @@ public class MyProfile extends Activity implements View.OnClickListener{
                 if (status.getCode() == 200) {
                     //資料庫已經有使用者資料
                     if (result.equals("2")) {
-                        if(player.pause())
-                        {
-
-                        }
+//                        if (player.pause()) {
+//
+//                        }
                         Intent it = new Intent(MyProfile.this, BluetoothChatFragment.class);
 
                         Bundle bundle = new Bundle();
@@ -140,12 +148,10 @@ public class MyProfile extends Activity implements View.OnClickListener{
 
                         it.putExtras(bundle);
                         startActivity(it);
-                    }
-                    else if (result.equals("0")) {
-                        if(player.pause())
-                        {
-
-                        }
+                    } else if (result.equals("0")) {
+//                        if (player.pause()) {
+//
+//                        }
                         Intent it = new Intent(MyProfile.this, SetProfile.class);
 
                         Bundle bundle = new Bundle();
@@ -188,5 +194,39 @@ public class MyProfile extends Activity implements View.OnClickListener{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
+
+        switch (requestCode) {
+            case MY_DATA_CHECK_CODE:
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    // success, create the TTS instance
+                    tts = new TextToSpeech(this, this);
+                }
+                else {
+                    // missing data, install it
+                    Intent installIntent = new Intent();
+                    installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installIntent);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Toast.makeText(MyProfile.this,
+                    "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+            tts.speak("請確認畫面上的資料是否為要登入的帳戶", TextToSpeech.QUEUE_ADD, null);
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(MyProfile.this,
+                    "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
+        }
     }
 }

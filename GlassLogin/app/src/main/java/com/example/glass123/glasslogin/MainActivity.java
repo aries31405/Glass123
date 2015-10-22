@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.glass123.glasslogin.Bluetooth.Profile;
 import com.example.glass123.glasslogin.Mplayer.Player;
@@ -23,11 +25,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener {
+        View.OnClickListener,
+        TextToSpeech.OnInitListener{
 
+    private static final int MY_DATA_CHECK_CODE = 1;
     private static final int RC_SIGN_IN = 0;
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "android-plus-quickstart";
+
 
     /* Is there a ConnectionResult resolution in progress? */
     private boolean mIsResolving = false;
@@ -48,6 +53,7 @@ public class MainActivity extends Activity implements
     //使用者資料
     private Profile mProfile = new Profile();
 
+    private TextToSpeech tts;
     Player player;
 
     @Override
@@ -87,8 +93,12 @@ public class MainActivity extends Activity implements
         // 設定所有按鈕監聽
         mSignInBtn.setOnClickListener(this);
 
-        player = new Player("http://163.17.135.75/TTS/Lelogin/googlelogin.mp3");
-        player.play();
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+
+        //player = new Player("http://163.17.135.75/TTS/Lelogin/googlelogin.mp3");
+       // player.play();
     }
 
     @Override
@@ -134,11 +144,6 @@ public class MainActivity extends Activity implements
 
     // 按下登入Glass按鈕後，跳轉到與Glass連結的BluetoothChatFragment
     private void onGlassLoginClick(){
-        if(player.pause())
-        {
-
-        }
-
         Intent it = new Intent(MainActivity.this, MyProfile.class);
 
         Bundle bundle = new Bundle();
@@ -224,14 +229,29 @@ public class MainActivity extends Activity implements
         super.onActivityResult(requestCode, resultCode, data);
         //Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
 
-        if (requestCode == RC_SIGN_IN) {
-            // If the error resolution was not successful we should not resolve further.
-            if (resultCode != RESULT_OK) {
-                mShouldResolve = false;
-            }
+        switch (requestCode) {
+            case RC_SIGN_IN:
+                // If the error resolution was not successful we should not resolve further.
+                if (resultCode != RESULT_OK) {
+                    mShouldResolve = false;
+                }
 
-            mIsResolving = false;
-            mGoogleApiClient.connect();
+                mIsResolving = false;
+                mGoogleApiClient.connect();
+                break;
+            case MY_DATA_CHECK_CODE:
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    // success, create the TTS instance
+                    tts = new TextToSpeech(this, this);
+
+                }
+                else {
+                    // missing data, install it
+                    Intent installIntent = new Intent();
+                    installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installIntent);
+                }
+                break;
         }
 //        Toast.makeText(this, "onActivityResult", Toast.LENGTH_SHORT).show();
 
@@ -259,5 +279,18 @@ public class MainActivity extends Activity implements
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Toast.makeText(MainActivity.this,
+                    "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+            tts.speak("請登入Google Plus，點擊Sign in 按鈕，選擇欲登入創意戴鏡的Google帳戶。", TextToSpeech.QUEUE_ADD, null);
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(MainActivity.this,
+                    "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
+        }
     }
 }

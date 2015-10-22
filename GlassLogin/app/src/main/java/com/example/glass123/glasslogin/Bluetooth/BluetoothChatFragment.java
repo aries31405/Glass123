@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,11 +21,13 @@ import com.example.glass123.glasslogin.ConnectSuccess;
 import com.example.glass123.glasslogin.Mplayer.Player;
 import com.example.glass123.glasslogin.R;
 
+import java.util.Locale;
+
 
 /**
  * Created by 海馬瀨人 on 2015/9/1.
  */
-public class BluetoothChatFragment extends Activity{
+public class BluetoothChatFragment extends Activity implements TextToSpeech.OnInitListener{
 
     private static final String TAG = "BluetoothChatFragment";
 
@@ -32,6 +35,7 @@ public class BluetoothChatFragment extends Activity{
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
+    private static final int MY_DATA_CHECK_CODE = 0;
 
     // Layout Views
     private Button mSendButton;
@@ -62,6 +66,7 @@ public class BluetoothChatFragment extends Activity{
     private Profile mProfile;
     //private TextView mUserProfileText;
 
+    private TextToSpeech tts,tts2;
     Player player;
 
     @Override
@@ -99,8 +104,13 @@ public class BluetoothChatFragment extends Activity{
 //        Toast.makeText(getApplicationContext(),mProfile.USER_SEX +" and "+ mProfile.USER_AGE,Toast.LENGTH_SHORT).show();
         // 顯示使用者Google帳戶資料
         //mUserProfileText.setText(mProfile.USER_NAME + ", " + mProfile.USER_EMAIL);
-        player = new Player("http://163.17.135.75/TTS/Lelogin/connect.mp3");
-        player.play();
+
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
+
+        //player = new Player("http://163.17.135.75/TTS/Lelogin/connect.mp3");
+        //player.play();
     }
 
 
@@ -110,6 +120,7 @@ public class BluetoothChatFragment extends Activity{
         //藍芽沒有開啟的話，則跳出視窗要求開啟
         // setupChat() 會在onActivityResult 被呼叫
         if (!mBluetoothAdapter.isEnabled()) {
+
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             // Otherwise, setup the chat session
@@ -157,10 +168,19 @@ public class BluetoothChatFragment extends Activity{
         // 開啟藍芽裝置清單
         mBTButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (null != v) {
+               /* if (null != v) {
                     Intent serverIntent = new Intent(BluetoothChatFragment.this, DeviceListActivity.class);
                     startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-                }
+                }*/
+                tts.speak("與您的", TextToSpeech.QUEUE_ADD, null);
+                tts2.speak("Google Glass", TextToSpeech.QUEUE_ADD, null);
+                tts.speak("連接，請點擊", TextToSpeech.QUEUE_ADD, null);
+                tts2.speak("Login Creative Glass", TextToSpeech.QUEUE_ADD, null);
+                tts.speak("按鈕，選擇您的", TextToSpeech.QUEUE_ADD, null);
+                tts2.speak("Google Glass。", TextToSpeech.QUEUE_ADD, null);
+                tts.speak("登入資料將從行動裝置傳送至", TextToSpeech.QUEUE_ADD, null);
+                tts2.speak("Google Glass。", TextToSpeech.QUEUE_ADD, null);
+
             }
         });
 
@@ -202,10 +222,10 @@ public class BluetoothChatFragment extends Activity{
 
     // 藍芽連線成功後，將使用者Google帳戶傳到眼鏡後，跳轉到成功頁面
     public void onLoginConnectSuccess(){
-        if(player.pause())
-        {
-
-        }
+//        if(player.pause())
+//        {
+//
+//        }
         Intent it = new Intent(BluetoothChatFragment.this, ConnectSuccess.class);
         startActivity(it);
     }
@@ -328,6 +348,20 @@ public class BluetoothChatFragment extends Activity{
                             Toast.LENGTH_SHORT).show();
                     BluetoothChatFragment.this.finish();
                 }
+                break;
+            case MY_DATA_CHECK_CODE:
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    // success, create the TTS instance
+                    tts = new TextToSpeech(this, this);
+                    tts2 = new TextToSpeech(this,this);
+                }
+                else {
+                    // missing data, install it
+                    Intent installIntent = new Intent();
+                    installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installIntent);
+                }
+                break;
         }
     }
 
@@ -380,7 +414,18 @@ public class BluetoothChatFragment extends Activity{
     }
 
 
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Toast.makeText(BluetoothChatFragment.this,
+                    "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+            tts2.setLanguage(Locale.ENGLISH);
+            tts.setLanguage(Locale.TAIWAN);
 
-
-
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(BluetoothChatFragment.this,
+                    "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
+        }
+    }
 }
