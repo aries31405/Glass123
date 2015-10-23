@@ -26,6 +26,7 @@ import android.media.AudioManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,18 +56,18 @@ import static android.widget.Toast.LENGTH_LONG;
 ３．三指單擊語音輸入答案 跳到Answer
 */
 
-public class TitleCard extends Activity implements GestureDetector.BaseListener
+public class TitleCard extends Activity implements GestureDetector.BaseListener,TextToSpeech.OnInitListener
 {
     private Handler  handler  = new Handler();
     Bitmap bitmap;
 
-    //用來串流撥放音檔
-    private Player player;
+    private int MY_DATA_CHECK_CODE = 0;
+    TextToSpeech tts;
 
     protected ImageLoader imageLoader;
     DisplayImageOptions options;
 
-    String[] promptName,promptStore;
+    String[] promptName;
     String msg,Tid;
     int i=0;
 
@@ -103,15 +104,17 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         Tid = intent.getStringExtra("Tid");
 
         gocreat();
+
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+
     }
 
     private void gocreat()
     {
-        String[] all;
-        all=msg.split("&");
+        promptName=msg.split("&");
 
-        promptName=all[0].split(",");
-        promptStore=all[1].split(",");
 
         //將卡片類別 傳回來  並用自定義類別"CardAdapter"（覆寫卡片類別）
         mAdapter = new CustomAdapter(createCards(this));
@@ -134,7 +137,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             @Override
             public void run()
             {
-                bitmap = getBitmapFromURL(url+promptStore[2]);
+                bitmap = getBitmapFromURL(url+promptName[2]);
                 handler.post(goui);
             }
 
@@ -242,9 +245,9 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
             {
                     if(i < 2 )
                     {
-                        //設定音檔位置
-                        player = new Player("http://163.17.135.75"+promptStore[i]);
-                        player.play();
+                       // player = new Player("http://163.17.135.75"+promptStore[i]);
+                       // player.play();
+                        tts.speak(promptName[i], TextToSpeech.QUEUE_ADD, null);
                     }
             }
 
@@ -282,9 +285,20 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
 
 
 
-
-
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                // success, create the TTS instance
+                tts = new TextToSpeech(this, this);
+            }
+            else {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        }
+    }
 
 
 
@@ -320,5 +334,19 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
         card.setText("題目提示與照片頁面");
         return card.getView();
+    }
+
+    @Override
+    public void onInit(int status) {
+
+        if (status == TextToSpeech.SUCCESS) {
+            Toast.makeText(TitleCard.this,
+                    "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(TitleCard.this,
+                    "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
+        }
+
     }
 }
