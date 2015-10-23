@@ -139,7 +139,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
 //                        if (player.pause()) {
 //
 //                        }
-                        Intent it = new Intent(MyProfile.this, BluetoothChatFragment.class);
+                        Intent it = new Intent(MyProfile.this, ChooseDevice.class);
 
                         Bundle bundle = new Bundle();
                         bundle.putString("username", mProfile.USER_NAME);

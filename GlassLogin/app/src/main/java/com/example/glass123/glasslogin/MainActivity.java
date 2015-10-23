@@ -98,7 +98,15 @@ public class MainActivity extends Activity implements
         startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 
         //player = new Player("http://163.17.135.75/TTS/Lelogin/googlelogin.mp3");
-       // player.play();
+        // player.play();
+
+        double i = 1;
+        double n=0;
+        for(i=1;i<=3;i++)
+        {
+            n+=(Math.pow(-1,(i+1)))*(1/i);
+        }
+        Toast.makeText(this,String.valueOf(n),Toast.LENGTH_SHORT).show();
     }
 
     @Override

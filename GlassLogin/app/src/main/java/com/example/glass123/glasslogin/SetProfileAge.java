@@ -41,13 +41,6 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     private float touchDownY;
     private float touchUpY;
 
-    int id=0;
-    int ten=0;
-    int one=0;
-
-    TextView TenText;
-    TextView OneText;
-
     private TextToSpeech tts;
     Player player;
 
@@ -253,7 +246,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 //        {
 //
 //        }
-        Intent it = new Intent(SetProfileAge.this, BluetoothChatFragment.class);
+        Intent it = new Intent(SetProfileAge.this, ChooseDevice.class);
 
         Bundle bundle = new Bundle();
         bundle.putString("username", mProfile.USER_NAME);

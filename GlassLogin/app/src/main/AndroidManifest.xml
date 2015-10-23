@@ -46,11 +46,6 @@
             android:theme="@android:style/Theme.Holo.Dialog" >
         </activity>
         <activity
-            android:name=".ConnectSuccess"
-            android:label="@string/title_activity_connect_success"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
             android:name=".SetProfile"
             android:label="@string/title_activity_set_profile"
             android:screenOrientation="landscape" >
@@ -58,6 +53,31 @@
         <activity
             android:name=".SetProfileAge"
             android:label="@string/title_activity_set_profile_age"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".ChooseDevice"
+            android:label="@string/title_activity_choose_device"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".ConnectSuccess"
+            android:label="@string/title_activity_connect_success"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.CreativeGlassMain"
+            android:label="@string/title_activity_creative_glass_main"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.CreativeGlassStart"
+            android:label="@string/title_activity_creative_glass_start"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.FindQuestion"
+            android:label="@string/title_activity_find_question"
             android:screenOrientation="landscape" >
         </activity>
     </application>

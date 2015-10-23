@@ -37,10 +37,14 @@
     <string name="connect_success">Login Success!</string>
     <string name="please_gender">Please select your gender</string>
     <string name="please_age">Please select your age</string>
+    <string name="please_select_device">Please Select Your Device</string>
     <string name="please_connect">Please Connect Your Google Glass</string>
     <string name="introduction">Welcome to Creative Glass! You can now move on to your Google Glass.</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="answerquestion_btn">Answer Question</string>
+    <string name="createquestion_btn">Create Question</string>
+    <string name="findquestion_txt">Walk around to find questions</string>
 
 
     <string name="title_activity_my_profile">MyProfile</string>
@@ -48,4 +52,9 @@
     <string name="title_activity_connect_success">ConnectSuccess</string>
     <string name="title_activity_set_profile">SetProfile</string>
     <string name="title_activity_set_profile_age">SetProfileAge</string>
+    <string name="title_activity_choose_device">ChooseDevice</string>
+    <string name="title_activity_creative_glass_main">CreativeGlassMain</string>
+    <string name="title_activity_creative_glass_start">CreativeGlassStart</string>
+    <string name="title_activity_find_question">FindQuestion</string>
+
 </resources>

@@ -92,7 +92,7 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
             this.finish();
         }
 
-        // 取得MainActivity傳過來的使用者Google帳戶資料
+        // 取得SetProfileAge或是MyProfile傳過來的使用者Google帳戶資料
         Bundle bundle = this.getIntent().getExtras();
         mProfile = new Profile();
         mProfile.USER_NAME = bundle.getString("username");
