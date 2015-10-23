@@ -3,6 +3,7 @@ package com.example.glass123.glasslogin;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,9 @@ import com.example.glass123.glasslogin.Mplayer.Player;
 
 import org.w3c.dom.Text;
 
-public class SetProfileAge extends Activity implements View.OnClickListener, View.OnTouchListener{
+public class SetProfileAge extends Activity implements View.OnClickListener, View.OnTouchListener,TextToSpeech.OnInitListener{
+
+    private static final int MY_DATA_CHECK_CODE = 0;
 
     Button mNextBtn;
     Button mForwardBtn;
@@ -45,6 +48,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     TextView TenText;
     TextView OneText;
 
+    private TextToSpeech tts;
     Player player;
 
     @Override
@@ -81,7 +85,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
             tv1.setText(String.valueOf(i));
             tv1.setTextColor(this.getResources().getColor(R.color.white));
-            tv1.setTextSize(200);
+            tv1.setTextSize(150);
 
             LinearLayout lq1 = new LinearLayout(this);
             lq1.addView(tv1);
@@ -93,7 +97,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
             tv2.setText(String.valueOf(i));
             tv2.setTextColor(this.getResources().getColor(R.color.white));
-            tv2.setTextSize(200);
+            tv2.setTextSize(150);
 
             LinearLayout lq2 = new LinearLayout(this);
             lq2.addView(tv2);
@@ -104,8 +108,13 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
         mViewFlipper1.setOnTouchListener(this);
         mViewFlipper2.setOnTouchListener(this);
 
-        player = new Player("http://163.17.135.75/TTS/Lelogin/age.mp3");
-        player.play();
+
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+
+        //player = new Player("http://163.17.135.75/TTS/Lelogin/age.mp3");
+        //player.play();
 
     }
 
@@ -240,6 +249,10 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     private void onNextClick(){
 
         mProfile.USER_AGE = String.valueOf(mViewFlipper1.getDisplayedChild() * 10 + mViewFlipper2.getDisplayedChild());
+//        if(player.pause())
+//        {
+//
+//        }
         Intent it = new Intent(SetProfileAge.this, BluetoothChatFragment.class);
 
         Bundle bundle = new Bundle();
@@ -287,5 +300,37 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
 
+        switch (requestCode) {
+            case MY_DATA_CHECK_CODE:
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    // success, create the TTS instance
+                    tts = new TextToSpeech(this, this);
+                }
+                else {
+                    // missing data, install it
+                    Intent installIntent = new Intent();
+                    installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installIntent);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Toast.makeText(SetProfileAge.this,
+                    "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+            tts.speak("請選擇年齡", TextToSpeech.QUEUE_ADD, null);
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(SetProfileAge.this,
+                    "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
+        }
+    }
 }
