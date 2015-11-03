@@ -8,10 +8,12 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.Bluetooth.Profile;
+import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassMain;
 import com.example.glass123.glasslogin.Mplayer.Player;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -45,6 +47,7 @@ public class MainActivity extends Activity implements
 
     //按鈕
     private SignInButton mSignInBtn;
+    private Button skip_btn;
     //private Button mSignOutBtn;
 
     // 大頭貼
@@ -60,6 +63,9 @@ public class MainActivity extends Activity implements
     public void onClick(View v){
         if (v.getId() == R.id.sign_in_button) {
             onSignInClicked();
+        }
+        else if(v.getId() == R.id.skip_btn){
+            onSkipClick();
         }
         /*
         else if(v.getId() == R.id.login_glass){
@@ -86,12 +92,14 @@ public class MainActivity extends Activity implements
         // 按鈕 findViewById
         mStatus = (TextView) findViewById(R.id.welcome);
         mSignInBtn = (SignInButton) findViewById(R.id.sign_in_button);
+        skip_btn = (Button)findViewById(R.id.skip_btn);
 
         // Google大頭貼 findViewById
         mPhoto = (CircleImageView) findViewById(R.id.profile_image);
 
         // 設定所有按鈕監聽
         mSignInBtn.setOnClickListener(this);
+        skip_btn.setOnClickListener(this);
 
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -162,6 +170,10 @@ public class MainActivity extends Activity implements
         onSignOutClick();
 
         it.putExtras(bundle);
+        startActivity(it);
+    }
+    private void onSkipClick(){
+        Intent it = new Intent(MainActivity.this, CreativeGlassMain.class);
         startActivity(it);
     }
 

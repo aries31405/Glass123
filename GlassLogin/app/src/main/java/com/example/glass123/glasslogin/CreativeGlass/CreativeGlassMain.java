@@ -30,6 +30,7 @@ public class CreativeGlassMain extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creative_glass_main);
 
+        /*
         // 取得MainActivity傳過來的使用者Google帳戶資料
         Bundle bundle = this.getIntent().getExtras();
         mProfile = new Profile();
@@ -39,6 +40,7 @@ public class CreativeGlassMain extends Activity implements View.OnClickListener{
         mProfile.USER_SEX = bundle.getString("usersex");
         mProfile.USER_AGE = bundle.getString("userage");
 
+*/
         //按鈕init
         start_btn = (Button)findViewById(R.id.start_btn);
         help_btn = (Button)findViewById(R.id.help_btn);
@@ -48,9 +50,6 @@ public class CreativeGlassMain extends Activity implements View.OnClickListener{
         start_btn.setOnClickListener(this);
         help_btn.setOnClickListener(this);
         about_btn.setOnClickListener(this);
-
-        //Toast
-        toast = new Toast(getApplicationContext());
 
     }
 
