@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.SensorManager;
+import android.location.LocationManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.R;
 import com.example.glass123.glasslogin.Sensor.Acceleration;
 import com.example.glass123.glasslogin.Sensor.Sen;
@@ -23,17 +26,23 @@ import java.io.IOException;
 
 public class FindQuestion extends Activity implements SurfaceHolder.Callback{
 
+    G g;
+    SensorManager sm;
     Sen senor;
     Acceleration ac;
-    TextView tv,tv2;
+    TextView tv,tv2,tv3;
+
+    LocationManager mlocation;
 
     Camera myCamera;
     SurfaceView previewSurfaceView;
     SurfaceHolder previewSurfaceHolder;
     boolean previewing = false;
 
+    private Handler handler  = new Handler();
+    Thread thread;
 
-    private SensorManager sm;
+    String nowpostion = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,7 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
 
         tv = (TextView)findViewById(R.id.textView4);
         tv2 = (TextView)findViewById(R.id.textView6);
+        tv3 = (TextView)findViewById(R.id.textView7);
 
         getWindow().setFormat(PixelFormat.UNKNOWN);
         previewSurfaceView = (SurfaceView)findViewById(R.id.previewsurface);
@@ -54,10 +64,17 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
         senor = new Sen(tv,sm);
         ac = new Acceleration(tv2,sm);
 
-        RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
+        mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
+        g = new G(mlocation,this,tv3);
+
+
+        thread = new Thread(start);
+        thread.start();
+
+        /*RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
         //RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT);
         Button bt = new Button(this);
-        relativeLayout.addView(bt, /*relativeParams*/150,50);
+        relativeLayout.addView(bt, /*relativeParams150,50);*/
     }
 
     public void onPause(){
@@ -96,4 +113,20 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
         myCamera = null;
         previewing = false;
     }
+
+    //執行緒
+    final Runnable start = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                if(ac.ok()  && !nowpostion.equals(senor.getpositon()))
+                {
+
+                }
+            }
+        }
+    };
 }

@@ -15,6 +15,7 @@ public class Acceleration {
     private Sensor Sensor;
 
     TextView tv;
+    boolean ok ;
 
     public Acceleration(TextView tv,SensorManager sm)
     {
@@ -38,9 +39,19 @@ public class Acceleration {
             if(g[0] < 11 && g[0]> 9.3)
             {
                 tv.setText(g[0]+"__"+g[1]+"__"+g[2]);
+                ok = true;
+            }
+            else
+            {
+                ok = false;
             }
 
         }
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     };
+
+    public boolean ok()
+    {
+        return  ok;
+    }
 }

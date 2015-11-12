@@ -22,6 +22,7 @@ public class Sen {
     private static final String TAG = "sensor";
 
     TextView tv;
+    String positon;
 
     public Sen(TextView tv,SensorManager sm)
     {
@@ -55,6 +56,10 @@ public class Sen {
     };
 
 
+    public String getpositon()
+    {
+        return positon;
+    }
     private  void calculateOrientation() {
         float[] values = new float[3];
         float[] R = new float[9];
@@ -68,30 +73,36 @@ public class Sen {
 
         if(values[0] >= -5 && values[0] < 5 && values[0] != 0.0){
             tv.setText("East"+String.valueOf(values[0]));
+            positon = "East";
         }
         else if(values[0] >= 5 && values[0] < 85){
             tv.setText("Southeast"+String.valueOf(values[0]));
+            positon = "Southeast";
         }
         else if(values[0] >= 85 && values[0] <=95){
             tv.setText("South"+String.valueOf(values[0]));
+            positon = "South";
         }
         else if(values[0] >= 95 && values[0] <175){
             tv.setText("SouthWest"+String.valueOf(values[0]));
+            positon = "SouthWest";
         }
         else if((values[0] >= 175 && values[0] <= 180) || (values[0]) >= -180 && values[0] < -175){
             tv.setText("West"+String.valueOf(values[0]));
+            positon = "West";
         }
         else if(values[0] >= -175 && values[0] <-95){
             tv.setText("Northwest"+String.valueOf(values[0]));
+            positon = "Northwest";
         }
         else if(values[0] >= -95 && values[0] < -85){
             tv.setText("North"+String.valueOf(values[0]));
+            positon = "North";
         }
         else if(values[0] >= -85 && values[0] <-5){
             tv.setText("Northeast"+String.valueOf(values[0]));
+            positon = "Southeast";
         }
-
-
     }
 
 }
