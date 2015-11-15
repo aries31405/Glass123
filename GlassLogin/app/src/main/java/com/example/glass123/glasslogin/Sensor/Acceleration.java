@@ -15,7 +15,7 @@ public class Acceleration {
     private Sensor Sensor;
 
     TextView tv;
-    boolean ok ;
+    boolean ok = false;
 
     public Acceleration(TextView tv,SensorManager sm)
     {

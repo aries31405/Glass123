@@ -50,7 +50,7 @@ public class G implements LocationListener {
 
         tv.setText(String.valueOf(latitude)+"---"+String.valueOf(longitude));
 
-        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,this);
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500, 0,this);
     }
 
     @Override

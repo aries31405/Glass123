@@ -11,6 +11,7 @@ import android.widget.TextView;
  * Created by s1100b026 on 2015/11/4.
  */
 public class Sen {
+    private Acceleration ac;
 
     private SensorManager sm;
     private Sensor aSensor;
@@ -22,12 +23,13 @@ public class Sen {
     private static final String TAG = "sensor";
 
     TextView tv;
-    String positon;
+    float positon,nowpositon = 0;
 
-    public Sen(TextView tv,SensorManager sm)
+    public Sen(TextView tv,SensorManager sm,Acceleration ac)
     {
         this.tv = tv;
         this.sm = sm;
+        this.ac = ac;
 
         aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -55,11 +57,11 @@ public class Sen {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     };
 
-
-    public String getpositon()
+    public float getpositon()
     {
-        return positon;
+        return nowpositon;
     }
+
     private  void calculateOrientation() {
         float[] values = new float[3];
         float[] R = new float[9];
@@ -71,38 +73,42 @@ public class Sen {
         //values[2] = (float) Math.toDegrees(values[2]);
         //Log.i(TAG, values[0]+"");
 
-        if(values[0] >= -5 && values[0] < 5 && values[0] != 0.0){
-            tv.setText("East"+String.valueOf(values[0]));
-            positon = "East";
+        if(values[0] != 0.0)
+        {
+            positon = transform(values[0]);
         }
-        else if(values[0] >= 5 && values[0] < 85){
-            tv.setText("Southeast"+String.valueOf(values[0]));
-            positon = "Southeast";
+
+        if(nowpositon == 0 && ac.ok() == false)
+        {
+            nowpositon = positon;
         }
-        else if(values[0] >= 85 && values[0] <=95){
-            tv.setText("South"+String.valueOf(values[0]));
-            positon = "South";
+        else if(nowpositon == 0 && ac.ok() == true)
+        {
+            nowpositon = positon;
+            //創建
         }
-        else if(values[0] >= 95 && values[0] <175){
-            tv.setText("SouthWest"+String.valueOf(values[0]));
-            positon = "SouthWest";
+        else if((nowpositon + 5 < positon || nowpositon - 5 > positon) && ac.ok() == false )
+        {
+            nowpositon = positon;
         }
-        else if((values[0] >= 175 && values[0] <= 180) || (values[0]) >= -180 && values[0] < -175){
-            tv.setText("West"+String.valueOf(values[0]));
-            positon = "West";
+        else if((nowpositon + 5 < positon || nowpositon - 5 > positon) && ac.ok() == true)
+        {
+            nowpositon = positon;
+            //創建
         }
-        else if(values[0] >= -175 && values[0] <-95){
-            tv.setText("Northwest"+String.valueOf(values[0]));
-            positon = "Northwest";
+        tv.setText(String.valueOf(nowpositon));
+    }
+    public float transform(float positon)
+    {
+        if(positon >= -179.9 && positon <-91 )
+        {
+            positon = 270 + (180-(positon*-1));
         }
-        else if(values[0] >= -95 && values[0] < -85){
-            tv.setText("North"+String.valueOf(values[0]));
-            positon = "North";
+        else
+        {
+            positon = positon + 90;
         }
-        else if(values[0] >= -85 && values[0] <-5){
-            tv.setText("Northeast"+String.valueOf(values[0]));
-            positon = "Southeast";
-        }
+        return positon;
     }
 
 }
