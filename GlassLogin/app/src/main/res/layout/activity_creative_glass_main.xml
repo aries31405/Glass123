@@ -37,4 +37,5 @@
         android:layout_alignLeft="@+id/help_btn"
         android:layout_alignStart="@+id/help_btn"
         android:textColor="@color/white" />
+
 </RelativeLayout>

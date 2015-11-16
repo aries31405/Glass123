@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
 import com.example.glass123.glasslogin.R;
@@ -15,8 +16,8 @@ import com.example.glass123.glasslogin.R;
 public class CreativeGlassStart extends Activity implements View.OnClickListener{
 
     //按鈕
-    private Button answer_btn;
-    private Button create_btn;
+    private ImageButton answer_btn;
+    private ImageButton create_btn;
 
 
     @Override
@@ -25,8 +26,8 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_creative_glass_start);
 
         //按鈕init
-        answer_btn = (Button)findViewById(R.id.answer_btn);
-        create_btn = (Button)findViewById(R.id.create_btn);
+        answer_btn = (ImageButton)findViewById(R.id.answer_btn);
+        create_btn = (ImageButton)findViewById(R.id.create_btn);
 
         //按鈕設定監聽
         answer_btn.setOnClickListener(this);
@@ -65,7 +66,8 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         }
         else if(v.getId() == R.id.create_btn)
         {
-
+            Intent intent = new Intent(CreativeGlassStart.this,FindQuestion.class);
+            startActivity(intent);
         }
     }
 }

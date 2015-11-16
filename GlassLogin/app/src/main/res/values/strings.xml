@@ -56,5 +56,6 @@
     <string name="title_activity_creative_glass_main">CreativeGlassMain</string>
     <string name="title_activity_creative_glass_start">CreativeGlassStart</string>
     <string name="title_activity_find_question">FindQuestion</string>
+    <string name="title_activity_create_hint1">CreateHint1</string>
 
 </resources>

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -82,6 +82,11 @@
             android:name=".CreativeGlass.AnswerQuestion.FindQuestion"
             android:label="@string/title_activity_find_question"
             android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.CreateQuestion.CreateHint1"
+            android:label="@string/title_activity_create_hint1"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 
