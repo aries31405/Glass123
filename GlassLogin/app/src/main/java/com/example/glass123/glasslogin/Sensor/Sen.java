@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
+import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Rl;
 
 /**
  * Created by s1100b026 on 2015/11/4.
  */
 public class Sen {
+    private Rl rl;
     private Angle ag;
 
     private Acceleration ac;
@@ -30,12 +32,13 @@ public class Sen {
     TextView tv;
     float positon,nowpositon = 0;
 
-    public Sen(TextView tv,SensorManager sm,Acceleration ac,Angle ag)
+    public Sen(TextView tv,SensorManager sm,Acceleration ac,Angle ag,Rl rl)
     {
         this.tv = tv;
         this.sm = sm;
         this.ac = ac;
         this.ag = ag;
+        this.rl = rl;
 
         aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -63,11 +66,6 @@ public class Sen {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     };
 
-    public float getpositon()
-    {
-        return nowpositon;
-    }
-
     private  void calculateOrientation() {
         float[] values = new float[3];
         float[] R = new float[9];
@@ -82,43 +80,125 @@ public class Sen {
         if(values[0] != 0.0)
         {
             positon = transform(values[0]);
-        }
-
-        if(nowpositon == 0 && ac.ok() == false)
-        {
-            nowpositon = positon;
-        }
-        else if(nowpositon == 0 && ac.ok() == true)
-        {
-            nowpositon = positon;
-            //創建
-            for(int i = 0;i < ag.geti();i++)
+            if(nowpositon == 0)
             {
-                if((nowpositon + 30) > ag.getag(i) && (nowpositon - 30) < ag.getag(i))
-                {
-                    tv.setText(String.valueOf(nowpositon) + "---" + String.valueOf(ag.getag(i)));
-                }
-            }
-        }
-        else if((nowpositon + 5 < positon || nowpositon - 5 > positon) && ac.ok() == false )
-        {
-            nowpositon = positon;
-        }
-        else if((nowpositon + 5 < positon || nowpositon - 5 > positon) && ac.ok() == true)
-        {
-            nowpositon = positon;
-            //創建
-            for(int i = 0;i < ag.geti();i++)
-            {
-                if((nowpositon + 30) > ag.getag(i) && (nowpositon - 30) < ag.getag(i))
-                {
-                    tv.setText(String.valueOf(nowpositon) + "---" + String.valueOf(ag.getag(i)));
-                }
+                nowpositon = positon;
             }
         }
 
-       // tv.setText(String.valueOf(nowpositon));
+
+        if(ac.ok() && rl.getcreating() && nowpositon != 0)
+        {
+            rl.upcreating();
+            if((nowpositon+30) > 359)
+            {
+                creat( 30-(360-nowpositon),1);
+            }
+            else if((nowpositon-30) < 0)
+            {
+                creat( (nowpositon-30)*(-1),2);
+            }
+            else
+            {
+                creat(0,0);
+            }
+        }
+        /*else if(ac.ok())
+        {
+
+            if(nowpositon + 5 < positon || nowpositon - 5 > positon )
+            {
+                nowpositon = positon;
+                if((nowpositon+30) > 359)
+                {
+                    creat( 30-(360-nowpositon),1);
+                }
+                else if((nowpositon-30) < 0)
+                {
+                    creat( (nowpositon-30)*(-1),2);
+                }
+                else
+                {
+                    creat(0,0);
+                }
+            }
+        }
+        else if(ac.ok == false)
+        {
+
+        }*/
+
     }
+
+    public void creat(float p , int why)
+    {
+
+        for(int i = 0;i < ag.geti();i++)
+        {
+            int x=(int)nowpositon;
+            int y=(int)ag.getag(i);
+
+            if(why == 1)
+            {
+                if( 360 > ag.getag(i)  && (nowpositon - 30) < ag.getag(i))
+                {
+                    if(nowpositon < ag.getag(i))
+                    {
+                        rl.rightcreating(y - x,i);
+                        tv.setText(nowpositon+"--"+ag.getag(i));
+                    }
+                    else
+                    {
+                        rl.leftcreating(x - y,i);
+                        tv.setText(nowpositon+"--"+ag.getag(i));
+                    }
+                }
+                else  if(p > ag.getag(i))
+                {
+                    rl.rightcreating(360 - x + y,i);
+                    tv.setText(nowpositon+"--"+ag.getag(i));
+                }
+            }
+            else if(why == 2)
+            {
+                if(((nowpositon + 30) > ag.getag(i)  && 0 < ag.getag(i)))
+                {
+                    if(nowpositon < ag.getag(i))
+                    {
+                        rl.rightcreating(y - x,i);
+                        tv.setText(nowpositon+"--"+ag.getag(i));
+                    }
+                    else
+                    {
+                        rl.leftcreating(x - y,i);
+                        tv.setText(nowpositon+"--"+ag.getag(i));
+                    }
+                }
+                else if ((360-p) < ag.getag(i))
+                {
+                    rl.rightcreating(360 - y+x,i);
+                    tv.setText(nowpositon+"--"+ag.getag(i));
+                }
+            }
+            else
+            {
+                if((nowpositon + 30) > ag.getag(i) && (nowpositon - 30) < ag.getag(i))
+                {
+                    if(nowpositon < ag.getag(i))
+                    {
+                        rl.rightcreating(y - x,i);
+                        tv.setText(nowpositon+"--"+ag.getag(i));
+                    }
+                    else
+                    {
+                        rl.leftcreating(x - y,i);
+                        tv.setText(nowpositon+"--"+ag.getag(i));
+                    }
+                }
+            }
+        }
+    }
+
     public float transform(float positon)
     {
         if(positon >= -179.9 && positon <-91 )

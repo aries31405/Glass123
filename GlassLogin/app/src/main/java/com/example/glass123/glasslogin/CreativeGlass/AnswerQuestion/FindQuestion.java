@@ -27,6 +27,7 @@ import java.io.IOException;
 
 public class FindQuestion extends Activity implements SurfaceHolder.Callback{
 
+    Rl rl ;
     Angle ag = new Angle();
     G g;
     SensorManager sm;
@@ -48,6 +49,8 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_question);
 
+        RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
+
         tv = (TextView)findViewById(R.id.textView4);
         tv2 = (TextView)findViewById(R.id.textView6);
         tv3 = (TextView)findViewById(R.id.textView7);
@@ -59,23 +62,24 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
         previewSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         ag.update(24.152214,120.675439);
+        rl = new Rl(relativeLayout,FindQuestion.this);
 
         //取得陀螺儀控制
         sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         //自定義加速度類別
         ac = new Acceleration(tv2,sm);
         //自定義方位類別
-        senor = new Sen(tv,sm,ac,ag);
+        senor = new Sen(tv,sm,ac,ag,rl);
         //自定義GPS類別
         //mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
         //g = new G(mlocation,this,tv3);
 
 
 
-        /*RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
+       //RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
         //RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT);
-        Button bt = new Button(this);
-        relativeLayout.addView(bt, /*relativeParams150,50);*/
+        //Button bt = new Button(this);
+        //relativeLayout.addView(bt, /*relativeParams150,50);
     }
 
     public void onPause(){
