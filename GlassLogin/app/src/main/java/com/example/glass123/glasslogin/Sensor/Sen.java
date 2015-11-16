@@ -7,10 +7,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.widget.TextView;
 
+import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
+import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
+
 /**
  * Created by s1100b026 on 2015/11/4.
  */
 public class Sen {
+    private Angle ag;
+
     private Acceleration ac;
 
     private SensorManager sm;
@@ -25,11 +30,12 @@ public class Sen {
     TextView tv;
     float positon,nowpositon = 0;
 
-    public Sen(TextView tv,SensorManager sm,Acceleration ac)
+    public Sen(TextView tv,SensorManager sm,Acceleration ac,Angle ag)
     {
         this.tv = tv;
         this.sm = sm;
         this.ac = ac;
+        this.ag = ag;
 
         aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -86,6 +92,13 @@ public class Sen {
         {
             nowpositon = positon;
             //創建
+            for(int i = 0;i < ag.geti();i++)
+            {
+                if((nowpositon + 30) > ag.getag(i) && (nowpositon - 30) < ag.getag(i))
+                {
+                    tv.setText(String.valueOf(nowpositon) + "---" + String.valueOf(ag.getag(i)));
+                }
+            }
         }
         else if((nowpositon + 5 < positon || nowpositon - 5 > positon) && ac.ok() == false )
         {
@@ -95,8 +108,16 @@ public class Sen {
         {
             nowpositon = positon;
             //創建
+            for(int i = 0;i < ag.geti();i++)
+            {
+                if((nowpositon + 30) > ag.getag(i) && (nowpositon - 30) < ag.getag(i))
+                {
+                    tv.setText(String.valueOf(nowpositon) + "---" + String.valueOf(ag.getag(i)));
+                }
+            }
         }
-        tv.setText(String.valueOf(nowpositon));
+
+       // tv.setText(String.valueOf(nowpositon));
     }
     public float transform(float positon)
     {

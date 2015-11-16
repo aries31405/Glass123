@@ -25,32 +25,33 @@ public class G implements LocationListener {
         this.tv = tv;
         if (mlocation.isProviderEnabled(LocationManager.GPS_PROVIDER) || mlocation.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             //如果GPS或網路定位開啟，呼叫locationServiceInitial()更新位置
-            mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500, 0,this);
+            mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,this);
         } else {
             Toast.makeText(a, "請開啟定位服務", Toast.LENGTH_LONG).show();
         }
 
     }
-    public double getlatitude()
-    {
-
-        return latitude;
-    }
-
-    public double getlongitude()
-    {
-
-        return longitude;
-    }
 
     @Override
     public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+        double la,lon;
+        la = location.getLatitude();
+        lon = location.getLongitude();
+
+        if(la > (latitude + 0.000008) || la < (latitude-0.000008))
+        {
+            latitude = la;
+        }
+
+        if(lon > (longitude + 0.000008) || lon < (longitude-0.000008))
+        {
+            longitude = lon;
+        }
+
 
         tv.setText(String.valueOf(latitude)+"---"+String.valueOf(longitude));
 
-        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500, 0,this);
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,this);
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.io.IOException;
 
 public class FindQuestion extends Activity implements SurfaceHolder.Callback{
 
+    Angle ag = new Angle();
     G g;
     SensorManager sm;
     Sen senor;
@@ -57,41 +58,24 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
         previewSurfaceHolder.addCallback(this);
         previewSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        ag.update(24.152214,120.675439);
+
         //取得陀螺儀控制
         sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         //自定義加速度類別
         ac = new Acceleration(tv2,sm);
         //自定義方位類別
-        senor = new Sen(tv,sm,ac);
+        senor = new Sen(tv,sm,ac,ag);
         //自定義GPS類別
-        mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
-        g = new G(mlocation,this,tv3);
+        //mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
+        //g = new G(mlocation,this,tv3);
 
-
-        Toast.makeText(FindQuestion.this,String.valueOf(gps2d(24.152214, 120.675439,24.151798, 120.675637)),Toast.LENGTH_SHORT).show();
 
 
         /*RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
         //RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT);
         Button bt = new Button(this);
         relativeLayout.addView(bt, /*relativeParams150,50);*/
-    }
-
-    private double gps2d(double lat_a, double lng_a, double lat_b, double lng_b) {
-        double d = 0;
-        lat_a=lat_a*Math.PI/180;
-        lng_a=lng_a*Math.PI/180;
-        lat_b=lat_b*Math.PI/180;
-        lng_b=lng_b*Math.PI/180;
-
-        d=Math.sin(lat_a)*Math.sin(lat_b)+Math.cos(lat_a)*Math.cos(lat_b)*Math.cos(lng_b-lng_a);
-        d=Math.sqrt(1-d*d);
-        d=Math.cos(lat_b)*Math.sin(lng_b - lng_a) /d;
-        d=Math.asin(d)*180/Math.PI;
-
-        //d = Math.round(d*10000);
-
-        return d;
     }
 
     public void onPause(){
@@ -131,5 +115,11 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
         previewing = false;
     }
 
-
+    /*public static void setLayout(View view,int x,int y)
+    {
+        MarginLayoutParams margin=new MarginLayoutParams(view.getLayoutParams());
+        margin.setMargins(x,y, x+margin.width, y+margin.height);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(margin);
+        view.setLayoutParams(layoutParams);
+    }*/
 }
