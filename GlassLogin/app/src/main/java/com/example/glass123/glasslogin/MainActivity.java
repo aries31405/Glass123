@@ -137,7 +137,7 @@ public class MainActivity extends Activity implements
         mGoogleApiClient.connect();
 
         // Show a message to the user that we are signing in.
-        mStatus.setText(R.string.signing_in);
+//        mStatus.setText(R.string.signing_in);
 //        Toast.makeText(this, "onSignInClicked", Toast.LENGTH_SHORT).show();
 
     }

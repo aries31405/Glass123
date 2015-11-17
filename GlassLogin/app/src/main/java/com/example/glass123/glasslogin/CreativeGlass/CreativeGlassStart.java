@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
+import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateHint1;
 import com.example.glass123.glasslogin.R;
 
 public class CreativeGlassStart extends Activity implements View.OnClickListener{
@@ -66,7 +67,7 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         }
         else if(v.getId() == R.id.create_btn)
         {
-            Intent intent = new Intent(CreativeGlassStart.this,FindQuestion.class);
+            Intent intent = new Intent(CreativeGlassStart.this,CreateHint1.class);
             startActivity(intent);
         }
     }
