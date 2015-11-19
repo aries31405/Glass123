@@ -13,4 +13,12 @@
     <style name="Theme.Sample" parent="Theme.Base" />
     <style name="Theme.Base" parent="android:Theme.Holo.Light" />
 
+    <!-- 開關樣式 -->
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
 </resources>
