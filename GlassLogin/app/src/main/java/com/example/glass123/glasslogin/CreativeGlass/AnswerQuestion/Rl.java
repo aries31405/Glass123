@@ -55,10 +55,17 @@ public class Rl {
         view.setLayoutParams(layoutParams);
     }
 
-    public void movie(int i)
+    public void rightmovie(int i,int x)
     {
         Button bt = (Button)relativeLayout.findViewById(i);
-        setLayout(bt,100,100);
+        setLayout(bt,480, 330);
+    }
+
+    public void leftmovie(int i,int x)
+    {
+        //x-90
+        Button bt = (Button)relativeLayout.findViewById(i);
+        setLayout(bt,480,330);
     }
 
     public void remo(int i)
