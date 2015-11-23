@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.glass123.glasslogin.Draw.DrawTest;
 import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.R;
 import com.example.glass123.glasslogin.Sensor.Acceleration;
@@ -25,68 +27,75 @@ import com.example.glass123.glasslogin.Sensor.Sen;
 
 import java.io.IOException;
 
-public class FindQuestion extends Activity implements SurfaceHolder.Callback{
+public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
+    public static int monitor_Width ;
+    public static int monitor_Height ;
 
-    Rl rl ;
+
+    private DrawTest drawTest = null;
+    private SurfaceView svCamera = null;
+    protected SurfaceHolder mSurfaceHolder;
+
+
+    boolean previewing = false;
+    Camera myCamera;
+
     Angle ag = new Angle();
     G g;
     SensorManager sm;
     Sen senor;
     Acceleration ac;
-    TextView tv,tv2,tv3;
 
     LocationManager mlocation;
-
-    Camera myCamera;
-    SurfaceView previewSurfaceView;
-    SurfaceHolder previewSurfaceHolder;
-    boolean previewing = false;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_question);
-
-        RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
-
-        tv = (TextView)findViewById(R.id.textView4);
-        tv2 = (TextView)findViewById(R.id.textView6);
-        tv3 = (TextView)findViewById(R.id.textView7);
-
-        getWindow().setFormat(PixelFormat.UNKNOWN);
-        previewSurfaceView = (SurfaceView)findViewById(R.id.previewsurface);
-        previewSurfaceHolder = previewSurfaceView.getHolder();
-        previewSurfaceHolder.addCallback(this);
-        previewSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         ag.update(24.152214,120.675439);
-        rl = new Rl(relativeLayout,FindQuestion.this);
+
 
         //取得陀螺儀控制
         sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         //自定義加速度類別
-        ac = new Acceleration(tv2,sm);
+        ac = new Acceleration(sm);
         //自定義方位類別
-        senor = new Sen(tv,sm,ac,ag,rl);
+        senor = new Sen(sm,ac,ag);
+
+
+        setContentView(R.layout.activity_find_question);
+
+        /*DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        monitor_Width = metrics.widthPixels;      //取得螢幕的寬度
+        monitor_Height = metrics.heightPixels;    //取得螢幕的高度*/
+
+        drawTest = (com.example.glass123.glasslogin.Draw.DrawTest) findViewById(R.id.svDraw);
+        svCamera = (SurfaceView) findViewById(R.id.svCamera);
+
+        mSurfaceHolder = svCamera.getHolder();
+        mSurfaceHolder.addCallback(this);
+        // 当设置为SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS后就不能绘图了
+        mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+
+
+
+/*
+
         //自定義GPS類別
         //mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
-        //g = new G(mlocation,this,tv3);
+        //g = new G(mlocation,this,tv3);*/
 
-
-
-       //RelativeLayout relativeLayout = (RelativeLayout) super.findViewById(R.id.rlId);
-        //RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT);
-        //Button bt = new Button(this);
-        //relativeLayout.addView(bt, /*relativeParams150,50);
     }
 
     public void onPause(){
-        senor.stop();
-        ac.stop();
+        //senor.stop();
+        //ac.stop();
         super.onPause();
     }
+
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -100,13 +109,11 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
             previewing = false;
         }
 
-
         try {
             myCamera.setPreviewDisplay(holder);
             myCamera.startPreview();
             previewing = true;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -118,12 +125,4 @@ public class FindQuestion extends Activity implements SurfaceHolder.Callback{
         myCamera = null;
         previewing = false;
     }
-
-    /*public static void setLayout(View view,int x,int y)
-    {
-        MarginLayoutParams margin=new MarginLayoutParams(view.getLayoutParams());
-        margin.setMargins(x,y, x+margin.width, y+margin.height);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(margin);
-        view.setLayoutParams(layoutParams);
-    }*/
 }

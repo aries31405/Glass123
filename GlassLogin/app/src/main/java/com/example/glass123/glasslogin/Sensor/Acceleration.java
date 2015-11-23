@@ -14,12 +14,10 @@ public class Acceleration {
     private SensorManager sm;
     private Sensor Sensor;
 
-    TextView tv;
     boolean ok = false;
 
-    public Acceleration(TextView tv,SensorManager sm)
+    public Acceleration(SensorManager sm)
     {
-        this.tv = tv;
         this.sm = sm;
 
         Sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -38,7 +36,6 @@ public class Acceleration {
              float g[] = sensorEvent.values;
             if(g[0] < 11 && g[0]> 9.3)
             {
-                tv.setText(g[0]+"__"+g[1]+"__"+g[2]);
                 ok = true;
             }
             else

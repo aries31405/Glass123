@@ -5,7 +5,7 @@ package com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion;
  */
 public class Angle {
     double[][] laon = new double[4][2];
-    double[] angle = new double[4];
+    public static double[] angle = new double[4];
     public Angle()
     {
         laon[0][0] =24.152792;
