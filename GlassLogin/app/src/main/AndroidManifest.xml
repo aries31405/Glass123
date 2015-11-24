@@ -87,7 +87,12 @@
             android:name=".CreativeGlass.CreateQuestion.CreateHint1"
             android:label="@string/title_activity_create_hint1"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.WithGlass.WithGlassStart"
+            android:label="@string/title_activity_with_glass_start"
+            android:screenOrientation="landscape"  >
         </activity>
     </application>
 

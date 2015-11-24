@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    tools:context="com.example.glass123.glasslogin.CreativeGlass.WithGlass.WithGlassStart"
+    android:background="@mipmap/withglass_background">
+
+
+    <ImageButton
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:id="@+id/setting_btn"
+        android:background="#00e6ff5b"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:id="@+id/profile_btn"
+        android:background="#00e6ff5b"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="20dp" />
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.glass123.glasslogin;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -14,12 +15,15 @@ import android.widget.Toast;
 
 import com.example.glass123.glasslogin.Bluetooth.Profile;
 import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassMain;
+import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart;
+import com.example.glass123.glasslogin.CreativeGlass.WithGlass.WithGlassStart;
 import com.example.glass123.glasslogin.Mplayer.Player;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -57,7 +61,11 @@ public class MainActivity extends Activity implements
     private Profile mProfile = new Profile();
 
     private TextToSpeech tts;
-    Player player;
+
+    SwitchButton withglass_sb;
+    boolean mThumbSizeFlag;
+    boolean mThumbRadiusFlag;
+    boolean mBackRadiusFlag;
 
     @Override
     public void onClick(View v){
@@ -72,7 +80,6 @@ public class MainActivity extends Activity implements
             onGlassLoginClick();
         }
         */
-
 
     }
 
@@ -114,7 +121,12 @@ public class MainActivity extends Activity implements
         {
             n+=(Math.pow(-1,(i+1)))*(1/i);
         }
-        Toast.makeText(this,String.valueOf(n),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,String.valueOf(n),Toast.LENGTH_SHORT).show();
+
+        //SwitchButton init
+        withglass_sb = (SwitchButton)findViewById(R.id.withglass_sb);
+        ChangeSwitchButtonStyle();
+
     }
 
     @Override
@@ -172,9 +184,18 @@ public class MainActivity extends Activity implements
         it.putExtras(bundle);
         startActivity(it);
     }
+
     private void onSkipClick(){
-        Intent it = new Intent(MainActivity.this, CreativeGlassMain.class);
-        startActivity(it);
+
+        if(withglass_sb.isChecked()){
+            Intent it = new Intent(MainActivity.this, WithGlassStart.class);
+            startActivity(it);
+        }
+        else if(!withglass_sb.isChecked()){
+            Intent it = new Intent(MainActivity.this, CreativeGlassStart.class);
+            startActivity(it);
+        }
+
     }
 
     @Override
@@ -186,6 +207,7 @@ public class MainActivity extends Activity implements
 //        Toast.makeText(this, "onConnectionSuspended", Toast.LENGTH_SHORT).show();
 
     }
+
     @Override
     public void onConnected(Bundle bundle) {
         // onConnected indicates that an account was selected on the device, that the selected
@@ -312,5 +334,35 @@ public class MainActivity extends Activity implements
             Toast.makeText(MainActivity.this,
                     "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
         }
+    }
+
+    //調整SwitchButton大小及形狀
+    private void ChangeSwitchButtonStyle(){
+
+        //背景顏色
+        withglass_sb.setBackColorRes(R.color.purple);
+
+        //大小
+        float size = 30 * getResources().getDisplayMetrics().density;
+        withglass_sb.setThumbSize(mThumbSizeFlag ? null : new PointF(size, size));
+        mThumbSizeFlag = !mThumbSizeFlag;
+
+        //形狀
+        float r = 2 * getResources().getDisplayMetrics().density;
+        withglass_sb.setThumbRadius(mThumbRadiusFlag ? Math.min(withglass_sb.getThumbSizeF().x, withglass_sb.getThumbSizeF().y) / 2f : r);
+        mThumbRadiusFlag = !mThumbRadiusFlag;
+
+        float r1 = 2 * getResources().getDisplayMetrics().density;
+        withglass_sb.setBackRadius(mBackRadiusFlag ? Math.min(withglass_sb.getBackSizeF().x, withglass_sb.getBackSizeF().y) / 2f : r1);
+        mBackRadiusFlag = !mBackRadiusFlag;
+
+        float r2 = 2 * getResources().getDisplayMetrics().density;
+        withglass_sb.setThumbRadius(mThumbRadiusFlag ? Math.min(withglass_sb.getThumbSizeF().x, withglass_sb.getThumbSizeF().y) / 2f : r2);
+        mThumbRadiusFlag = !mThumbRadiusFlag;
+
+        float r3 = 2 * getResources().getDisplayMetrics().density;
+        withglass_sb.setBackRadius(mBackRadiusFlag ? Math.min(withglass_sb.getBackSizeF().x, withglass_sb.getBackSizeF().y) / 2f : r3);
+        mBackRadiusFlag = !mBackRadiusFlag;
+
     }
 }
