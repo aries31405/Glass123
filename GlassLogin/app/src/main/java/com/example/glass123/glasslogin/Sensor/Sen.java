@@ -1,21 +1,19 @@
 package com.example.glass123.glasslogin.Sensor;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.widget.TextView;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
-import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
-import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Rl;
 
 /**
  * Created by s1100b026 on 2015/11/4.
  */
 public class Sen {
-    private Rl rl;
+    boolean OK = true;
+
+    private int view[][],j = 0;
     private Angle ag;
 
     private Acceleration ac;
@@ -28,23 +26,22 @@ public class Sen {
     float[] magneticFieldValues = new float[3];
 
     private static final String TAG = "sensor";
+    public static float positon,nowpositon = 0;
 
-    TextView tv;
-    float positon,nowpositon = 0;
-
-    public Sen(TextView tv,SensorManager sm,Acceleration ac,Angle ag,Rl rl)
+    public Sen(SensorManager sm,Acceleration ac,Angle ag)
     {
-        this.tv = tv;
         this.sm = sm;
         this.ac = ac;
         this.ag = ag;
-        this.rl = rl;
+
+        view = new int[ag.geti()][2];
 
         aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         sm.registerListener(myListener, aSensor, SensorManager.SENSOR_DELAY_GAME);
         sm.registerListener(myListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
+
     }
 
     public void stop()
@@ -86,117 +83,6 @@ public class Sen {
             }
         }
 
-
-        if(ac.ok() && rl.getcreating() && nowpositon != 0)
-        {
-            rl.upcreating();
-            if((nowpositon+30) > 359)
-            {
-                creat( 30-(360-nowpositon),1);
-            }
-            else if((nowpositon-30) < 0)
-            {
-                creat( (nowpositon-30)*(-1),2);
-            }
-            else
-            {
-                creat(0,0);
-            }
-        }
-        /*else if(ac.ok())
-        {
-
-            if(nowpositon + 5 < positon || nowpositon - 5 > positon )
-            {
-                nowpositon = positon;
-                if((nowpositon+30) > 359)
-                {
-                    creat( 30-(360-nowpositon),1);
-                }
-                else if((nowpositon-30) < 0)
-                {
-                    creat( (nowpositon-30)*(-1),2);
-                }
-                else
-                {
-                    creat(0,0);
-                }
-            }
-        }
-        else if(ac.ok == false)
-        {
-
-        }*/
-
-    }
-
-    public void creat(float p , int why)
-    {
-
-        for(int i = 0;i < ag.geti();i++)
-        {
-            int x=(int)nowpositon;
-            int y=(int)ag.getag(i);
-
-            if(why == 1)
-            {
-                if( 360 > ag.getag(i)  && (nowpositon - 30) < ag.getag(i))
-                {
-                    if(nowpositon < ag.getag(i))
-                    {
-                        rl.rightcreating(y - x,i);
-                        tv.setText(nowpositon+"--"+ag.getag(i));
-                    }
-                    else
-                    {
-                        rl.leftcreating(x - y,i);
-                        tv.setText(nowpositon+"--"+ag.getag(i));
-                    }
-                }
-                else  if(p > ag.getag(i))
-                {
-                    rl.rightcreating(360 - x + y,i);
-                    tv.setText(nowpositon+"--"+ag.getag(i));
-                }
-            }
-            else if(why == 2)
-            {
-                if(((nowpositon + 30) > ag.getag(i)  && 0 < ag.getag(i)))
-                {
-                    if(nowpositon < ag.getag(i))
-                    {
-                        rl.rightcreating(y - x,i);
-                        tv.setText(nowpositon+"--"+ag.getag(i));
-                    }
-                    else
-                    {
-                        rl.leftcreating(x - y,i);
-                        tv.setText(nowpositon+"--"+ag.getag(i));
-                    }
-                }
-                else if ((360-p) < ag.getag(i))
-                {
-                    rl.rightcreating(360 - y+x,i);
-                    tv.setText(nowpositon+"--"+ag.getag(i));
-                }
-            }
-            else
-            {
-                if((nowpositon + 30) > ag.getag(i) && (nowpositon - 30) < ag.getag(i))
-                {
-                    if(nowpositon < ag.getag(i))
-                    {
-                        rl.rightcreating(y - x,i);
-                        tv.setText(nowpositon+"--"+ag.getag(i));
-                    }
-                    else
-                    {
-                        rl.leftcreating(x - y,i);
-                        tv.setText(nowpositon+"--"+ag.getag(i));
-                    }
-                }
-            }
-        }
     }
 
     public float transform(float positon)
@@ -211,5 +97,6 @@ public class Sen {
         }
         return positon;
     }
+
 
 }
