@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
         android:layout_marginBottom="53dp"
-        android:paddingTop="10dp"
-        android:textSize="23dp"
+        android:paddingTop="45dp"
+        android:textSize="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textColor="#FFFFFF" />
@@ -31,10 +31,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/introduction"
         android:id="@+id/textView3"
-        android:textSize="15dp"
+        android:textSize="25dp"
         android:textColor="#FFFFFF"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="15dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

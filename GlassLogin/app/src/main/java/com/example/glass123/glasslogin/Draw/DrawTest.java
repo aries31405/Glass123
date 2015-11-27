@@ -6,7 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
@@ -28,7 +31,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     private ArrayList<AndroidUnit> Au; //AndroidUnit 類別型態的物件陣列
     private Canvas canvas = null;
     private Thread db_thread;
-    boolean flag =true,first=true;
+    boolean flag =true,first=true,IsNotCreating = true;
     private Resources res;
     private Bitmap bmp;
 
@@ -97,20 +100,25 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     public void run() {
         // TODO Auto-generated method stub
 
-        while(flag){
 
+        while(flag){
+            int chang = 0;
             //將物件顯示到螢幕上
             try {
                 //暫停 0.05 秒(每隔 0.05 秒更新畫面一次)
-                Thread.sleep(1000);
-
-                if(first)
+                //Thread.sleep(100);
+                if(IsNotCreating)
                 {
-                    draw();
-                }
-                else if(Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon)
-                {
-                    godraw();
+                    IsNotCreating = false;
+                    if(first)
+                    {
+                        draw();
+                    }
+                    else if(Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon)
+                    {
+                        draw();
+                    }
+                    chang =1;
                 }
 
                 /*//從 Au 物件陣列中移除已經停止活動的物件
@@ -121,9 +129,9 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 e.printStackTrace();
             }
             finally {
-                if (canvas != null) {
-                    //解鎖畫布(canvas)並顯示到螢幕上
-                    holder.unlockCanvasAndPost(canvas);
+                if(chang == 1)
+                {
+                    IsNotCreating = true;
                 }
             }
        } //while
@@ -132,39 +140,37 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     //繪製畫面
     public void draw()
     {
+
         //取得並鎖住畫布(canvas)
         canvas = holder.lockCanvas();
+        //清除畫面
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        canvas.drawPaint(paint);
 
         ///巡覽 Au 物件陣列中的所有物件
-
         for (AndroidUnit a: Au) {
-            //若該物件還活著，則呼叫 AndroidUnit 物件的 PostUnit() 方法
-            //將物件圖片繪至 canvas 上
-            a.PostUnit(canvas);
+            if(a.cancareat())
+            {
+                //呼叫 AndroidUnit 物件的 PostUnit() 方法
+                //將物件圖片繪至 canvas 上
+                a.PostUnit(canvas);
+            }
         }
 
         if(first)
         {
             first = false;
         }
-
-    }
-
-    //繪製畫面
-    public void godraw()
-    {
-        //取得並鎖住畫布(canvas)
-        canvas = holder.lockCanvas();
-
-        ///巡覽 Au 物件陣列中的所有物件
-
-        for (AndroidUnit a: Au) {
-            //若該物件還活著，則呼叫 AndroidUnit 物件的 PostUnit() 方法
-            //將物件圖片繪至 canvas 上
-            a.go();
+        else
+        {
+            Sen.nowpositon = Sen.positon;
         }
 
-
+        if (canvas != null) {
+            //解鎖畫布(canvas)並顯示到螢幕上
+            holder.unlockCanvasAndPost(canvas);
+        }
     }
 
 
