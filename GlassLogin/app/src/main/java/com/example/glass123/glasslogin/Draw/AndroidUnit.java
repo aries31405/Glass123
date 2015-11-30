@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
+import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Decide;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
 import com.example.glass123.glasslogin.Sensor.Sen;
 
@@ -13,10 +14,10 @@ import com.example.glass123.glasslogin.Sensor.Sen;
  * Created by s1100b026 on 2015/11/24.
  */
 public class AndroidUnit implements Runnable{
+    Decide decide;
     private double ag ;
     private boolean flag = true;
-    private int x, y;                     //顯示物件的座標
-    private int unit_Width, unit_Height;  //物件圖片的寬、高
+    private int x, y,unit_Width, unit_Height;//顯示物件的座標,物件圖片的寬、高
     private Bitmap unit_bmp = null;       //代表該物件的圖片
     private  boolean notcreat = true;
 
@@ -28,7 +29,7 @@ public class AndroidUnit implements Runnable{
         //指定圖片來源
         this.unit_bmp = unit_bmp;
         this.ag = ag;
-
+        decide = new Decide(ag);
         //此物件參數的初始設定
         UnitInitial();
 
@@ -38,10 +39,11 @@ public class AndroidUnit implements Runnable{
     private void UnitInitial() {
         // TODO Auto-generated method stub
 
-        //取得物件圖片的高、寬
+        /*//取得物件圖片的高、寬
         unit_Height = unit_bmp.getHeight();
         unit_Width = unit_bmp.getWidth();
 
+<<<<<<< HEAD
 
        /* if((Sen.nowpositon+30) > 359)
         {
@@ -57,102 +59,41 @@ public class AndroidUnit implements Runnable{
         }*/
         x = 600;
         y = 330;
+=======
+>>>>>>> e6ed9ecd4e263be05f75daeea6fee4d39f99cd8c
         //以亂數決定此物件的初始座標
         //x = (int)(Math.random() * (FindQuestion.monitor_Width - unit_Width));
-        //y = (int)((Math.random() * (FindQuestion.monitor_Height - unit_Height - 5)) + 5);
+        //y = (int)((Math.random() * (FindQuestion.monitor_Height - unit_Height - 5)) + 5);*/
 
-
-    }
-    protected void go() {
         new Thread(this).start();
-    }
+        y = 330;
 
+    }
     //==== 將圖 PO 到 canvas(畫布)上 ====
     protected void PostUnit(Canvas canvas) {
-        if(x == 0)
-        {
-            x = 0;
-            canvas.drawBitmap(this.unit_bmp, x, 0, null);
-        }
-        else
-        {
             //在 canvas 上繪出物件本體
-            canvas.drawBitmap(this.unit_bmp, x, y, null);
-        }
-
+            canvas.drawBitmap(this.unit_bmp,decide.x(), y, null);
     }
 
-    public void creat(float p , int why)
+    public boolean cancareat()
     {
-            int x=(int) Sen.nowpositon;
-            int y=(int) ag;
-
-            if(why == 1)
-            {
-                if( 360 > ag  && (Sen.nowpositon - 30) < ag)
-                {
-                    if(Sen.nowpositon < ag)
-                    {
-                      this.x = 600 + ((y - x) * 20);
-                    }
-                    else
-                    {
-                        this.x = 600 - ((x - y) * 20);
-                    }
-                }
-                else  if(p > ag)
-                {
-                    this.x = 600 + ((360 - x + y) * 20);
-                }
-                else
-                {
-                    this.x = 0;
-                }
-            }
-            else if(why == 2)
-            {
-                if(((Sen.nowpositon + 30) > ag  && 0 < ag))
-                {
-                    if(Sen.nowpositon < ag)
-                    {
-                        this.x = 600 + ((y - x) * 20);
-                    }
-                    else
-                    {
-                        this.x = 600 - ((x - y) * 20);
-                    }
-                }
-                else if ((360-p) < ag)
-                {
-                    this.x =  600 + ((360 - y + x) * 20);
-                }
-                else
-                {
-                    this.x = 0;
-                }
-            }
-            else
-            {
-                if((Sen.nowpositon + 30) > ag && (Sen.nowpositon - 30) < ag)
-                {
-                    if(Sen.nowpositon < ag)
-                    {
-                        this.x = 600 + ((y - x) * 20);
-                    }
-                    else
-                    {
-                        this.x =  600 - ((x - y) * 20);
-                    }
-                }
-                else
-                {
-                    this.x = 0;
-                }
-            }
+        return decide.cancareat();
     }
 
     @Override
     public void run() {
-            UnitInitial();
+        while(flag){
+
+            try {
+                //暫停 0.5 秒(每隔 0.5 秒更新畫面一次)
+                Thread.sleep(50);
+
+                decide.decide();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } //while
     }
 }
