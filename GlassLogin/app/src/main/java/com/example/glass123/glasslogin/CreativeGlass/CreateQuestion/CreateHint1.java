@@ -5,15 +5,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.glass123.glasslogin.R;
 
-public class CreateHint1 extends AppCompatActivity {
-
+public class CreateHint1 extends AppCompatActivity implements View.OnClickListener{
+    ImageButton createqnext_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_hint1);
+
+        createqnext_btn = (ImageButton)findViewById(R.id.createqnext_btn);
+        createqnext_btn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.createqnext_btn){
+            CreateQuestionNext();
+        }
     }
 
     private void CreateQuestionNext(){
@@ -42,4 +54,5 @@ public class CreateHint1 extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

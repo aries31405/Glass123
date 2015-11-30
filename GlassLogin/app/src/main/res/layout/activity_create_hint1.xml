@@ -69,7 +69,6 @@
         android:layout_height="fill_parent"
         android:id="@+id/createqnext_btn"
         android:background="@drawable/next"
-        android:onClick="CreateQuestionNext"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

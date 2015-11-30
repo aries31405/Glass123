@@ -28,7 +28,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/next"
-        android:onClick="CreateQuestionNext" />
+        />
 
     <EditText
         android:layout_width="725dp"

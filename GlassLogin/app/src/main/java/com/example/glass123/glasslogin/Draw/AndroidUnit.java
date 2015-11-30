@@ -43,7 +43,6 @@ public class AndroidUnit implements Runnable{
         unit_Height = unit_bmp.getHeight();
         unit_Width = unit_bmp.getWidth();
 
-<<<<<<< HEAD
 
        /* if((Sen.nowpositon+30) > 359)
         {
@@ -59,8 +58,7 @@ public class AndroidUnit implements Runnable{
         }*/
         x = 600;
         y = 330;
-=======
->>>>>>> e6ed9ecd4e263be05f75daeea6fee4d39f99cd8c
+
         //以亂數決定此物件的初始座標
         //x = (int)(Math.random() * (FindQuestion.monitor_Width - unit_Width));
         //y = (int)((Math.random() * (FindQuestion.monitor_Height - unit_Height - 5)) + 5);*/

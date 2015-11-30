@@ -109,7 +109,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 //Thread.sleep(100);
                 if(IsNotCreating)
                 {
-<<<<<<< HEAD
                     draw();
                 }
                /* else if(Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon)
@@ -170,8 +169,15 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         {
             first = false;
         }
-<<<<<<< HEAD
+        else
+        {
+            Sen.nowpositon = Sen.positon;
+        }
 
+        if (canvas != null) {
+            //解鎖畫布(canvas)並顯示到螢幕上
+            holder.unlockCanvasAndPost(canvas);
+        }
     }
 
     /*//繪製畫面
@@ -191,18 +197,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         Sen.nowpositon = Sen.positon;
 
     }*/
-=======
-        else
-        {
-            Sen.nowpositon = Sen.positon;
-        }
-
-        if (canvas != null) {
-            //解鎖畫布(canvas)並顯示到螢幕上
-            holder.unlockCanvasAndPost(canvas);
-        }
-    }
->>>>>>> e6ed9ecd4e263be05f75daeea6fee4d39f99cd8c
 
 
 }
