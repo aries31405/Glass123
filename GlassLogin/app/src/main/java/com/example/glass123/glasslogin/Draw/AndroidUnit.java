@@ -18,6 +18,7 @@ public class AndroidUnit implements Runnable{
     private int x, y;                     //顯示物件的座標
     private int unit_Width, unit_Height;  //物件圖片的寬、高
     private Bitmap unit_bmp = null;       //代表該物件的圖片
+    private  boolean notcreat = true;
 
     //矩形框變數，與觸碰事件比對座標，看是否點在此物件圖片範圍內
     Rect unit_rect = new Rect();
@@ -42,7 +43,7 @@ public class AndroidUnit implements Runnable{
         unit_Width = unit_bmp.getWidth();
 
 
-        if((Sen.nowpositon+30) > 359)
+       /* if((Sen.nowpositon+30) > 359)
         {
             creat( 30-(360-Sen.nowpositon),1);
         }
@@ -53,7 +54,8 @@ public class AndroidUnit implements Runnable{
         else
         {
             creat(0,0);
-        }
+        }*/
+        x = 600;
         y = 330;
         //以亂數決定此物件的初始座標
         //x = (int)(Math.random() * (FindQuestion.monitor_Width - unit_Width));

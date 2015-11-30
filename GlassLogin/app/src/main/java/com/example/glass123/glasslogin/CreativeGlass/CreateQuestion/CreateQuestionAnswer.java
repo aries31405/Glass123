@@ -8,23 +8,23 @@ import android.view.MenuItem;
 
 import com.example.glass123.glasslogin.R;
 
-public class CreateHint1 extends AppCompatActivity {
+public class CreateQuestionAnswer extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_hint1);
+        setContentView(R.layout.activity_create_question_answer);
     }
 
     private void CreateQuestionNext(){
-        Intent intent = new Intent(CreateHint1.this,CreateHint2.class);
+        Intent intent = new Intent(CreateQuestionAnswer.this,CreateHint1.class);
         startActivity(intent);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_hint1, menu);
+        getMenuInflater().inflate(R.menu.menu_create_question_answer, menu);
         return true;
     }
 

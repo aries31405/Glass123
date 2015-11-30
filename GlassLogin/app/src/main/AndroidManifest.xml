@@ -84,15 +84,33 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
+            android:name=".CreativeGlass.WithGlass.WithGlassStart"
+            android:label="@string/title_activity_with_glass_start"
+            android:screenOrientation="landscape" >
+        </activity>
+        <!--Create Question -->
+        <activity
+            android:name=".CreativeGlass.CreateQuestion.CreateQuestionAnswer"
+            android:label="@string/title_activity_create_question_answer"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
             android:name=".CreativeGlass.CreateQuestion.CreateHint1"
             android:label="@string/title_activity_create_hint1"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity
-            android:name=".CreativeGlass.WithGlass.WithGlassStart"
-            android:label="@string/title_activity_with_glass_start"
-            android:screenOrientation="landscape"  >
+        <activity android:name=".CreativeGlass.CreateQuestion.CreateHint2"
+            android:label="CreateHint2"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity android:name=".CreativeGlass.CreateQuestion.CreateHint3"
+            android:label="CreateHint3"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
+            android:label="CreateHint3"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

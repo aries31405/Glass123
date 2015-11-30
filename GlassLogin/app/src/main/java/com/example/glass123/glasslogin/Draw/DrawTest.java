@@ -108,11 +108,11 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 {
                     draw();
                 }
-                else if(Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon)
+               /* else if(Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon)
                 {
                     godraw();
                 }
-
+*/
                 /*//從 Au 物件陣列中移除已經停止活動的物件
                 for (AndroidUnit b: Au) {
                     if (!b.IsAlive()) Au.remove(b);
@@ -150,7 +150,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
 
     }
 
-    //繪製畫面
+    /*//繪製畫面
     public void godraw()
     {
         //取得並鎖住畫布(canvas)
@@ -164,8 +164,9 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
             a.go();
         }
 
+        Sen.nowpositon = Sen.positon;
 
-    }
+    }*/
 
 
 }
