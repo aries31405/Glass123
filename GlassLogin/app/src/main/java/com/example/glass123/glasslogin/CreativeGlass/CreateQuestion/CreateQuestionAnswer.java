@@ -1,26 +1,30 @@
 package com.example.glass123.glasslogin.CreativeGlass.CreateQuestion;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.glass123.glasslogin.R;
 
 public class CreateQuestionAnswer extends AppCompatActivity implements View.OnClickListener{
     ImageButton createqnext_btn;
+    EditText answer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_question_answer);
 
+        //button init
         createqnext_btn = (ImageButton)findViewById(R.id.createqnext_btn);
         createqnext_btn.setOnClickListener(this);
+
+        //edittext init
+        answer= (EditText)findViewById(R.id.hint2);
 
     }
 
@@ -32,7 +36,10 @@ public class CreateQuestionAnswer extends AppCompatActivity implements View.OnCl
     }
 
     private void CreateQuestionNext(){
+        Bundle bundle = new Bundle();
+        bundle.putString("answer",answer.getText().toString());
         Intent intent = new Intent(CreateQuestionAnswer.this,CreateHint1.class);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

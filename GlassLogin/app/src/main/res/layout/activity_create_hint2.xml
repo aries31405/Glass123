@@ -22,7 +22,7 @@
     <EditText
         android:layout_width="725dp"
         android:layout_height="45dp"
-        android:id="@+id/editText2"
+        android:id="@+id/hint2"
         android:background="#ffffff"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
@@ -47,17 +47,16 @@
         android:background="#ffffff"
         android:textColor="#6a2a69"
         android:textSize="25dp"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/hint2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp" />
     <ImageButton
-        android:layout_width="150dp"
-        android:layout_height="fill_parent"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/createqnext_btn"
+        android:background="@drawable/next"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/next"
-        />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
