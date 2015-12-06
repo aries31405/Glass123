@@ -5,17 +5,14 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.hardware.Camera;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
 import com.example.glass123.glasslogin.R;
@@ -72,10 +69,34 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         //建立 AndroidUnit 物件 10 隻
         for(int i=0; i< Angle.angle.length; i++) {
             //產生 AndroidUnit 實體 au
-            AndroidUnit au = new AndroidUnit(bmp,Angle.angle[i]);
+            AndroidUnit au = new AndroidUnit(bmp,Angle.angle[i],i);
             //陸續將 au 放入 Au 物件陣列中
             Au.add(au);
         }
+    }
+
+    //==== 加入觸碰事件方法 ====
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            int x = (int)event.getX();
+            int y = (int)event.getY();
+
+            //取得並鎖住畫布(canvas)
+            canvas = holder.lockCanvas();
+
+            //巡覽 Au 物件陣列一遍，逐一比對是否碰觸到物件圖片
+            for (AndroidUnit a: Au) {
+                a.IsTouch(x, y,canvas);
+            }
+
+            if (canvas != null) {
+                //解鎖畫布(canvas)並顯示到螢幕上
+                holder.unlockCanvasAndPost(canvas);
+            }
+        }
+        return true;
     }
 
     @Override
@@ -99,8 +120,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     @Override
     public void run() {
         // TODO Auto-generated method stub
-
-
         while(flag){
             int chang = 0;
             //將物件顯示到螢幕上
@@ -109,26 +128,19 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 //Thread.sleep(100);
                 if(IsNotCreating)
                 {
-                    draw();
-                }
-               /* else if(Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon)
-                {
-                    godraw();
-=======
                     IsNotCreating = false;
                     if(first)
                     {
                         draw();
                     }
-                    else if(Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon)
+                    else if((Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon))
                     {
                         draw();
                     }
-                    chang =1;
->>>>>>> e6ed9ecd4e263be05f75daeea6fee4d39f99cd8c
+                    chang = 1;
                 }
-*/
-                /*//從 Au 物件陣列中移除已經停止活動的物件
+
+                /*從 Au 物件陣列中移除已經停止活動的物件
                 for (AndroidUnit b: Au) {
                     if (!b.IsAlive()) Au.remove(b);
                 }*/
@@ -141,7 +153,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                     IsNotCreating = true;
                 }
             }
-       } //while
+        } //while
     }
 
     //繪製畫面
@@ -180,23 +192,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         }
     }
 
-    /*//繪製畫面
-    public void godraw()
-    {
-        //取得並鎖住畫布(canvas)
-        canvas = holder.lockCanvas();
-
-        ///巡覽 Au 物件陣列中的所有物件
-
-        for (AndroidUnit a: Au) {
-            //若該物件還活著，則呼叫 AndroidUnit 物件的 PostUnit() 方法
-            //將物件圖片繪至 canvas 上
-            a.go();
-        }
-
-        Sen.nowpositon = Sen.positon;
-
-    }*/
 
 
 }

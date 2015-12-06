@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
     public static int monitor_Width ;
     public static int monitor_Height ;
 
-
+    private Button bt;
     private DrawTest drawTest = null;
     private SurfaceView svCamera = null;
     protected SurfaceHolder mSurfaceHolder;
@@ -53,8 +54,9 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ag.update(24.152214,120.675439);
+        bt = (Button)findViewById(R.id.button2);
 
+        ag.update(24.152214,120.675439);
 
         //取得陀螺儀控制
         sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
@@ -80,8 +82,6 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
 
-
-
 /*
 
         //自定義GPS類別
@@ -96,6 +96,11 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
         super.onPause();
     }
 
+
+    public void click(View v)
+    {
+        finish();
+    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
