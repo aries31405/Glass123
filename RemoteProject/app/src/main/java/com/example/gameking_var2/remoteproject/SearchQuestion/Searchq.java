@@ -74,7 +74,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     //查詢資料庫 執行續
     private Handler handler  = new Handler();
     private Thread thread;
-    private String allurl = "http://163.17.135.75/glass/question_localtion.php",alldata = "",msg;
+    private String allurl = "http://163.17.135.76/glass/question_localtion.php",alldata = "",msg;
 
     //樓層暫定6樓
     String floor = "6";
@@ -229,7 +229,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                         if(mCardScroller.getSelectedItemPosition() != 0)
                         {
                             GetServerMessage message = new GetServerMessage();
-                            msg = message.all("http://163.17.135.75/glass/question.php", "titleId=" + sp.getNewTid(mCardScroller.getSelectedItemPosition() - 1));
+                            msg = message.all("http://163.17.135.76/glass/question.php", "titleId=" + sp.getNewTid(mCardScroller.getSelectedItemPosition() - 1));
                             handler.post(getprompt);
                         }
                     }

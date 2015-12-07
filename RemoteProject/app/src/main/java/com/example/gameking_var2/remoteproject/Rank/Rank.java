@@ -180,7 +180,7 @@ public class Rank extends Activity implements GestureDetector.BaseListener
                     public void run()
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.75/glass/add_evaluation.php","titleId="+Tid+"&UserId="+id+"&Star="+String.valueOf(vf_rank.getDisplayedChild()));
+                        msg = message.all("http://163.17.135.76/glass/add_evaluation.php","titleId="+Tid+"&UserId="+id+"&Star="+String.valueOf(vf_rank.getDisplayedChild()));
                         finish();
                     }
 

@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.FileObserver;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -32,34 +36,28 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by 孔雀舞 on 2015/9/17.
  */
-public class Topic  extends Activity  implements GestureDetector.BaseListener{
-
-    private static final String NAMESPACE = "http://tts.itri.org.tw";
-    private static final String URL = "http://tts.itri.org.tw/TTSService/Soap_1_3.php?wsdl";
-
-    private static final String Account = "s1100b026";
-    private static final String Password = "Ss23851339";
-    private String Result_Soap;
-    private String text;//TTS文字
-    private String id;//轉換後ID
-    private String url;//下載網址
-
+public class Topic  extends Activity  implements GestureDetector.BaseListener,LocationListener{
+    LocationManager mlocation;
+    private double latitude=0.0,longitude=0.0;
     String[] Ttext = new String[2];
-
+    private Handler handler  = new Handler();
     //計算已出的卡片
     int ii[] = {0,0,0};
 
     protected static final int RESULT_SPEECH = 1,TAKE_PICTURE_REQUEST = 007;
 
-    String floor,Topic=null;
+    String floor,Topic=null,msg,id,titleId;
     Card card;
     Bitmap bitmap;
 
@@ -97,6 +95,23 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
 
+
+        try//取得ID
+        {
+            FileInputStream in = openFileInput("Id.txt");
+            byte[] data = new byte[128];
+            in.read(data);
+            in.close();
+            id = new String(data);
+        }
+        catch(IOException e)
+        {
+
+        }
+
+        //設定向使用者連接的手持裝置取得位置
+        mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Topic.this);
 
     }
 
@@ -151,7 +166,17 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
                 deleteCard(mCardScroller.getSelectedItemPosition());
                 break;
             case "LONG_PRESS":
+                new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        GetServerMessage message = new GetServerMessage();
+                        titleId = message.all("http://163.17.135.76/glass/add_title.php","UserId="+id+"&x="+ latitude+"&y="+longitude+"&floor="+6);
+                        handler.post(add);
+                    }
 
+                }).start();
                 break;
         }
         return false;
@@ -332,99 +357,18 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
             observer.startWatching();
         }
     }
+    
 
-
-    //----------------------------------------TTS--------------------------------
-
-    //將文字轉換取得ID
-    public void CallSoapConvertSimple() {
-        String METHOD_NAME = "ConvertSimple";
-        String SOAP_ACTION = "http://tts.itri.org.tw/TTSService/"+METHOD_NAME;
-
-        try {
-            SoapObject rpc = new SoapObject(NAMESPACE, METHOD_NAME);
-            rpc.addProperty("accountID", Account);
-            rpc.addProperty("password", Password);
-            rpc.addProperty("TTStext", text);
-            HttpTransportSE ht = new HttpTransportSE(URL);
-            ht.debug = true;
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
-
-            envelope.bodyOut = rpc;
-            envelope.dotNet = true;
-            envelope.setOutputSoapObject(rpc);
-
-            ht.call(SOAP_ACTION, envelope);
-
-            SoapObject result = (SoapObject) envelope.bodyIn;
-            Result_Soap=result.getProperty(0).toString();
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    String all[] = Result_Soap.split("&");
-                    id = all[2];
-                }
-
-
-            });
-        } catch (Exception e) {
-            Log.e("MainActivity", e.toString());
-            e.printStackTrace();
+    //執行緒
+    final Runnable add = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            GetServerMessage message = new GetServerMessage();
+            titleId = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3="+"three");
         }
-    }
-
-    //'提供ID取得下載網址
-    public void CallSoapGetConvertStatus() {
-        String METHOD_NAME = "GetConvertStatus";
-        String SOAP_ACTION = "http://tts.itri.org.tw/TTSService/"+METHOD_NAME;
-
-        try {
-            SoapObject rpc = new SoapObject(NAMESPACE, METHOD_NAME);
-            rpc.addProperty("accountID", Account);
-            rpc.addProperty("password", Password);
-            rpc.addProperty("convertID", id);
-
-            HttpTransportSE ht = new HttpTransportSE(URL);
-            ht.debug = true;
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
-
-            envelope.bodyOut = rpc;
-            envelope.dotNet = true;
-            envelope.setOutputSoapObject(rpc);
-            ht.call(SOAP_ACTION, envelope);
-
-            SoapObject result = (SoapObject) envelope.bodyIn;
-            final String Result=result.getProperty(0).toString();
-            runOnUiThread(new Runnable(){
-                @Override
-                public void run() {
-                    String[] all2;
-                    all2 =  Result.toString().split("&");
-                    url = all2[all2.length-1];
-
-                    GetServerMessage message = new GetServerMessage();
-                    String msg = message.all("http://163.17.135.75/TTS/down.php", "url=" + url);
-                }});
-
-        } catch (Exception e) {
-            Log.e("MainActivity", e.toString());
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-
-
-
-
-
-
+    };
 
 
     @Override
@@ -439,5 +383,29 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener{
     {
         mCardScroller.deactivate();
         super.onPause();
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,Topic.this);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

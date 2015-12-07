@@ -114,7 +114,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
                     public void run()
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.75/glass/UserAnswer.php","titleId="+Tid+"&Id="+ id+"&Answer="+Answer);
+                        msg = message.all("http://163.17.135.76/glass/UserAnswer.php","titleId="+Tid+"&Id="+ id+"&Answer="+Answer);
                         handler.post(updata);
                     }
 
