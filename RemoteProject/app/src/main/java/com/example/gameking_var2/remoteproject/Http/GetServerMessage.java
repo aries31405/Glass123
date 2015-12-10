@@ -13,7 +13,6 @@ import java.net.URL;
 public class GetServerMessage {
 	public String all(String url,String alldata)
 	{
-
 		 try
 	        {
 	        	  URL obj = new URL(url);

@@ -15,7 +15,6 @@ import android.os.FileObserver;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -24,19 +23,13 @@ import com.example.gameking_var2.remoteproject.CardsAdapter.CustomAdapter;
 import com.example.gameking_var2.remoteproject.CardsAdapter.Imageview;
 import com.example.gameking_var2.remoteproject.CardsAdapter.Toictext;
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
-import com.example.gameking_var2.remoteproject.Http.UploadFile;
+import com.example.gameking_var2.remoteproject.Http.UploadImage;
 import com.example.gameking_var2.remoteproject.R;
 import com.google.android.glass.app.Card;
 import com.google.android.glass.content.Intents;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollView;
-
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,7 +50,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
 
     protected static final int RESULT_SPEECH = 1,TAKE_PICTURE_REQUEST = 007;
 
-    String floor,Topic=null,msg,id,titleId;
+    String floor,Topic=null,msg,id,titleId,picturePath;
     Card card;
     Bitmap bitmap;
 
@@ -69,8 +62,6 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
 
     //定義手勢偵測
     private GestureDetector GestureDetector;
-
-    UploadFile upf;
 
     protected void onCreate(Bundle bundle)
     {
@@ -173,7 +164,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                     {
                         GetServerMessage message = new GetServerMessage();
                         titleId = message.all("http://163.17.135.76/glass/add_title.php","UserId="+id+"&x="+ latitude+"&y="+longitude+"&floor="+6);
-                        handler.post(add);
+                        handler.post(add_image);
                     }
 
                 }).start();
@@ -287,6 +278,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
     }
 
     private void processPictureWhenReady(final String picturePath){
+        this.picturePath = picturePath;
         final File pictureFile = new File(picturePath);
 
         if(pictureFile.exists())
@@ -360,7 +352,18 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
     
 
     //執行緒
-    final Runnable add = new Runnable()
+    final Runnable add_image = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+           UploadImage uploadImage = new UploadImage();
+            uploadImage.uploadFile(picturePath);
+            handler.post(add_prompt);
+        }
+    };
+
+    final Runnable add_prompt = new Runnable()
     {
         @Override
         public void run()
