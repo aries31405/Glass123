@@ -47,11 +47,6 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
     private String mConnectedDeviceName = null;
 
     /**
-     * Array adapter for the conversation thread
-     */
-    //private ArrayAdapter<String> mConversationArrayAdapter;
-
-    /**
      * String buffer for outgoing messages
      */
     private StringBuffer mOutStringBuffer;
@@ -64,7 +59,6 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
 
     // User Profile
     private Profile mProfile;
-    //private TextView mUserProfileText;
 
     private TextToSpeech tts,tts2;
     Player player;
@@ -72,14 +66,10 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
         setContentView(R.layout.bluetooth_connect);
 
         //按鈕findElementById
         mBTButton = (Button)findViewById(R.id.button_bluetooth);
-
-        // 使用者資料顯示findViewById
-        //mUserProfileText = (TextView)findViewById(R.id.text_user_profile);
 
         // 取得本地藍芽解析器
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -101,9 +91,7 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
         mProfile.USER_SEX = bundle.getString("usersex");
         mProfile.USER_AGE = bundle.getString("userage");
 
-//        Toast.makeText(getApplicationContext(),mProfile.USER_SEX +" and "+ mProfile.USER_AGE,Toast.LENGTH_SHORT).show();
-        // 顯示使用者Google帳戶資料
-        //mUserProfileText.setText(mProfile.USER_NAME + ", " + mProfile.USER_EMAIL);
+        //Toast.makeText(getApplicationContext(),mProfile.USER_SEX +" and "+ mProfile.USER_AGE,Toast.LENGTH_SHORT).show();
 
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -168,10 +156,10 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
         // 開啟藍芽裝置清單
         mBTButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               /* if (null != v) {
+                if (null != v) {
                     Intent serverIntent = new Intent(BluetoothChatFragment.this, DeviceListActivity.class);
                     startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-                }*/
+                }
                 tts.speak("與您的", TextToSpeech.QUEUE_ADD, null);
                 tts2.speak("Google Glass", TextToSpeech.QUEUE_ADD, null);
                 tts.speak("連接，請點擊", TextToSpeech.QUEUE_ADD, null);
@@ -276,7 +264,6 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
                     switch (msg.arg1) {
                         case BluetoothChatService.STATE_CONNECTED:
                             setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-                            //mConversationArrayAdapter.clear();
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
                             setStatus(R.string.title_connecting);
