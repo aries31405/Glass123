@@ -357,9 +357,17 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
         @Override
         public void run()
         {
-           UploadImage uploadImage = new UploadImage();
-            uploadImage.uploadFile(picturePath);
-            handler.post(add_prompt);
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    UploadImage uploadImage = new UploadImage();
+                    uploadImage.uploadFile(picturePath);
+                    handler.post(add_prompt);
+                }
+
+            }).start();
         }
     };
 
@@ -368,8 +376,16 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
         @Override
         public void run()
         {
-            GetServerMessage message = new GetServerMessage();
-            titleId = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3="+"three");
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    GetServerMessage message = new GetServerMessage();
+                    msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3="+"three");
+                }
+
+            }).start();
         }
     };
 
