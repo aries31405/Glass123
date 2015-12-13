@@ -14,7 +14,7 @@ public class UploadImage {
 
     public int uploadFile(String sourceFileUri) {
         int serverResponseCode = 0;
-        String upLoadServerUri = "http://163.17.135.76/glass/image/down.php";
+        String upLoadServerUri = "http://163.17.135.76/TTS/glass_image_down.php";
         String fileName = sourceFileUri;
 
         HttpURLConnection conn = null;
@@ -51,6 +51,7 @@ public class UploadImage {
 
                 dos = new DataOutputStream(conn.getOutputStream());
 
+                dos.write(("file=7").getBytes("big5"));
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
                 dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""+ fileName + "\"" + lineEnd);
 

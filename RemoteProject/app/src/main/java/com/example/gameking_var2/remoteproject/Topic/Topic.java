@@ -59,7 +59,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
     //private CardScrollAdapter mAdapter;
     private CustomAdapter mAdapter;
     private CardScrollView mCardScroller;
-
+    int ResponseCod;
     //定義手勢偵測
     private GestureDetector GestureDetector;
 
@@ -363,7 +363,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                 public void run()
                 {
                     UploadImage uploadImage = new UploadImage();
-                    uploadImage.uploadFile(picturePath);
+                    ResponseCod = uploadImage.uploadFile(picturePath);
                     handler.post(add_prompt);
                 }
 
