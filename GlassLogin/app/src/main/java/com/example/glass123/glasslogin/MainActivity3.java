@@ -1,20 +1,107 @@
-package com.example.gameking_var2.remoteproject.Http;
+package com.example.glass123.glasslogin;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.View;
+
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by seahorse on 2015/12/10.
- */
-public class UploadImage {
+public class MainActivity3 extends Activity {
+
+    private int serverResponseCode = 0;
+    private String upLoadServerUri = null;
+    private String imagepath=null;
+    private ImageView imageview;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.gggggg);
+
+        imageview = (ImageView)findViewById(R.id.iii);
+        upLoadServerUri = "http://163.17.135.76/TTS/glass_image_down.php";
+
+    }
+
+    public void click(View v) {
+
+        switch (v.getId())
+        {
+            case R.id.bbb:
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+                break;
+            case R.id.b3:
+                new Thread(new Runnable() {
+                    public void run() {
+
+                        uploadFile(imagepath);
+
+                    }
+                }).start();
+
+                Toast.makeText(MainActivity3.this,imagepath,Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+
+            Uri uri = data.getData();
+            //抽象資料的接口
+            ContentResolver cr = this.getContentResolver();
+            try {
+                //由抽象資料接口轉換圖檔路徑為Bitmap
+                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                // 將Bitmap設定到ImageView
+                imageview.setImageBitmap(bitmap);
+                imagepath = getPath(uri);
+
+            } catch (FileNotFoundException e) {
+
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public String getPath(Uri uri) {
+
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
 
     public int uploadFile(String sourceFileUri) {
-        int serverResponseCode = 0;
-        String upLoadServerUri = "http://163.17.135.76/TTS/glass_image_down.php";
+
         String fileName = sourceFileUri;
 
         HttpURLConnection conn = null;
@@ -28,6 +115,7 @@ public class UploadImage {
         File sourceFile = new File(sourceFileUri);
 
         if (!sourceFile.isFile()) {
+            finish();
             return 0;
         }
         else
@@ -54,8 +142,6 @@ public class UploadImage {
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
                 dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""+ fileName + "\"" + lineEnd);
 
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"file\";value=\"7\"" + lineEnd);
 
                 dos.writeBytes(lineEnd);
 
@@ -97,8 +183,10 @@ public class UploadImage {
             } catch (Exception e) {
 
                 e.printStackTrace();
+
             }
             return serverResponseCode;
+
         } // End else block
     }
 }

@@ -70,7 +70,9 @@ public class MainActivity extends Activity implements
     @Override
     public void onClick(View v){
         if (v.getId() == R.id.sign_in_button) {
-            onSignInClicked();
+            //onSignInClicked();
+            Intent i = new Intent(MainActivity.this,MainActivity3.class);
+            startActivity(i);
         }
         else if(v.getId() == R.id.skip_btn){
             onSkipClick();

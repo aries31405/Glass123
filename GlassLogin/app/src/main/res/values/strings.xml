@@ -59,5 +59,6 @@
     <string name="title_activity_create_hint1">CreateHint1</string>
     <string name="title_activity_with_glass_start">WithGlassStart</string>
     <string name="title_activity_create_question_answer">CreateQuestionAnswer</string>
+    <string name="title_activity_main3">MainActivity3</string>
 
 </resources>

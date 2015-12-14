@@ -18,8 +18,8 @@
 
     <!-- Camera -->
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -93,13 +93,12 @@
             android:label="@string/title_activity_with_glass_start"
             android:screenOrientation="landscape" >
         </activity>
-        <!--Create Question -->
+        <!-- Create Question -->
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateQuestionAnswer"
             android:label="@string/title_activity_create_question_answer"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden">
-
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateHint1"
@@ -107,19 +106,26 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name=".CreativeGlass.CreateQuestion.CreateHint2"
+        <activity
+            android:name=".CreativeGlass.CreateQuestion.CreateHint2"
             android:label="CreateHint2"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name=".CreativeGlass.CreateQuestion.CreateHint3"
+        <activity
+            android:name=".CreativeGlass.CreateQuestion.CreateHint3"
             android:label="CreateHint3"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
+        <activity
+            android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
             android:label="CreateHint3"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".MainActivity3"
+            android:label="@string/title_activity_main3" >
         </activity>
     </application>
 
