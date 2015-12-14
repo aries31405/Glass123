@@ -1,8 +1,10 @@
 package com.example.gameking_var2.remoteproject.Http;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,10 +14,11 @@ import java.net.URL;
  */
 public class UploadImage {
 
-    public int uploadFile(String sourceFileUri) {
+    public String uploadFile(String sourceFileUri) {
         int serverResponseCode = 0;
         String upLoadServerUri = "http://163.17.135.76/TTS/glass_image_down.php";
         String fileName = sourceFileUri;
+        String msg = null;
 
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -28,7 +31,7 @@ public class UploadImage {
         File sourceFile = new File(sourceFileUri);
 
         if (!sourceFile.isFile()) {
-            return 0;
+            return "no image";
         }
         else
         {
@@ -53,9 +56,6 @@ public class UploadImage {
 
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
                 dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""+ fileName + "\"" + lineEnd);
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"file\";value=\"7\"" + lineEnd);
 
                 dos.writeBytes(lineEnd);
 
@@ -87,6 +87,25 @@ public class UploadImage {
 
                 //close the streams //
                 fileInputStream.close();
+
+                //回傳資料
+                BufferedReader in = new BufferedReader( new InputStreamReader(conn.getInputStream()));
+                String inputLine=null,beforeLine;
+                StringBuffer response = new StringBuffer();
+                //只取最後一行
+                while (true) {
+                    beforeLine = inputLine;
+                    inputLine = in.readLine();
+                    if(inputLine == null )
+                    {
+                        response.append(beforeLine);
+                        break;
+                    }
+                }
+
+                in.close();
+                msg = response.toString();
+
                 dos.flush();
                 dos.close();
 
@@ -98,7 +117,7 @@ public class UploadImage {
 
                 e.printStackTrace();
             }
-            return serverResponseCode;
+            return msg;
         } // End else block
     }
 }

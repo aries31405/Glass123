@@ -59,7 +59,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
     //private CardScrollAdapter mAdapter;
     private CustomAdapter mAdapter;
     private CardScrollView mCardScroller;
-    int ResponseCod;
+    String ResponseMessages;
     //定義手勢偵測
     private GestureDetector GestureDetector;
 
@@ -363,7 +363,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                 public void run()
                 {
                     UploadImage uploadImage = new UploadImage();
-                    ResponseCod = uploadImage.uploadFile(picturePath);
+                    ResponseMessages = uploadImage.uploadFile(picturePath);
                     handler.post(add_prompt);
                 }
 
@@ -382,7 +382,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                 public void run()
                 {
                     GetServerMessage message = new GetServerMessage();
-                    msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3="+"three");
+                    msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3=three&imagepath="+ResponseMessages);
                 }
 
             }).start();

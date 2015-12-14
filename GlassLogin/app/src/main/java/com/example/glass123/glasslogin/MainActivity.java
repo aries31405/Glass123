@@ -70,9 +70,7 @@ public class MainActivity extends Activity implements
     @Override
     public void onClick(View v){
         if (v.getId() == R.id.sign_in_button) {
-            //onSignInClicked();
-            Intent i = new Intent(MainActivity.this,MainActivity3.class);
-            startActivity(i);
+            onSignInClicked();
         }
         else if(v.getId() == R.id.skip_btn){
             onSkipClick();
@@ -113,9 +111,6 @@ public class MainActivity extends Activity implements
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
-
-        //player = new Player("http://163.17.135.75/TTS/Lelogin/googlelogin.mp3");
-        // player.play();
 
         double i = 1;
         double n=0;
