@@ -383,8 +383,9 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                 {
                     GetServerMessage message = new GetServerMessage();
                     msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3=three&imagepath="+ResponseMessages);
-                }
 
+                    finish();
+                }
             }).start();
         }
     };

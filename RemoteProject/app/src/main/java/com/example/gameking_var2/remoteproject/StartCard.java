@@ -158,6 +158,24 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
 
+
+        try//將ID存起來
+        {
+            FileOutputStream out = openFileOutput("Id.txt",MODE_PRIVATE);
+            out.write(("20150920152234968040").getBytes());
+            out.close();
+        }
+        catch(IOException e)
+        {
+
+        }
+
+        Intent it = new Intent(getApplicationContext(), MainLine.class);
+        startActivity(it);
+
+        // 結束登入程序
+        StartCard.this.finish();
+
     }
 
     //-----------------------建立卡片--------------------//
