@@ -9,20 +9,22 @@ public class Decide {
     private double ag;
     private int x;
     private boolean cancreat = false;
-    public Decide(double ag)
+    private float positon;
+    public Decide(double ag,float positon)
     {
         this.ag = ag;
+        this.positon = positon;
     }
     public void decide()
     {
         cancreat = false;
-        if((Sen.nowpositon+30) > 359)
+        if((positon+30) > 359)
         {
-            creat( 30-(360-Sen.nowpositon),1);
+            creat( 30-(360- positon),1);
         }
-        else if((Sen.nowpositon-30) < 0)
+        else if((positon-30) < 0)
         {
-            creat( (Sen.nowpositon-30)*(-1),2);
+            creat( (positon-30)*(-1),2);
         }
         else
         {
@@ -42,14 +44,14 @@ public class Decide {
 
     public void creat(float p , int why)
     {
-        int x=(int) Sen.nowpositon;
+        int x=(int) positon;
         int y=(int) ag;
 
         if(why == 1)
         {
-            if( 360 > ag  && (Sen.nowpositon - 30) < ag)
+            if( 360 > ag  && (positon - 30) < ag)
             {
-                if(Sen.nowpositon < ag)
+                if(positon < ag)
                 {
                     this.x = 600 + ((y - x) * 20);
                     cancreat = true;
@@ -68,9 +70,9 @@ public class Decide {
         }
         else if(why == 2)
         {
-            if(((Sen.nowpositon + 30) > ag  && 0 < ag))
+            if(((positon + 30) > ag  && 0 < ag))
             {
-                if(Sen.nowpositon < ag)
+                if(positon < ag)
                 {
                     this.x = 600 + ((y - x) * 20);
                     cancreat = true;
@@ -89,9 +91,9 @@ public class Decide {
         }
         else
         {
-            if((Sen.nowpositon + 30) > ag && (Sen.nowpositon - 30) < ag)
+            if((positon + 30) > ag && (positon - 30) < ag)
             {
-                if(Sen.nowpositon < ag)
+                if(positon < ag)
                 {
                     this.x = 600 + ((y - x) * 20);
                     cancreat = true;

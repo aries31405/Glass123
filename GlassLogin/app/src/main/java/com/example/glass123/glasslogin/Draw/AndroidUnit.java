@@ -18,22 +18,21 @@ import com.example.glass123.glasslogin.Sensor.Sen;
  */
 public class AndroidUnit implements Runnable{
     Decide decide;
-    private double ag ;
+    private double ag , latitude, lontitud;
     private boolean flag = true;
-    private int  y,unit_Width, unit_Height,i;//顯示物件的座標,物件圖片的寬、高
+    private int  y,unit_Width, unit_Height,titleId;//顯示物件的座標,物件圖片的寬、高
     private Bitmap unit_bmp = null;       //代表該物件的圖片
     private  boolean notcreat = true;
-
     //矩形框變數，與觸碰事件比對座標，看是否點在此物件圖片範圍內
     Rect unit_rect = new Rect();
 
-    public AndroidUnit(Bitmap unit_bmp,Double ag,int i){
+    public AndroidUnit(Bitmap unit_bmp,double latitude,double lontitude,int titleId){
 
         //指定圖片來源
         this.unit_bmp = unit_bmp;
-        this.ag = ag;
-        this.i = i;
-        decide = new Decide(ag);
+        this.latitude = latitude;
+        this.lontitud = lontitude;
+        this.titleId = titleId;
         //此物件參數的初始設定
         UnitInitial();
 
@@ -48,7 +47,7 @@ public class AndroidUnit implements Runnable{
         unit_Width = unit_bmp.getWidth();
 
 
-        new Thread(this).start();
+        //new Thread(this).start();
         y = 330;
 
     }
@@ -63,7 +62,7 @@ public class AndroidUnit implements Runnable{
         if (unit_rect.contains(touch_x, touch_y)) {
             Paint test = new Paint(Color.YELLOW);
             test.setColor(Color.YELLOW);
-            canvas.drawText(String.valueOf(i),decide.x(), y, test);
+            canvas.drawText(String.valueOf(titleId),decide.x(), y, test);
         }
     }
 
@@ -96,5 +95,46 @@ public class AndroidUnit implements Runnable{
             }
 
         } //while
+    }
+
+    public void update(double latitud,double longitude,float positon)
+    {
+
+            if(this.latitude > latitud && this.lontitud >longitude)
+            {
+                ag = gps2d(latitud,longitude,this.latitude,this.lontitud);
+            }
+            else if(this.latitude < latitud && this.lontitud >longitude)
+            {
+                ag = 180-gps2d(latitud,longitude,this.latitude,this.lontitud);
+            }
+            else if(this.latitude > latitud && this.lontitud <longitude)
+            {
+                ag = 360+gps2d(latitud,longitude,this.latitude,this.lontitud);
+            }
+            else if(this.latitude < latitud && this.lontitud <longitude)
+            {
+                ag = 180-gps2d(latitud,longitude,this.latitude,this.lontitud);
+            }
+
+            decide = new Decide(ag,positon);
+            decide.decide();
+    }
+
+    private double gps2d(double lat_a, double lng_a, double lat_b, double lng_b) {
+        double d = 0;
+        lat_a=lat_a*Math.PI/180;
+        lng_a=lng_a*Math.PI/180;
+        lat_b=lat_b*Math.PI/180;
+        lng_b=lng_b*Math.PI/180;
+
+        d=Math.sin(lat_a)*Math.sin(lat_b)+Math.cos(lat_a)*Math.cos(lat_b)*Math.cos(lng_b-lng_a);
+        d=Math.sqrt(1-d*d);
+        d=Math.cos(lat_b)*Math.sin(lng_b - lng_a) /d;
+        d=Math.asin(d)*180/Math.PI;
+
+        //d = Math.round(d*10000);
+
+        return d;
     }
 }

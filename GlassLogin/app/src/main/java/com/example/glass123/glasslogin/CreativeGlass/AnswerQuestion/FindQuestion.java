@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.glass123.glasslogin.Draw.Data;
 import com.example.glass123.glasslogin.Draw.DrawTest;
 import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.R;
@@ -27,6 +28,7 @@ import com.example.glass123.glasslogin.Sensor.Acceleration;
 import com.example.glass123.glasslogin.Sensor.Sen;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
     public static int monitor_Width ;
@@ -37,9 +39,12 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
     private SurfaceView svCamera = null;
     protected SurfaceHolder mSurfaceHolder;
 
+    TextView tv3;
 
     boolean previewing = false;
     Camera myCamera;
+
+    public static ArrayList<Data> Au;
 
     Angle ag = new Angle();
     G g;
@@ -56,14 +61,40 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
 
         bt = (Button)findViewById(R.id.button2);
 
-        ag.update(24.152214,120.675439);
+        double[][] laon = new double[4][2];
+
+        laon[0][0] =24.152792;
+        laon[0][1] =120.675922;
+
+        laon[1][0] =24.151607;
+        laon[1][1] =120.675868;
+
+        laon[2][0] =24.151793;
+        laon[2][1] =120.674849;
+
+        laon[3][0] =24.152870;
+        laon[3][1] =120.674913;
+
+
+        Au = new ArrayList<Data>();
+        Au.clear();  //先清除 Au 物件陣列
+
+        //建立 AndroidUnit 物件 10 隻
+        for(int i=0; i< laon.length; i++) {
+            //產生 AndroidUnit 實體 au
+            Data au = new Data(laon[i][0],laon[i][1],i);
+            //陸續將 au 放入 Au 物件陣列中
+            Au.add(au);
+        }
+
+        /*ag.update(24.152214,120.675439);
 
         //取得陀螺儀控制
         sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         //自定義加速度類別
         ac = new Acceleration(sm);
         //自定義方位類別
-        senor = new Sen(sm,ac,ag);
+        senor = new Sen(sm,ac,ag);*/
 
 
         setContentView(R.layout.activity_find_question);
@@ -72,6 +103,18 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         monitor_Width = metrics.widthPixels;      //取得螢幕的寬度
         monitor_Height = metrics.heightPixels;    //取得螢幕的高度*/
+
+
+        /*tv3 = (TextView)findViewById(R.id.te);
+        //自定義GPS類別
+        mlocation  = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        g = new G(this,tv3);
+        if (mlocation.isProviderEnabled(LocationManager.GPS_PROVIDER) || mlocation.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            //如果GPS或網路定位開啟，呼叫locationServiceInitial()更新位置
+            mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,g);
+        } else {
+            Toast.makeText(FindQuestion.this, "請開啟定位服務", Toast.LENGTH_LONG).show();
+        }*/
 
         drawTest = (com.example.glass123.glasslogin.Draw.DrawTest) findViewById(R.id.svDraw);
         svCamera = (SurfaceView) findViewById(R.id.svCamera);
@@ -82,11 +125,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
 
-/*
 
-        //自定義GPS類別
-        //mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
-        //g = new G(mlocation,this,tv3);*/
 
     }
 
