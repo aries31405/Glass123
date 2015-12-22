@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import com.example.glass123.glasslogin.R;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Created by seahorse on 2015/11/28.
@@ -31,7 +32,7 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
     String answer,hint1,hint2;
 
     ImageView hint3;
-    private DisplayMetrics mymetrics;
+    private DisplayMetrics metrics;
     private final static int CAMERA = 66 ;
     private final static int PHOTO = 99 ;
     @Override
@@ -50,18 +51,21 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
         hint3 = (ImageView)findViewById(R.id.hint3);
 
         //讀取手機解析度
-        mymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(mymetrics);
+        metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        //開啟相機
+        //init
+        hint3 = (ImageView)findViewById(R.id.hint3);
+
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.MIME_TYPE,"image/jpeg");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
 
         Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
 
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri.getPath());
-        startActivityForResult(intent,CAMERA);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri.getPath());
+        startActivityForResult(intent, CAMERA);
+
 
     }
 
@@ -75,46 +79,51 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
     //拍照完畢或選取圖片後呼叫此函式
     @Override
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
-        //藉由requestCode判斷是否為開啟相機或開啟相簿而呼叫的，且data不為null
-        if ((requestCode == CAMERA || requestCode == PHOTO) && data != null) {
-            //取得照片路徑uri
+        if((requestCode == CAMERA) && (data != null)){
             Uri uri = data.getData();
-            ContentResolver cr = this.getContentResolver();
+            ContentResolver resolver = this.getContentResolver();
 
-            try {
-                //讀取照片，型態為Bitmap
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+            try{
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize=4;
+                Log.e("PETER",uri.getPath());
+                InputStream inputStream = resolver.openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(uri),null,options);
 
-                //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
-                if (bitmap.getWidth() > bitmap.getHeight()) ScalePic(bitmap,
-                        mymetrics.heightPixels);
-                else ScalePic(bitmap, mymetrics.widthPixels);
+                if(bitmap.getWidth()>bitmap.getHeight()){
+                    scalepic(bitmap,metrics.heightPixels);
+                }
+                else{
+                    scalepic(bitmap,metrics.widthPixels);
+                }
+                inputStream.close();
 
-                bitmap.recycle();
-            } catch (Exception e) {
-                Log.e("PETER",e.toString());
             }
+            catch (Exception e){
+                Log.e("PETER",e.toString());
+
+            }
+
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void ScalePic(Bitmap bitmap,int phone)
-    {
-        //縮放比例預設為1
-        float mScale = 1 ;
+    //調整圖片大小
+    private void scalepic(Bitmap bitmap,int metrics){
+        float scale = 1;
+        if(bitmap.getWidth()>metrics){
+            scale = (float)metrics/(float)bitmap.getWidth();
+            Matrix matrix = new Matrix();
+            matrix.setScale(scale,scale);
 
-        //如果圖片寬度大於手機寬度則進行縮放，否則直接將圖片放入ImageView內
-        if(bitmap.getWidth() > phone )
-        {
-            //判斷縮放比例
-            mScale = (float)phone/(float)bitmap.getWidth();
+            Bitmap scale_bitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,false);
 
-            Matrix mMat = new Matrix() ;
-            mMat.setScale(mScale, mScale);
-
-            Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap,0, 0, bitmap.getWidth(),bitmap.getHeight(),mMat, false);
-            hint3.setImageBitmap(mScaleBitmap);
+            hint3.setImageBitmap(scale_bitmap);
         }
-        else hint3.setImageBitmap(bitmap);
+        else{
+            hint3.setImageBitmap(bitmap);
+        }
     }
 
     private void CreateQuestionNext(){
