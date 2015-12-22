@@ -3,6 +3,7 @@ package com.example.glass123.glasslogin.CreativeGlass.CreateQuestion;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.glass123.glasslogin.R;
 
@@ -29,7 +31,7 @@ import java.io.InputStream;
  */
 public class CreateHint3 extends AppCompatActivity implements View.OnClickListener {
     ImageButton createqnext_btn;
-    String answer,hint1,hint2;
+    String answer,hint1,hint2,imagepath;
 
     ImageView hint3;
     private DisplayMetrics metrics;
@@ -81,6 +83,8 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
         if((requestCode == CAMERA) && (data != null)){
             Uri uri = data.getData();
+            imagepath = getPath(uri);
+            Toast.makeText(CreateHint3.this,imagepath,Toast.LENGTH_LONG).show();
             ContentResolver resolver = this.getContentResolver();
 
             try{
@@ -126,12 +130,22 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    public String getPath(Uri uri) {
+
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
     private void CreateQuestionNext(){
         Intent intent = new Intent(CreateHint3.this,CreateQuestionSend.class);
         Bundle bundle = new Bundle();
         bundle.putString("answer",answer);
         bundle.putString("hint1",hint1);
         bundle.putString("hint2",hint2);
+        bundle.putString("imagepath",imagepath);
         intent.putExtras(bundle);
         startActivity(intent);
     }
