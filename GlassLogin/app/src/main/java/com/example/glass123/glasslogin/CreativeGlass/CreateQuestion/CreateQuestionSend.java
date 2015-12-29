@@ -73,7 +73,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                     {
                         dialog.dismiss();
                         GetServerMessage message = new GetServerMessage();
-                        titleId = message.all("http://163.17.135.76/glass/add_title.php","UserId="+"20151211151346511431"+"&x="+ latitude+"&y="+longitude+"&floor="+6+"&titleDevice="+1);
+                        titleId = message.all("http://163.17.135.76/glass/add_title.php","UserId="+"20151211151346511431"+"&x="+ latitude+"&y="+longitude+"&floor="+1+"&titleDevice="+1);
                         handler.post(add_image);
                         Log.e("PETER", "UserId=" + "20151211151346511431" + "&x=" + latitude + "&y=" + longitude + "&floor=" + 6 + "&titleDevice=" + 1);
                         break;

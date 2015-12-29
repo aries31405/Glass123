@@ -2,6 +2,7 @@ package com.example.glass123.glasslogin.Draw;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
+import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo;
 import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.R;
 import com.example.glass123.glasslogin.Sensor.Sen;
@@ -51,10 +53,14 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
 
     private LocationManager mlocation ;
 
+    Context context;
+
     // DrawTest 建構子
     public DrawTest(Context context,AttributeSet attrs) {
         super(context,attrs);
         // TODO Auto-generated constructor stub
+
+        this.context = context;
 
         //指定圖片來源
         res = getResources();
@@ -117,7 +123,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             int x = (int)event.getX();
             int y = (int)event.getY();
-
             //取得並鎖住畫布(canvas)
             canvas = holder.lockCanvas();
 
@@ -129,7 +134,10 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
             if (canvas != null) {
                 //解鎖畫布(canvas)並顯示到螢幕上
                 holder.unlockCanvasAndPost(canvas);
+                Intent intent = new Intent(context, QuestionInfo.class);
+                context.startActivity(intent);
             }
+
         }
         return true;
     }

@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.widget.Toast;
 
@@ -59,9 +61,10 @@ public class AndroidUnit implements Runnable{
         //如果觸碰點的座標位於矩形框範圍內則contains(x, y)方法會傳回 true
         //否則傳回 false
         if (unit_rect.contains(touch_x, touch_y)) {
-            Paint test = new Paint(Color.YELLOW);
-            test.setColor(Color.YELLOW);
-            canvas.drawText(String.valueOf(titleId),decide.x(), y, test);
+            Paint paint = new Paint();
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            canvas.drawPaint(paint);
+            canvas.drawBitmap(this.unit_bmp, decide.x(), y, null);
         }
     }
 
