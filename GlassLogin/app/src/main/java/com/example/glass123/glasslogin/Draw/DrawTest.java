@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
+import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.R;
 import com.example.glass123.glasslogin.Sensor.Sen;
 
@@ -37,11 +38,11 @@ import java.util.ArrayList;
 /**
  * Created by s1100b026 on 2015/11/24.
  */
-public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Runnable,LocationListener{
+public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Runnable{
     private ArrayList<AndroidUnit> Au; //AndroidUnit 類別型態的物件陣列
     private Canvas canvas = null;
     private Thread db_thread;
-    boolean flag =true,first=true,IsNotCreating = false;
+    boolean flag =true,first=true,IsNotCreating = true;
     private Resources res;
     private Bitmap bmp;
 
@@ -49,14 +50,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     private SurfaceHolder holder;
 
     private LocationManager mlocation ;
-    private double latitude=0.0,longitude=0.0;
-
-    private SensorManager sm;
-    private Sensor aSensor;
-    private Sensor mSensor;
-    float[] accelerometerValues = new float[3];
-    float[] magneticFieldValues = new float[3];
-    private float positon,nowpositon = 0;
 
     // DrawTest 建構子
     public DrawTest(Context context,AttributeSet attrs) {
@@ -81,19 +74,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         //建立執行緒
         db_thread = new Thread(this);
 
-        //取得定位
-        mlocation  = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 2, this);
-        mlocation.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,2, this);
-
-        //取得陀螺儀控制
-        sm = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
-        aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-
-        sm.registerListener(myListener, aSensor, SensorManager.SENSOR_DELAY_GAME);
-        sm.registerListener(myListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
-
         final ProgressDialog dialog = ProgressDialog.show(context, "讀取中", "請等待數秒...", true);
         new Thread(new Runnable()
         {
@@ -101,9 +81,12 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
             public void run()
             {
                 while(true) {
-                    if((latitude != 0.0 || longitude != 0.0) && nowpositon !=0)
-                    {
-                        draw(nowpositon);
+                    if((G.latitude != 0.0 || G.longitude != 0.0) && Sen.postion !=0)
+                    {;
+                        for (AndroidUnit a: Au) {
+                            a.start();
+                        }
+                        db_thread.start();
                         dialog.dismiss();
                         break;
                     }
@@ -154,7 +137,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         // TODO Auto-generated method stub
-        //db_thread.start();
+
     }
 
     @Override
@@ -177,25 +160,21 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
             //將物件顯示到螢幕上
             try {
                 //暫停 0.05 秒(每隔 0.05 秒更新畫面一次)
-                //Thread.sleep(100);
+                Thread.sleep(100);
                 if(IsNotCreating)
                 {
                     IsNotCreating = false;
                     if(first)
                     {
-                       // draw();
+                       draw();
                     }
-                    else if((Sen.nowpositon + 5 < Sen.positon || Sen.nowpositon - 5 > Sen.positon))
+                    else if((Sen.nowpostion + 5 < Sen.postion) || (Sen.nowpostion - 5) > Sen.postion || G.latitude > (G.nowlatitude + 0.000008) || G.latitude < (G.nowlatitude-0.000008) || G.longitude > (G.nowlongitude + 0.000008) || G.longitude < (G.nowlongitude-0.000008))
                     {
-                        //draw();
+                        draw();
                     }
                     chang = 1;
                 }
 
-                /*從 Au 物件陣列中移除已經停止活動的物件
-                for (AndroidUnit b: Au) {
-                    if (!b.IsAlive()) Au.remove(b);
-                }*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -209,7 +188,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     }
 
     //繪製畫面
-   /* public void draw()
+    public void draw()
     {
 
         //取得並鎖住畫布(canvas)
@@ -235,32 +214,9 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         }
         else
         {
-            Sen.nowpositon = Sen.positon;
-        }
-
-        if (canvas != null) {
-            //解鎖畫布(canvas)並顯示到螢幕上
-            holder.unlockCanvasAndPost(canvas);
-        }
-    }*/
-    //繪製畫面
-    public void draw(float  positon)
-    {
-        //取得並鎖住畫布(canvas)
-        canvas = holder.lockCanvas();
-        //清除畫面
-        Paint paint = new Paint();
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        canvas.drawPaint(paint);
-
-        ///巡覽 Au 物件陣列中的所有物件
-        for (AndroidUnit a: Au) {
-            a.update(latitude,longitude,positon);
-            if(a.cancareat()) {
-                //呼叫 AndroidUnit 物件的 PostUnit() 方法
-                //將物件圖片繪至 canvas 上
-                a.PostUnit(canvas);
-            }
+            Sen.nowpostion = Sen.postion;
+            G.nowlatitude = G.latitude;
+            G.nowlongitude =G.longitude;
         }
 
         if (canvas != null) {
@@ -269,81 +225,5 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         }
     }
 
-    //--------------------------定位-----------------------------------
-    @Override
-    public void onLocationChanged(Location location) {
-
-        //latitude = location.getLatitude();
-        //longitude = location.getLongitude();
-        latitude = 24.152214;
-        longitude = 120.675439;
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-
-    //-------------------------------------------陀螺儀控制-----------------------------------------
-    final SensorEventListener myListener = new SensorEventListener() {
-        public void onSensorChanged(SensorEvent sensorEvent) {
-
-
-            if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-                magneticFieldValues = sensorEvent.values;
-            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-                accelerometerValues = sensorEvent.values;
-
-            calculateOrientation();
-        }
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-    };
-
-    private  void calculateOrientation() {
-        float[] values = new float[3];
-        float[] R = new float[9];
-        SensorManager.getRotationMatrix(R, null, accelerometerValues, magneticFieldValues);
-        SensorManager.getOrientation(R, values);
-
-        values[0] = (float) Math.toDegrees(values[0]);
-        //values[1] = (float) Math.toDegrees(values[1]);
-        //values[2] = (float) Math.toDegrees(values[2]);
-        //Log.i(TAG, values[0]+"");
-
-        if(values[0] != 0.0)
-        {
-            positon = transform(values[0]);
-            if(nowpositon == 0)
-            {
-                nowpositon = positon;
-            }
-        }
-
-    }
-
-    public float transform(float positon)
-    {
-        if(positon >= -179.9 && positon <-91 )
-        {
-            positon = 270 + (180-(positon*-1));
-        }
-        else
-        {
-            positon = positon + 90;
-        }
-        return positon;
-    }
 
 }

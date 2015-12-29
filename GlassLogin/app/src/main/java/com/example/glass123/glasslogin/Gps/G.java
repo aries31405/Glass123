@@ -15,31 +15,25 @@ import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion
  */
 public class G implements LocationListener {
 
-    TextView tv;
-    private double latitude=0.0,longitude=0.0;
+    public static double latitude=0.0,longitude=0.0,nowlatitude, nowlongitude;
 
-    public G(Activity a,TextView tv)
+    public G()
     {
-        this.tv = tv;
+
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        double la,lon;
-        la = location.getLatitude();
-        lon = location.getLongitude();
+        //latitude = location.getLatitude();
+        //longitude = location.getLongitude();
+        latitude = 24.152214;
+        longitude = 120.675439;
 
-        //if(la > (latitude + 0.000008) || la < (latitude-0.000008))
-        //{
-            latitude = la;
-        //}
-
-        //if(lon > (longitude + 0.000008) || lon < (longitude-0.000008))
-        //{
-            longitude = lon;
-        //}
-
-        tv.setText(String.valueOf(latitude)+"---"+String.valueOf(longitude));
+        if(nowlatitude == 0.0)
+        {
+            nowlatitude=latitude;
+            nowlongitude=longitude;
+        }
     }
 
     @Override

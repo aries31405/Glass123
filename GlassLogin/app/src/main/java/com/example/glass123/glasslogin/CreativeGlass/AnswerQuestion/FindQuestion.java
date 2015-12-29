@@ -87,14 +87,13 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
             Au.add(au);
         }
 
-        /*ag.update(24.152214,120.675439);
 
         //取得陀螺儀控制
         sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         //自定義加速度類別
-        ac = new Acceleration(sm);
+        //ac = new Acceleration(sm);
         //自定義方位類別
-        senor = new Sen(sm,ac,ag);*/
+        senor = new Sen(sm);
 
 
         setContentView(R.layout.activity_find_question);
@@ -105,16 +104,16 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback {
         monitor_Height = metrics.heightPixels;    //取得螢幕的高度*/
 
 
-        /*tv3 = (TextView)findViewById(R.id.te);
         //自定義GPS類別
         mlocation  = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        g = new G(this,tv3);
+        g = new G();
+
         if (mlocation.isProviderEnabled(LocationManager.GPS_PROVIDER) || mlocation.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             //如果GPS或網路定位開啟，呼叫locationServiceInitial()更新位置
             mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,g);
         } else {
             Toast.makeText(FindQuestion.this, "請開啟定位服務", Toast.LENGTH_LONG).show();
-        }*/
+        }
 
         drawTest = (com.example.glass123.glasslogin.Draw.DrawTest) findViewById(R.id.svDraw);
         svCamera = (SurfaceView) findViewById(R.id.svCamera);

@@ -11,13 +11,6 @@ import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
  * Created by s1100b026 on 2015/11/4.
  */
 public class Sen {
-    boolean OK = true;
-
-    private int view[][],j = 0;
-    private Angle ag;
-
-    private Acceleration ac;
-
     private SensorManager sm;
     private Sensor aSensor;
     private Sensor mSensor;
@@ -26,15 +19,11 @@ public class Sen {
     float[] magneticFieldValues = new float[3];
 
     private static final String TAG = "sensor";
-    public static float positon,nowpositon = 0;
+    public static float postion,nowpostion = 0;
 
-    public Sen(SensorManager sm,Acceleration ac,Angle ag)
+    public Sen(SensorManager sm)
     {
         this.sm = sm;
-        this.ac = ac;
-        this.ag = ag;
-
-        view = new int[ag.geti()][2];
 
         aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -76,10 +65,10 @@ public class Sen {
 
         if(values[0] != 0.0)
         {
-            positon = transform(values[0]);
-            if(nowpositon == 0)
+            postion = transform(values[0]);
+            if(nowpostion == 0)
             {
-                nowpositon = positon;
+                nowpostion = postion;
             }
         }
 

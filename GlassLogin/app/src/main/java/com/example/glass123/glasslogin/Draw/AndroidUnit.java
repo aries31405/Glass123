@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Decide;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
+import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.Sensor.Sen;
 
 /**
@@ -46,8 +47,6 @@ public class AndroidUnit implements Runnable{
         unit_Height = unit_bmp.getHeight();
         unit_Width = unit_bmp.getWidth();
 
-
-        //new Thread(this).start();
         y = 330;
 
     }
@@ -80,6 +79,11 @@ public class AndroidUnit implements Runnable{
         return decide.cancareat();
     }
 
+    public void start()
+    {
+        new Thread(this).start();
+    }
+
     @Override
     public void run() {
         while(flag){
@@ -88,7 +92,7 @@ public class AndroidUnit implements Runnable{
                 //暫停 0.5 秒(每隔 0.5 秒更新畫面一次)
                 Thread.sleep(50);
 
-                decide.decide();
+                update(G.latitude,G.longitude,Sen.postion);
 
             } catch (Exception e) {
                 e.printStackTrace();
