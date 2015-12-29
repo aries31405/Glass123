@@ -18,13 +18,13 @@ public class Decide {
     public void decide()
     {
         cancreat = false;
-        if((positon+30) > 359)
+        if((positon+15) > 359)
         {
-            creat( 30-(360- positon),1);
+            creat( 15-(360- positon),1);
         }
-        else if((positon-30) < 0)
+        else if((positon-15) < 0)
         {
-            creat( (positon-30)*(-1),2);
+            creat( (positon-15)*(-1),2);
         }
         else
         {
@@ -49,58 +49,58 @@ public class Decide {
 
         if(why == 1)
         {
-            if( 360 > ag  && (positon - 30) < ag)
+            if( 360 > ag  && (positon - 15) < ag)
             {
                 if(positon < ag)
                 {
-                    this.x = 600 + ((y - x) * 20);
+                    this.x = 600 + ((y - x) * 15);
                     cancreat = true;
                 }
                 else
                 {
-                    this.x = 600 - ((x - y) * 20);
+                    this.x = 600 - ((x - y) * 15);
                     cancreat = true;
                 }
             }
             else  if(p > ag)
             {
-                this.x = 600 + ((360 - x + y) * 20);
+                this.x = 600 + ((360 - x + y) * 15);
                 cancreat = true;
             }
         }
         else if(why == 2)
         {
-            if(((positon + 30) > ag  && 0 < ag))
+            if(((positon + 15) > ag  && 0 < ag))
             {
                 if(positon < ag)
                 {
-                    this.x = 600 + ((y - x) * 20);
+                    this.x = 600 + ((y - x) * 15);
                     cancreat = true;
                 }
                 else
                 {
-                    this.x = 600 - ((x - y) * 20);
+                    this.x = 600 - ((x - y) * 15);
                     cancreat = true;
                 }
             }
             else if ((360-p) < ag)
             {
-                this.x =  600 + ((360 - y + x) * 20);
+                this.x =  600 + ((360 - y + x) * 15);
                 cancreat = true;
             }
         }
         else
         {
-            if((positon + 30) > ag && (positon - 30) < ag)
+            if((positon + 15) > ag && (positon - 15) < ag)
             {
                 if(positon < ag)
                 {
-                    this.x = 600 + ((y - x) * 20);
+                    this.x = 600 + ((y - x) * 15);
                     cancreat = true;
                 }
                 else
                 {
-                    this.x =  600 - ((x - y) * 20);
+                    this.x =  600 - ((x - y) * 15);
                     cancreat = true;
                 }
             }

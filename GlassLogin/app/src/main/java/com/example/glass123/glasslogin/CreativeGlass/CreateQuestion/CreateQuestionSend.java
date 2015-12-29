@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -74,6 +75,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                         GetServerMessage message = new GetServerMessage();
                         titleId = message.all("http://163.17.135.76/glass/add_title.php","UserId="+"20151211151346511431"+"&x="+ latitude+"&y="+longitude+"&floor="+6+"&titleDevice="+1);
                         handler.post(add_image);
+                        Log.e("PETER", "UserId=" + "20151211151346511431" + "&x=" + latitude + "&y=" + longitude + "&floor=" + 6 + "&titleDevice=" + 1);
                         break;
                     }
                 }
@@ -117,7 +119,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                     {
                         GetServerMessage message = new GetServerMessage();
                         msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ hint1+"&p2="+hint2+"&p3=three&imagepath="+ResponseMessages);
-
+                        Log.e("PETER","@!#");
                         finish();
                     }
                     else

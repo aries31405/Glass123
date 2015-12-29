@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -122,6 +121,27 @@
             android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
             android:label="CreateHint3"
             android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.QuestionInfo"
+            android:label="@string/title_activity_question_info"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.Hints"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_hints" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.Answer"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_answer" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.Evaluation"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_evaluation" >
         </activity>
     </application>
 
