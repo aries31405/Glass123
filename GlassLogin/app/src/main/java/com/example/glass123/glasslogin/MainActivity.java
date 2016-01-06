@@ -190,6 +190,7 @@ public class MainActivity extends Activity implements
             Intent it = new Intent(MainActivity.this, CreativeGlassStart.class);
             startActivity(it);
         }
+
     }
 
     @Override
