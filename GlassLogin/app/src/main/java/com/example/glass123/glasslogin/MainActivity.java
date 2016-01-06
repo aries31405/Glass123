@@ -182,15 +182,16 @@ public class MainActivity extends Activity implements
 
     private void onSkipClick(){
 
-       if(withglass_sb.isChecked()){
+      /* if(withglass_sb.isChecked()){
             Intent it = new Intent(MainActivity.this, WithGlassStart.class);
             startActivity(it);
         }
         else if(!withglass_sb.isChecked()){
             Intent it = new Intent(MainActivity.this, CreativeGlassStart.class);
             startActivity(it);
-        }
-
+        }*/
+        Intent it = new Intent(MainActivity.this, MapsActivity.class);
+        startActivity(it);
     }
 
     @Override

@@ -41,7 +41,7 @@
         <activity
             android:name=".MyProfile"
             android:label="@string/title_activity_my_profile"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <!-- Bluetooth Connect Activity -->
         <activity
             android:name=".Bluetooth.BluetoothChatFragment"
@@ -52,86 +52,101 @@
             android:name=".Bluetooth.DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/select_device"
-            android:theme="@android:style/Theme.Holo.Dialog"></activity>
+            android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
             android:name=".SetProfile"
             android:label="@string/title_activity_set_profile"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".SetProfileAge"
             android:label="@string/title_activity_set_profile_age"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ChooseDevice"
             android:label="@string/title_activity_choose_device"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ConnectSuccess"
             android:label="@string/title_activity_connect_success"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.CreativeGlassMain"
             android:label="@string/title_activity_creative_glass_main"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.CreativeGlassStart"
             android:label="@string/title_activity_creative_glass_start"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.AnswerQuestion.FindQuestion"
             android:label="@string/title_activity_find_question"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.WithGlass.WithGlassStart"
             android:label="@string/title_activity_with_glass_start"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <!-- Create Question -->
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateQuestionAnswer"
             android:label="@string/title_activity_create_question_answer"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateHint1"
             android:label="@string/title_activity_create_hint1"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateHint2"
             android:label="CreateHint2"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateHint3"
             android:label="CreateHint3"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
             android:label="CreateHint3"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.AnswerQuestion.QuestionInfo"
             android:label="@string/title_activity_question_info"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.Transparent"></activity>
+            android:theme="@style/Theme.Transparent" />
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Hints"
             android:label="@string/title_activity_hints"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Answer"
             android:label="@string/title_activity_answer"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Evaluation"
             android:label="@string/title_activity_evaluation"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.SetFloor"
             android:label="@string/title_activity_set_floor"
-            android:theme="@style/Theme.Transparent"></activity>
+            android:theme="@style/Theme.Transparent" />
 
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>
