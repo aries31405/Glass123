@@ -19,6 +19,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
         android:allowBackup="true"
@@ -130,19 +132,26 @@
         </activity>
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Hints"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_hints" >
+            android:label="@string/title_activity_hints"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Answer"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_answer" >
+            android:label="@string/title_activity_answer"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Evaluation"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_evaluation" >
+            android:label="@string/title_activity_evaluation"
+            android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name=".CreativeGlass.SetFloor"
+            android:label="@string/title_activity_set_floor"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+
+
     </application>
 
 </manifest>

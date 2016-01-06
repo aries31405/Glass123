@@ -14,10 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.Bluetooth.Profile;
-import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassMain;
 import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart;
 import com.example.glass123.glasslogin.CreativeGlass.WithGlass.WithGlassStart;
-import com.example.glass123.glasslogin.Mplayer.Player;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -184,7 +182,7 @@ public class MainActivity extends Activity implements
 
     private void onSkipClick(){
 
-        if(withglass_sb.isChecked()){
+       if(withglass_sb.isChecked()){
             Intent it = new Intent(MainActivity.this, WithGlassStart.class);
             startActivity(it);
         }
@@ -192,7 +190,6 @@ public class MainActivity extends Activity implements
             Intent it = new Intent(MainActivity.this, CreativeGlassStart.class);
             startActivity(it);
         }
-
     }
 
     @Override

@@ -29,7 +29,7 @@ import java.io.FileNotFoundException;
  */
 public class CreateQuestionSend extends Activity implements View.OnClickListener,LocationListener{
     TextView hint1_tv,hint2_tv;
-    String hint1,hint2,imagepath,titleId=null,ResponseMessages=null,msg;
+    String hint1,hint2,imagepath,answer,titleId=null,ResponseMessages=null,msg;
     Button questionsend_btn;
     private Handler handler  = new Handler();
     private LocationManager mlocation ;
@@ -47,6 +47,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         hint1 = bundle.getString("hint1");
         hint2 = bundle.getString("hint2");
         imagepath = bundle.getString("imagepath");
+        answer = bundle.getString("answer");
         hint1_tv.setText(hint1);
         hint2_tv.setText(hint2);
 
@@ -118,7 +119,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                     if (!ResponseMessages.equals("fail"))
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ hint1+"&p2="+hint2+"&p3=three&imagepath="+ResponseMessages);
+                        msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ hint1+"&p2="+hint2+"&p3=three&imagepath="+ResponseMessages+"&ans="+answer);
                         Log.e("PETER","@!#");
                         finish();
                     }
