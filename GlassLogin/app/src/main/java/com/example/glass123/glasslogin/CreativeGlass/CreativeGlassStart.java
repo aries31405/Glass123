@@ -14,6 +14,7 @@ import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateHint1;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateQuestionAnswer;
+import com.example.glass123.glasslogin.MapsActivity;
 import com.example.glass123.glasslogin.R;
 
 public class CreativeGlassStart extends Activity implements View.OnClickListener{
@@ -71,7 +72,7 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         {
 //            Intent intent = new Intent(CreativeGlassStart.this,CreateQuestionAnswer.class);
 //            startActivity(intent);
-            Intent intent = new Intent(CreativeGlassStart.this, SetFloor.class);
+            Intent intent = new Intent(CreativeGlassStart.this, MapsActivity.class);
             startActivity(intent);
         }
     }

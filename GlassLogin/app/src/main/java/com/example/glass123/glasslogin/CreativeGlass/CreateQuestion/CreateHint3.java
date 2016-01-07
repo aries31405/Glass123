@@ -37,6 +37,8 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
     private DisplayMetrics metrics;
     private final static int CAMERA = 66 ;
     private final static int PHOTO = 99 ;
+
+    private double latitude=0.0,longitude=0.0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,8 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
         answer = bundle.getString("answer");
         hint1 = bundle.getString("hint1");
         hint2 = bundle.getString("hint2");
+        latitude = bundle.getDouble("lat");
+        longitude = bundle.getDouble("lon");
 
         hint3 = (ImageView)findViewById(R.id.hint3);
 
@@ -146,6 +150,8 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
         bundle.putString("hint1",hint1);
         bundle.putString("hint2",hint2);
         bundle.putString("imagepath",imagepath);
+        bundle.putDouble("lat",latitude);
+        bundle.putDouble("lon",longitude);
         intent.putExtras(bundle);
         startActivity(intent);
     }

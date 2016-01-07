@@ -14,6 +14,7 @@ import com.example.glass123.glasslogin.R;
 public class CreateQuestionAnswer extends AppCompatActivity implements View.OnClickListener{
     ImageButton createqnext_btn;
     EditText answer;
+    private double latitude=0.0,longitude=0.0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,10 @@ public class CreateQuestionAnswer extends AppCompatActivity implements View.OnCl
 
         //edittext init
         answer= (EditText)findViewById(R.id.hint2);
+
+        Bundle bundle = this.getIntent().getExtras();
+        latitude = bundle.getDouble("lat");
+        longitude = bundle.getDouble("lon");
 
     }
 
@@ -38,6 +43,8 @@ public class CreateQuestionAnswer extends AppCompatActivity implements View.OnCl
     private void CreateQuestionNext(){
         Bundle bundle = new Bundle();
         bundle.putString("answer",answer.getText().toString());
+        bundle.putDouble("lat",latitude);
+        bundle.putDouble("lon",longitude);
         Intent intent = new Intent(CreateQuestionAnswer.this,CreateHint1.class);
         intent.putExtras(bundle);
         startActivity(intent);

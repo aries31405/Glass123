@@ -16,6 +16,7 @@ public class CreateHint2 extends AppCompatActivity implements View.OnClickListen
     ImageButton createqnext_btn;
     EditText hint2;
     String answer,hint1;
+    private double latitude=0.0,longitude=0.0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,8 @@ public class CreateHint2 extends AppCompatActivity implements View.OnClickListen
         Bundle bundle = this.getIntent().getExtras();
         answer = bundle.getString("answer");
         hint1 = bundle.getString("hint1");
+        latitude = bundle.getDouble("lat");
+        longitude = bundle.getDouble("lon");
     }
 
     @Override
@@ -46,6 +49,8 @@ public class CreateHint2 extends AppCompatActivity implements View.OnClickListen
         bundle.putString("answer",answer);
         bundle.putString("hint1",hint1);
         bundle.putString("hint2", hint2.getText().toString());
+        bundle.putDouble("lat",latitude);
+        bundle.putDouble("lon",longitude);
         intent.putExtras(bundle);
         startActivity(intent);
 

@@ -27,12 +27,11 @@ import java.io.FileNotFoundException;
 /**
  * Created by seahorse on 2015/11/28.
  */
-public class CreateQuestionSend extends Activity implements View.OnClickListener,LocationListener{
+public class CreateQuestionSend extends Activity implements View.OnClickListener{
     TextView hint1_tv,hint2_tv;
     String hint1,hint2,imagepath,answer,titleId=null,ResponseMessages=null,msg;
     Button questionsend_btn;
     private Handler handler  = new Handler();
-    private LocationManager mlocation ;
     private double latitude=0.0,longitude=0.0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +47,14 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         hint2 = bundle.getString("hint2");
         imagepath = bundle.getString("imagepath");
         answer = bundle.getString("answer");
+        latitude = bundle.getDouble("lat");
+        longitude = bundle.getDouble("lon");
         hint1_tv.setText(hint1);
         hint2_tv.setText(hint2);
 
         questionsend_btn.setOnClickListener(this);
 
-        //取得定位
-        mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
-        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
-        mlocation.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
-
+        Log.e("PETER",String.valueOf(latitude) +" , "+String.valueOf(longitude));
     }
 
     @Override
@@ -133,24 +130,4 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         }
     };
 
-    @Override
-    public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
 }

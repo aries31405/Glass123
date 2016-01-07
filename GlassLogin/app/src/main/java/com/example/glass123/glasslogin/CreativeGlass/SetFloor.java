@@ -50,6 +50,9 @@ public class SetFloor extends Activity implements View.OnTouchListener{
 
             tv1.setTextColor(this.getResources().getColor(R.color.white));
             tv1.setTextSize(50);
+
+//            tv1.setGravity(0x11);
+//            tv1.setWidth(150);
             LinearLayout lq1 = new LinearLayout(this);
             lq1.addView(tv1);
             floor_viewflipper.addView(lq1);

@@ -13,8 +13,6 @@
         android:id="@+id/floor_viewflipper"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="20dp"
-        android:paddingRight="40dp"
         android:gravity="right"
         android:textAlignment="gravity"/>
 

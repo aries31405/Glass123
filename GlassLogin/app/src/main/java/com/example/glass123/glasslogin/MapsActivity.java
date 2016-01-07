@@ -1,10 +1,19 @@
 package com.example.glass123.glasslogin;
 
+import android.content.Intent;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
+import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateQuestionAnswer;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -18,7 +27,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity  implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class MapsActivity extends FragmentActivity  implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,View.OnTouchListener {
 
     private GoogleMap mMap;
 
@@ -28,6 +37,15 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
     // Location請求物件
     private LocationRequest locationRequest;
 
+    ViewFlipper floor_viewflipper;
+    private float touchDownX;
+    private float touchUpX;
+    private float touchDownY;
+    private float touchUpY;
+
+    Button setfloor_btn;
+
+    private double latitude=0.0,longitude=0.0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +61,51 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //--------------------------------------------------
+        floor_viewflipper = (ViewFlipper)findViewById(R.id.floor_viewflipper);
+
+        int i = 0;
+
+        for(i=0;i<11;i++){
+
+            TextView tv1 = new TextView(this);
+
+            if(i==0)
+            {
+                tv1.setText("戶外");
+            }
+            else
+            {
+                tv1.setText(String.valueOf(i)+"樓");
+            }
+
+            tv1.setTextColor(this.getResources().getColor(R.color.white));
+            tv1.setTextSize(50);
+
+//            tv1.setGravity(0x11);
+//            tv1.setWidth(150);
+            LinearLayout lq1 = new LinearLayout(this);
+            lq1.addView(tv1);
+            floor_viewflipper.addView(lq1);
+
+        }
+
+        floor_viewflipper.setOnTouchListener(this);
+
+        setfloor_btn = (Button)findViewById(R.id.setfloor_btn);
+
+        setfloor_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this, CreateQuestionAnswer.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("lat",latitude);
+                bundle.putDouble("lon",longitude);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -63,6 +126,8 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
 
             @Override
             public void onMapClick(LatLng latLng) {
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
                 mMap.clear();
                 LatLng place = new LatLng(latLng.latitude, latLng.longitude);
 
@@ -145,6 +210,8 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location) {
 
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
         // 位置改變
         LatLng place = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -154,5 +221,33 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
 
         googleApiClient.disconnect();
 
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            touchDownX = event.getX();
+            touchDownY = event.getY();
+            return true;
+        }
+        else if(event.getAction() == MotionEvent.ACTION_UP){
+            touchUpX=event.getX();
+            touchUpY=event.getY();
+            if(touchUpY-touchDownY > 100){
+                floor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
+                floor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
+
+                floor_viewflipper.showPrevious();
+            }
+            else if(touchDownY-touchUpY > 100){
+                floor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_in));
+                floor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_out));
+
+                floor_viewflipper.showNext();
+            }
+            return true;
+        }
+        return false;
     }
 }
