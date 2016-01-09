@@ -7,34 +7,21 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo;
-import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.R;
 import com.example.glass123.glasslogin.Sensor.Sen;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -43,10 +30,11 @@ import java.util.ArrayList;
 public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Runnable{
     private ArrayList<AndroidUnit> Au; //AndroidUnit 類別型態的物件陣列
     private Canvas canvas = null;
+    public static Canvas newcanvas = null;
     private Thread db_thread;
     boolean flag =true,first=true,IsNotCreating = true;
     private Resources res;
-    private Bitmap bmp;
+    private Bitmap bmp1,bmp2,bmp3,bmp4;
 
     //呼叫getHolder()方法來取得 SurfaceHolder,並指給 holder
     private SurfaceHolder holder;
@@ -64,7 +52,10 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
 
         //指定圖片來源
         res = getResources();
-        bmp = BitmapFactory.decodeResource(res, R.drawable.ic_launcher);
+        bmp1 = BitmapFactory.decodeResource(res, R.drawable.undo);
+        bmp2 = BitmapFactory.decodeResource(res, R.drawable.correct);
+        bmp3 = BitmapFactory.decodeResource(res, R.drawable.wrong);
+        bmp4 = BitmapFactory.decodeResource(res, R.drawable.custom);
 
         //初始設定
         InitialSet();
@@ -87,8 +78,8 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
             public void run()
             {
                 while(true) {
-                    if((G.latitude != 0.0 || G.longitude != 0.0) && Sen.postion !=0)
-                    {;
+                    if((FindQuestion.latitude != 0.0 || FindQuestion.longitude != 0.0) && Sen.postion !=0)
+                    {
                         for (AndroidUnit a: Au) {
                             a.start();
                         }
@@ -110,6 +101,25 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
 
         for (Data a: FindQuestion.Au) {
             //產生 AndroidUnit 實體 au
+            Bitmap bmp = null;
+
+            if(a.getstatus() == 1)
+            {
+                bmp = bmp1;
+            }
+            else if(a.getstatus() == 2)
+            {
+                bmp = bmp2;
+            }
+            else if(a.getstatus() == 3)
+            {
+                bmp = bmp3;
+            }
+            else if(a.getstatus() == 4)
+            {
+                bmp = bmp4;
+            }
+
             AndroidUnit au = new AndroidUnit(bmp,a.getLatitude(),a.getLontitude(),a.gettitleId());
             //陸續將 au 放入 Au 物件陣列中
             Au.add(au);
@@ -168,7 +178,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
             //將物件顯示到螢幕上
             try {
                 //暫停 0.05 秒(每隔 0.05 秒更新畫面一次)
-                Thread.sleep(100);
+                Thread.sleep(20);
                 if(IsNotCreating)
                 {
                     IsNotCreating = false;
@@ -176,7 +186,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                     {
                        draw();
                     }
-                    else if((Sen.nowpostion + 5 < Sen.postion) || (Sen.nowpostion - 5) > Sen.postion || G.latitude > (G.nowlatitude + 0.000008) || G.latitude < (G.nowlatitude-0.000008) || G.longitude > (G.nowlongitude + 0.000008) || G.longitude < (G.nowlongitude-0.000008))
+                    else if((Sen.nowpostion + 5 < Sen.postion) || (Sen.nowpostion - 5) > Sen.postion || FindQuestion.latitude > (FindQuestion.nowlatitude + 0.000009) || FindQuestion.latitude < (FindQuestion.nowlatitude-0.000009) || FindQuestion.longitude > (FindQuestion.nowlongitude + 0.000009) || FindQuestion.longitude < (FindQuestion.nowlongitude-0.000009))
                     {
                         draw();
                     }
@@ -206,7 +216,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         canvas.drawPaint(paint);
 
-        ///巡覽 Au 物件陣列中的所有物件
+       ///巡覽 Au 物件陣列中的所有物件
         for (AndroidUnit a: Au) {
             if(a.cancareat())
             {
@@ -223,14 +233,15 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         else
         {
             Sen.nowpostion = Sen.postion;
-            G.nowlatitude = G.latitude;
-            G.nowlongitude =G.longitude;
+            FindQuestion.nowlatitude = FindQuestion.latitude;
+            FindQuestion.nowlongitude =FindQuestion.longitude;
         }
 
         if (canvas != null) {
             //解鎖畫布(canvas)並顯示到螢幕上
             holder.unlockCanvasAndPost(canvas);
         }
+
     }
 
 

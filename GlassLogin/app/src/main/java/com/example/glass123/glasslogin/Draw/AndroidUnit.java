@@ -1,19 +1,15 @@
 package com.example.glass123.glasslogin.Draw;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.widget.Toast;
 
-import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Angle;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Decide;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
-import com.example.glass123.glasslogin.Gps.G;
 import com.example.glass123.glasslogin.Sensor.Sen;
 
 /**
@@ -36,6 +32,26 @@ public class AndroidUnit implements Runnable{
         this.latitude = latitude;
         this.lontitud = lontitude;
         this.titleId = titleId;
+
+        int toWidth = 72;
+        int toHeight = 72;
+
+        Bitmap bb = unit_bmp;
+        int bmpWidth  = bb.getWidth();
+        int bmpHeight  = bb.getHeight();
+
+        float scale;
+        if (bmpWidth > bmpHeight) {
+            scale = (float) toWidth/bmpWidth;
+        }else {
+            scale = (float) toHeight/bmpHeight;
+        }
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+
+        this.unit_bmp = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, true);
+
         //此物件參數的初始設定
         UnitInitial();
 
@@ -93,10 +109,9 @@ public class AndroidUnit implements Runnable{
 
             try {
                 //暫停 0.5 秒(每隔 0.5 秒更新畫面一次)
-                Thread.sleep(50);
+                Thread.sleep(10);
 
-                update(G.latitude,G.longitude,Sen.postion);
-
+                update(FindQuestion.latitude, FindQuestion.longitude, Sen.postion);
             } catch (Exception e) {
                 e.printStackTrace();
             }
