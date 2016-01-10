@@ -1,8 +1,11 @@
 package com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +52,35 @@ public class Hints extends Activity {
 
     //放棄作答，還需寫回資料庫
     private void abort(){
-        this.finish();
+        new AlertDialog.Builder(Hints.this)
+                .setTitle("放棄")
+                .setMessage("要放棄解答此題目嗎?")
+                .setPositiveButton("放棄", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //放棄，寫回資料庫
+
+
+                        Hints.this.finish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        //返回鍵
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            abort();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

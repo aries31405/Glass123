@@ -25,7 +25,8 @@
         android:background="#ffffff"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:digits="1234567890qwertyuiopasdfghjklzxcvbnm" />
 
     <Button
         android:layout_width="150dp"

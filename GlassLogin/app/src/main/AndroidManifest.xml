@@ -104,8 +104,7 @@
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateHint3"
             android:label="CreateHint3"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
             android:label="CreateHint3"
@@ -122,7 +121,8 @@
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Answer"
             android:label="@string/title_activity_answer"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".CreativeGlass.AnswerQuestion.Evaluation"
             android:label="@string/title_activity_evaluation"
