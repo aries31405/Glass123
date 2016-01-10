@@ -33,7 +33,7 @@ public class AndroidUnit implements Runnable{
         this.lontitud = lontitude;
         this.titleId = titleId;
 
-        int toWidth = 72;
+       /* int toWidth = 72;
         int toHeight = 72;
 
         Bitmap bb = unit_bmp;
@@ -50,7 +50,7 @@ public class AndroidUnit implements Runnable{
         Matrix matrix = new Matrix();
         matrix.postScale(scale, scale);
 
-        this.unit_bmp = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, true);
+        this.unit_bmp = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, true);*/
 
         //此物件參數的初始設定
         UnitInitial();
