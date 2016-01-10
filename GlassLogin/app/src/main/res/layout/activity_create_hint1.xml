@@ -32,7 +32,7 @@
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:layout_width="725dp"
+        android:layout_width="560dp"
         android:layout_height="45dp"
         android:id="@+id/hint1"
         android:background="#ffffff"
@@ -41,30 +41,11 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="30dp"
         android:paddingLeft="15dp"
-        />
+        android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
+        android:singleLine="true" />
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:text="送出"
-        android:id="@+id/button"
-        android:layout_below="@+id/hint1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:background="#ffffff"
-        android:textColor="#6a2a69"
-        android:textSize="25dp" />
-
-    <ImageView
-        android:layout_width="225dp"
-        android:layout_height="225dp"
-        android:id="@+id/enter"
-        android:background="@drawable/enter"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/createqnext_btn"
-        android:layout_toStartOf="@+id/createqnext_btn" />
     <ImageButton
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/createqnext_btn"
         android:background="@drawable/next"

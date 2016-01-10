@@ -130,7 +130,8 @@
         <activity
             android:name=".CreativeGlass.SetFloor"
             android:label="@string/title_activity_set_floor"
-            android:theme="@style/Theme.Transparent" />
+            android:theme="@style/Theme.Transparent"
+            android:screenOrientation="landscape" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -150,7 +151,9 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" ></activity>
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="landscape" />
+
 
     </application>
 
