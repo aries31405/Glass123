@@ -2,7 +2,8 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-xmlns:appNs="http://schemas.android.com/apk/res-auto">
+xmlns:appNs="http://schemas.android.com/apk/res-auto"
+    android:background="@color/creative_purple">
 
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,31 +12,43 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto">
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         tools:context="com.example.glass123.glasslogin.MapsActivity" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView11"
+        android:background="@drawable/building"
+        android:layout_marginLeft="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp" />
 
     <ViewFlipper
         android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:id="@+id/floor_viewflipper"
         android:gravity="right"
         android:textAlignment="gravity"
-        android:layout_marginLeft="81dp"
-        android:layout_marginStart="81dp"
-        android:layout_alignBottom="@+id/setfloor_btn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/imageView11"
+        android:layout_toRightOf="@+id/imageView11"
+        android:layout_toEndOf="@+id/imageView11"
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="設定樓層"
         android:id="@+id/setfloor_btn"
-        android:layout_marginRight="65dp"
-        android:layout_marginEnd="65dp"
+        android:layout_marginRight="37dp"
+        android:background="#ffffff"
+        android:textColor="@color/creative_purple"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="48dp" />
+        android:layout_marginBottom="50dp" />
 
 </RelativeLayout>

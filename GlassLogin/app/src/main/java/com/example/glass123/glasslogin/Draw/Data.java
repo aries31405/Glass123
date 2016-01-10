@@ -6,12 +6,13 @@ package com.example.glass123.glasslogin.Draw;
 public class Data {
 
     private double latitude,lontitude;
-    private int titleId;
-    public Data(double latitude,double lontitude,int titleId)
+    private int titleId,status;
+    public Data(double latitude,double lontitude,int titleId,int status)
     {
         this.latitude = latitude;
         this.lontitude = lontitude;
         this.titleId = titleId;
+        this.status = status;
     }
 
     public double getLatitude()
@@ -27,5 +28,10 @@ public class Data {
     public int gettitleId()
     {
         return titleId;
+    }
+
+    public int getstatus()
+    {
+        return status;
     }
 }
