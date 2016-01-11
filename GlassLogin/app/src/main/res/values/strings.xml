@@ -67,5 +67,6 @@
     <string name="title_activity_set_floor">SetFloor</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_maps2">Map</string>
+    <string name="title_activity_glass_map">Map</string>
 
 </resources>
