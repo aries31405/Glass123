@@ -26,7 +26,7 @@ public class CreateHint1 extends AppCompatActivity implements View.OnClickListen
         createqnext_btn.setOnClickListener(this);
 
         //edittext init
-        hint1 = (EditText)findViewById(R.id.hint1);
+        hint1 = (EditText)findViewById(R.id.hint1_txt);
 
         //取得前一Activity的東西
         Bundle bundle = this.getIntent().getExtras();

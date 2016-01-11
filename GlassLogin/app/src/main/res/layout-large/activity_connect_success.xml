@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
+        android:id="@+id/star_imgbtn2"
         android:src="@drawable/success"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/textView2" />

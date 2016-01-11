@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.glass123.glasslogin.R;
 
@@ -17,6 +18,14 @@ public class Hints extends Activity {
 
     Button answer_btn;
     Button abort_btn;
+
+    String answer;
+    String hint1;
+    String hint2;
+    String hint3;
+
+    TextView hint1_txt;
+    TextView hint2_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,22 @@ public class Hints extends Activity {
                 abort();
             }
         });
+
+        //接bundle
+        Bundle bundle = this.getIntent().getExtras();
+        answer = bundle.getString("answer");
+        hint1 = bundle.getString("hint1");
+        hint2 = bundle.getString("hint2");
+        hint3 = bundle.getString("hint3");
+
+        //init
+        hint1_txt=(TextView)findViewById(R.id.hint1_txt);
+        hint2_txt=(TextView)findViewById(R.id.hint2_txt);
+
+        hint1_txt.setText(hint1);
+        hint2_txt.setText(hint2);
+
+
     }
 
     //進入作答頁面

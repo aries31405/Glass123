@@ -77,10 +77,13 @@ public class AndroidUnit implements Runnable{
         //如果觸碰點的座標位於矩形框範圍內則contains(x, y)方法會傳回 true
         //否則傳回 false
         if (unit_rect.contains(touch_x, touch_y)) {
+
             Paint paint = new Paint();
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
             canvas.drawPaint(paint);
             canvas.drawBitmap(this.unit_bmp, decide.x(), y, null);
+
+            DrawTest.titleId = this.titleId;
         }
     }
 

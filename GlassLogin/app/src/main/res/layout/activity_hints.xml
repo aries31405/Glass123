@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="building"
-        android:id="@+id/hint1"
+        android:id="@+id/hint1_txt"
         android:textSize="40sp"
         android:textIsSelectable="false"
         android:textStyle="bold"
@@ -39,14 +39,14 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="vertical"
-        android:id="@+id/hint2"
+        android:id="@+id/hint2_txt"
         android:textSize="40sp"
         android:textColor="#ffffffff"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"
         android:layout_alignBottom="@+id/hint3"
-        android:layout_alignLeft="@+id/hint1"
-        android:layout_alignStart="@+id/hint1" />
+        android:layout_alignLeft="@+id/hint1_txt"
+        android:layout_alignStart="@+id/hint1_txt" />
 
     <ImageView
         android:layout_width="240dp"
@@ -54,8 +54,8 @@
         android:id="@+id/hint3"
         android:background="@android:mipmap/sym_def_app_icon"
         android:layout_below="@+id/title"
-        android:layout_toRightOf="@+id/hint1"
-        android:layout_toEndOf="@+id/hint1"
+        android:layout_toRightOf="@+id/hint1_txt"
+        android:layout_toEndOf="@+id/hint1_txt"
         android:layout_marginLeft="44dp"
         android:layout_marginStart="44dp" />
     <Button

@@ -13,14 +13,14 @@
         android:layout_gravity="center_horizontal"
         android:textSize="30dp"
         android:textColor="@color/white"
-        android:layout_above="@+id/imageView"
+        android:layout_above="@+id/star_imgbtn1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/star_imgbtn1"
         android:src="@drawable/phone"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/button_bluetooth"

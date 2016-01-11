@@ -12,6 +12,7 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -35,6 +36,8 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     boolean flag =true,first=true,IsNotCreating = true;
     private Resources res;
     private Bitmap bmp1,bmp2,bmp3,bmp4;
+
+    public static int titleId = 0;
 
     //呼叫getHolder()方法來取得 SurfaceHolder,並指給 holder
     private SurfaceHolder holder;
@@ -141,10 +144,14 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 a.IsTouch(x, y,canvas);
             }
 
-            if (canvas != null) {
+            if (canvas != null && titleId != 0) {
                 //解鎖畫布(canvas)並顯示到螢幕上
                 holder.unlockCanvasAndPost(canvas);
                 Intent intent = new Intent(context, QuestionInfo.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("titleId",titleId);
+                intent.putExtras(bundle);
+                titleId = 0;
                 context.startActivity(intent);
             }
 

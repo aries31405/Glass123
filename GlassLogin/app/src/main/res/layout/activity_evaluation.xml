@@ -7,50 +7,51 @@
     tools:context="com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Evaluation"
     android:background="#731a89">
 
-    <ImageView
+    <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView"
+        android:id="@+id/star_imgbtn1"
         android:background="@drawable/star"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imageView2"
-        android:layout_toStartOf="@+id/imageView2"
-        android:layout_marginTop="56dp" />
+        android:layout_toLeftOf="@+id/star_imgbtn2"
+        android:layout_toStartOf="@+id/star_imgbtn2"
+        android:layout_marginTop="56dp"
+        android:onClick="click" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView2"
+        android:id="@+id/star_imgbtn2"
         android:background="@drawable/star"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_toLeftOf="@+id/imageView5"
-        android:layout_toStartOf="@+id/imageView5" />
+        android:layout_alignTop="@+id/star_imgbtn1"
+        android:layout_toLeftOf="@+id/star_imgbtn3"
+        android:layout_toStartOf="@+id/star_imgbtn3" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView5"
+        android:id="@+id/star_imgbtn3"
         android:background="@drawable/star"
-        android:layout_alignTop="@+id/imageView6"
+        android:layout_alignTop="@+id/star_imgbtn4"
         android:layout_centerHorizontal="true" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView6"
+        android:id="@+id/star_imgbtn4"
         android:background="@drawable/star"
-        android:layout_alignTop="@+id/imageView2"
-        android:layout_toRightOf="@+id/imageView5"
-        android:layout_toEndOf="@+id/imageView5" />
+        android:layout_alignTop="@+id/star_imgbtn2"
+        android:layout_toRightOf="@+id/star_imgbtn3"
+        android:layout_toEndOf="@+id/star_imgbtn3" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView7"
+        android:id="@+id/star_imgbtn5"
         android:background="@drawable/star"
-        android:layout_alignBottom="@+id/imageView6"
-        android:layout_toRightOf="@+id/imageView6"
-        android:layout_toEndOf="@+id/imageView6" />
+        android:layout_alignBottom="@+id/star_imgbtn4"
+        android:layout_toRightOf="@+id/star_imgbtn4"
+        android:layout_toEndOf="@+id/star_imgbtn4" />
 
     <ViewFlipper
         android:layout_width="400dp"

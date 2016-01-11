@@ -7,19 +7,36 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.glass123.glasslogin.R;
 
-public class Evaluation extends Activity implements View.OnTouchListener{
+public class Evaluation extends Activity implements View.OnTouchListener,View.OnClickListener{
 
     ViewFlipper viewFlipper;
     private float touchDownX;
     private float touchUpX;
     private float touchDownY;
     private float touchUpY;
+
+    //star
+    ImageButton star_imgbtn1;
+    ImageButton star_imgbtn2;
+    ImageButton star_imgbtn3;
+    ImageButton star_imgbtn4;
+    ImageButton star_imgbtn5;
+
+    //flag
+    boolean star_flag1 = false;
+    boolean star_flag2 = false;
+    boolean star_flag3 = false;
+    boolean star_flag4 = false;
+    boolean star_flag5 = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +79,17 @@ public class Evaluation extends Activity implements View.OnTouchListener{
         }
 
         viewFlipper.setOnTouchListener(this);
+
+        //star init
+        star_imgbtn1 = (ImageButton)findViewById(R.id.star_imgbtn1);
+        star_imgbtn2 = (ImageButton)findViewById(R.id.star_imgbtn2);
+        star_imgbtn3 = (ImageButton)findViewById(R.id.star_imgbtn3);
+        star_imgbtn4 = (ImageButton)findViewById(R.id.star_imgbtn4);
+        star_imgbtn5 = (ImageButton)findViewById(R.id.star_imgbtn5);
+
     }
+
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -92,6 +119,36 @@ public class Evaluation extends Activity implements View.OnTouchListener{
     }
 
     @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.star_imgbtn1:
+//                if(star_flag1){
+//                    star_imgbtn1.setBackgroundResource(R.drawable.star);
+//
+//                    star_imgbtn2.setBackgroundResource(R.mipmap.ic_launcher);
+//                    star_imgbtn3.setBackgroundResource(R.mipmap.ic_launcher);
+//                    star_imgbtn4.setBackgroundResource(R.mipmap.ic_launcher);
+//                    star_imgbtn5.setBackgroundResource(R.mipmap.ic_launcher);
+//
+//                }
+//                else if(!star_flag1){
+//
+//                }
+                break;
+            case R.id.star_imgbtn2:
+                break;
+            case R.id.star_imgbtn3:
+                break;
+            case R.id.star_imgbtn4:
+                break;
+            case R.id.star_imgbtn5:
+                break;
+
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_evaluation, menu);
@@ -112,4 +169,5 @@ public class Evaluation extends Activity implements View.OnTouchListener{
 
         return super.onOptionsItemSelected(item);
     }
+
 }

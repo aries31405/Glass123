@@ -10,7 +10,7 @@
 
     <TextView android:text="NO.108" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titleId"
+        android:id="@+id/titleId_txt"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_toRightOf="@+id/logo"
@@ -39,27 +39,27 @@
         android:indeterminate="false"
         android:progressTint="#ff4e3a"
         android:progressBackgroundTint="#7885ff"
-        android:layout_alignTop="@+id/titleId"
+        android:layout_alignTop="@+id/titleId_txt"
         android:layout_alignRight="@+id/startans_btn"
         android:layout_alignEnd="@+id/startans_btn" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView"
+        android:id="@+id/star_imgbtn1"
         android:background="@drawable/star"
         android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/titleId"
-        android:layout_alignStart="@+id/titleId" />
+        android:layout_alignLeft="@+id/titleId_txt"
+        android:layout_alignStart="@+id/titleId_txt" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/imageView3"
         android:background="@drawable/star"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_alignTop="@+id/star_imgbtn1"
+        android:layout_toRightOf="@+id/star_imgbtn1"
+        android:layout_toEndOf="@+id/star_imgbtn1" />
 
     <ImageView
         android:layout_width="60dp"
@@ -75,10 +75,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="6樓"
-        android:id="@+id/floor"
+        android:id="@+id/floor_txt"
         android:textColor="#ff898989"
         android:textSize="30sp"
-        android:layout_alignBottom="@+id/textView"
+        android:layout_alignBottom="@+id/author_txt"
         android:layout_alignRight="@+id/logo"
         android:layout_alignEnd="@+id/logo"
         android:textIsSelectable="false" />
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="林元博"
-        android:id="@+id/textView"
+        android:id="@+id/author_txt"
         android:textSize="30dp"
         android:textColor="#ff898989"
         android:layout_below="@+id/imageView4"
