@@ -102,7 +102,7 @@ public class QuestionInfo extends Activity {
                         //set info
                         titleId_txt.setText("NO."+String.valueOf(titleId));
                         floor_txt.setText(json.getString("floor")+"樓");
-//                        author_txt.setText(json.getString("author"));
+                        author_txt.setText(json.getString("author"));
                         answer = json.getString("answer");
                         hint1 = json.getString("hint1");
                         hint2 = json.getString("hint2");

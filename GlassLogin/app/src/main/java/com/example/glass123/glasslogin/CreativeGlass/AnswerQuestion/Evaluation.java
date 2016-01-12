@@ -29,12 +29,14 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
     ImageButton star_imgbtn4;
     ImageButton star_imgbtn5;
 
-    //flag
-    boolean star_flag1 = false;
-    boolean star_flag2 = false;
-    boolean star_flag3 = false;
-    boolean star_flag4 = false;
-    boolean star_flag5 = false;
+//    //flag
+//    boolean star_flag1 = false;
+//    boolean star_flag2 = false;
+//    boolean star_flag3 = false;
+//    boolean star_flag4 = false;
+//    boolean star_flag5 = false;
+
+    int nowstar=0;
 
 
 
@@ -87,6 +89,13 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
         star_imgbtn4 = (ImageButton)findViewById(R.id.star_imgbtn4);
         star_imgbtn5 = (ImageButton)findViewById(R.id.star_imgbtn5);
 
+        star_imgbtn1.setOnClickListener(this);
+        star_imgbtn2.setOnClickListener(this);
+        star_imgbtn3.setOnClickListener(this);
+        star_imgbtn4.setOnClickListener(this);
+        star_imgbtn5.setOnClickListener(this);
+
+
     }
 
 
@@ -123,26 +132,49 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
         switch (view.getId())
         {
             case R.id.star_imgbtn1:
-//                if(star_flag1){
-//                    star_imgbtn1.setBackgroundResource(R.drawable.star);
-//
-//                    star_imgbtn2.setBackgroundResource(R.mipmap.ic_launcher);
-//                    star_imgbtn3.setBackgroundResource(R.mipmap.ic_launcher);
-//                    star_imgbtn4.setBackgroundResource(R.mipmap.ic_launcher);
-//                    star_imgbtn5.setBackgroundResource(R.mipmap.ic_launcher);
-//
-//                }
-//                else if(!star_flag1){
-//
-//                }
+                star_imgbtn1.setImageResource(R.drawable.star);
+                star_imgbtn2.setImageResource(R.drawable.notstar);
+                star_imgbtn3.setImageResource(R.drawable.notstar);
+                star_imgbtn4.setImageResource(R.drawable.notstar);
+                star_imgbtn5.setImageResource(R.drawable.notstar);
+                nowstar = 1;
+
                 break;
             case R.id.star_imgbtn2:
+                star_imgbtn1.setImageResource(R.drawable.star);
+                star_imgbtn2.setImageResource(R.drawable.star);
+                star_imgbtn3.setImageResource(R.drawable.notstar);
+                star_imgbtn4.setImageResource(R.drawable.notstar);
+                star_imgbtn5.setImageResource(R.drawable.notstar);
+                nowstar = 2;
+
                 break;
             case R.id.star_imgbtn3:
+                star_imgbtn1.setImageResource(R.drawable.star);
+                star_imgbtn2.setImageResource(R.drawable.star);
+                star_imgbtn3.setImageResource(R.drawable.star);
+                star_imgbtn4.setImageResource(R.drawable.notstar);
+                star_imgbtn5.setImageResource(R.drawable.notstar);
+                nowstar = 3;
+
                 break;
             case R.id.star_imgbtn4:
+                star_imgbtn1.setImageResource(R.drawable.star);
+                star_imgbtn2.setImageResource(R.drawable.star);
+                star_imgbtn3.setImageResource(R.drawable.star);
+                star_imgbtn4.setImageResource(R.drawable.star);
+                star_imgbtn5.setImageResource(R.drawable.notstar);
+                nowstar = 4;
+
                 break;
             case R.id.star_imgbtn5:
+                star_imgbtn1.setImageResource(R.drawable.star);
+                star_imgbtn2.setImageResource(R.drawable.star);
+                star_imgbtn3.setImageResource(R.drawable.star);
+                star_imgbtn4.setImageResource(R.drawable.star);
+                star_imgbtn5.setImageResource(R.drawable.star);
+                nowstar = 5;
+
                 break;
 
         }

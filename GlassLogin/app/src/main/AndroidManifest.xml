@@ -155,7 +155,9 @@
 
         <activity
             android:name=".GlassMap"
-            android:label="@string/title_activity_glass_map"></activity>
+            android:label="@string/title_activity_glass_map"
+            android:screenOrientation="landscape">
+        </activity>
 
     </application>
 

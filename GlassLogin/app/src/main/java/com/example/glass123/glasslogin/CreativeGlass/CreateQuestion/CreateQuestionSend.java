@@ -1,9 +1,11 @@
 package com.example.glass123.glasslogin.CreativeGlass.CreateQuestion;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
@@ -20,6 +22,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart;
+import com.example.glass123.glasslogin.MapsActivity;
 import com.example.glass123.glasslogin.R;
 
 import java.io.FileNotFoundException;
@@ -117,8 +121,8 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                     {
                         GetServerMessage message = new GetServerMessage();
                         msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ hint1+"&p2="+hint2+"&p3=three&imagepath="+ResponseMessages+"&ans="+answer);
-                        Log.e("PETER","@!#");
-                        finish();
+                        Log.e("PETER", "@!#");
+                        handler.post(askcontinue);
                     }
                     else
                     {
@@ -127,6 +131,33 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
 
                 }
             }).start();
+        }
+    };
+
+    final Runnable askcontinue = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            new AlertDialog.Builder(CreateQuestionSend.this)
+                    .setTitle("繼續出題")
+                    .setMessage("要繼續出題嗎?")
+                    .setPositiveButton("繼續", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(CreateQuestionSend.this, MapsActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("不繼續", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(CreateQuestionSend.this, CreativeGlassStart.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).show();
         }
     };
 

@@ -183,7 +183,7 @@ public class MainActivity extends Activity implements
     private void onSkipClick(){
 
        if(withglass_sb.isChecked()){
-            Intent it = new Intent(MainActivity.this, WithGlassStart.class);
+            Intent it = new Intent(MainActivity.this, GlassMap.class);
             startActivity(it);
         }
         else if(!withglass_sb.isChecked()){
