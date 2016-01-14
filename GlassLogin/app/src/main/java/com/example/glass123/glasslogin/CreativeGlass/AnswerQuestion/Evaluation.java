@@ -7,12 +7,20 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.example.glass123.glasslogin.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Evaluation extends Activity implements View.OnTouchListener,View.OnClickListener{
 
@@ -29,16 +37,12 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
     ImageButton star_imgbtn4;
     ImageButton star_imgbtn5;
 
-//    //flag
-//    boolean star_flag1 = false;
-//    boolean star_flag2 = false;
-//    boolean star_flag3 = false;
-//    boolean star_flag4 = false;
-//    boolean star_flag5 = false;
-
     int nowstar=0;
 
+    Button sendevaluation_btn;
 
+    int titleId=0;
+    String UserId="20151211151346511431";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,25 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
         star_imgbtn3.setOnClickListener(this);
         star_imgbtn4.setOnClickListener(this);
         star_imgbtn5.setOnClickListener(this);
+
+        //送出按鈕
+        sendevaluation_btn = (Button)findViewById(R.id.sendevaluation_btn);
+        sendevaluation_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(nowstar == 0)
+                {
+                    Toast.makeText(Evaluation.this,"請給星星",Toast.LENGTH_SHORT).show();
+                }
+                uploadevaluation();
+            }
+        });
+
+        //接bundle的值
+        Bundle bundle = this.getIntent().getExtras();
+        titleId = bundle.getInt("titleId");
+        UserId = bundle.getString("UserId");
+
 
 
     }
@@ -178,6 +201,33 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
                 break;
 
         }
+    }
+
+    private void uploadevaluation(){
+        AQuery aq = new AQuery(this);
+        String url = "http://163.17.135.76/glass/uploaduserevaluation.php";
+
+        Map<String,Object> params = new HashMap<String, Object>();
+
+        params.put("titleId",titleId);
+        params.put("UserId",UserId);
+        params.put("evaluationStar",nowstar);
+
+        aq.ajax(url,params,String.class,new AjaxCallback<String>(){
+            @Override
+            public void callback(String url, String object, AjaxStatus status) {
+                //成功
+                if(status.getCode() == 200)
+                {
+                    Toast.makeText(Evaluation.this, "上傳評價成功", Toast.LENGTH_SHORT).show();
+                }
+                //失敗
+                else
+                {
+                    Toast.makeText(Evaluation.this,String.valueOf(status.getCode()),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

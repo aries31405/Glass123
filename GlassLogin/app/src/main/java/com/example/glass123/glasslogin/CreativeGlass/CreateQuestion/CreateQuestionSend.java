@@ -46,6 +46,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         hint2_tv = (TextView)findViewById(R.id.hint2_tv);
         questionsend_btn = (Button)findViewById(R.id.questionsend_btn);
 
+        //接bundle
         Bundle bundle = this.getIntent().getExtras();
         hint1 = bundle.getString("hint1");
         hint2 = bundle.getString("hint2");
@@ -53,6 +54,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         answer = bundle.getString("answer");
         latitude = bundle.getDouble("lat");
         longitude = bundle.getDouble("lon");
+
         hint1_tv.setText(hint1);
         hint2_tv.setText(hint2);
 

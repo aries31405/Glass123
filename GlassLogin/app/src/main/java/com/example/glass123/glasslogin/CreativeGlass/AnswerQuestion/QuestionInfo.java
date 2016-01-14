@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,14 @@ public class QuestionInfo extends Activity {
     String hint1;
     String hint2;
     String hint3;
+
+    ImageView starinfo1_img;
+    ImageView starinfo2_img;
+    ImageView starinfo3_img;
+    ImageView starinfo4_img;
+    ImageView starinfo5_img;
+
+    int star=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +87,13 @@ public class QuestionInfo extends Activity {
         author_txt = (TextView)findViewById(R.id.author_txt);
         floor_txt = (TextView)findViewById(R.id.floor_txt);
 
+        //starinfo_img init
+        starinfo1_img = (ImageView)findViewById(R.id.starinfo1_img);
+        starinfo2_img = (ImageView)findViewById(R.id.starinfo2_img);
+        starinfo3_img = (ImageView)findViewById(R.id.starinfo3_img);
+        starinfo4_img = (ImageView)findViewById(R.id.starinfo4_img);
+        starinfo5_img = (ImageView)findViewById(R.id.starinfo5_img);
+
     }
 
     private void getquestioninfo(){
@@ -101,12 +117,14 @@ public class QuestionInfo extends Activity {
                     {
                         //set info
                         titleId_txt.setText("NO."+String.valueOf(titleId));
-                        floor_txt.setText(json.getString("floor")+"樓");
+                        floor_txt.setText(json.getInt("floor")+"樓");
                         author_txt.setText(json.getString("author"));
                         answer = json.getString("answer");
                         hint1 = json.getString("hint1");
                         hint2 = json.getString("hint2");
                         hint3 = json.getString("hint3");
+                        star = json.getInt("star");
+                        setstar();
                     }
                     catch (Exception e)
                     {
@@ -124,6 +142,7 @@ public class QuestionInfo extends Activity {
     //跳到提示的畫面
     private void startans(){
         Bundle bundle = new Bundle();
+        bundle.putInt("titleId",titleId);
         bundle.putString("answer",answer);
         bundle.putString("hint1",hint1);
         bundle.putString("hint2",hint2);
@@ -134,10 +153,48 @@ public class QuestionInfo extends Activity {
         this.finish();
     }
 
+    private void setstar(){
+        if(star == 0)
+        {
+
+        }
+        else if(star == 1)
+        {
+            starinfo1_img.setVisibility(View.VISIBLE);
+        }
+        else if(star == 2)
+        {
+            starinfo1_img.setVisibility(View.VISIBLE);
+            starinfo2_img.setVisibility(View.VISIBLE);
+        }
+        else if(star == 3)
+        {
+            starinfo1_img.setVisibility(View.VISIBLE);
+            starinfo2_img.setVisibility(View.VISIBLE);
+            starinfo3_img.setVisibility(View.VISIBLE);
+        }
+        else if(star == 4)
+        {
+            starinfo1_img.setVisibility(View.VISIBLE);
+            starinfo2_img.setVisibility(View.VISIBLE);
+            starinfo3_img.setVisibility(View.VISIBLE);
+            starinfo4_img.setVisibility(View.VISIBLE);
+
+        }else if(star == 5)
+        {
+            starinfo1_img.setVisibility(View.VISIBLE);
+            starinfo2_img.setVisibility(View.VISIBLE);
+            starinfo3_img.setVisibility(View.VISIBLE);
+            starinfo4_img.setVisibility(View.VISIBLE);
+            starinfo5_img.setVisibility(View.VISIBLE);
+        }
+    }
+
     //關閉題目資訊小視窗
     private void close(){
         this.finish();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

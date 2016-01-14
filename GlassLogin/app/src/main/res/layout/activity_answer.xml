@@ -21,7 +21,7 @@
     <EditText
         android:layout_width="725dp"
         android:layout_height="45dp"
-        android:id="@+id/answer"
+        android:id="@+id/answer_edittext"
         android:background="#ffffff"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"

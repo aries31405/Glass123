@@ -11,7 +11,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/star_imgbtn1"
-        android:background="@drawable/star"
+        android:background="@drawable/notstar"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/star_imgbtn2"
         android:layout_toStartOf="@+id/star_imgbtn2"
@@ -22,7 +22,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/star_imgbtn2"
-        android:background="@drawable/star"
+        android:background="@drawable/notstar"
         android:layout_alignTop="@+id/star_imgbtn1"
         android:layout_toLeftOf="@+id/star_imgbtn3"
         android:layout_toStartOf="@+id/star_imgbtn3" />
@@ -31,7 +31,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/star_imgbtn3"
-        android:background="@drawable/star"
+        android:background="@drawable/notstar"
         android:layout_alignTop="@+id/star_imgbtn4"
         android:layout_centerHorizontal="true" />
 
@@ -39,7 +39,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/star_imgbtn4"
-        android:background="@drawable/star"
+        android:background="@drawable/notstar"
         android:layout_alignTop="@+id/star_imgbtn2"
         android:layout_toRightOf="@+id/star_imgbtn3"
         android:layout_toEndOf="@+id/star_imgbtn3" />
@@ -48,7 +48,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/star_imgbtn5"
-        android:background="@drawable/star"
+        android:background="@drawable/notstar"
         android:layout_alignBottom="@+id/star_imgbtn4"
         android:layout_toRightOf="@+id/star_imgbtn4"
         android:layout_toEndOf="@+id/star_imgbtn4" />
@@ -64,7 +64,7 @@
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:text="送出"
-        android:id="@+id/sendans_btn"
+        android:id="@+id/sendevaluation_btn"
         android:background="#ffffff"
         android:textColor="#6a2a69"
         android:textSize="25dp"

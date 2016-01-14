@@ -19,6 +19,7 @@ public class Hints extends Activity {
     Button answer_btn;
     Button abort_btn;
 
+    int titleId=0;
     String answer;
     String hint1;
     String hint2;
@@ -58,6 +59,7 @@ public class Hints extends Activity {
         hint1 = bundle.getString("hint1");
         hint2 = bundle.getString("hint2");
         hint3 = bundle.getString("hint3");
+        titleId = bundle.getInt("titleId");
 
         //init
         hint1_txt=(TextView)findViewById(R.id.hint1_txt);
@@ -71,7 +73,11 @@ public class Hints extends Activity {
 
     //進入作答頁面
     private void answer(){
+        Bundle bundle = new Bundle();
+        bundle.putString("answer",answer);
+        bundle.putInt("titleId",titleId);
         Intent intent = new Intent(Hints.this,Answer.class);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

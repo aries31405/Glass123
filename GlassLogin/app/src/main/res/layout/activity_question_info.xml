@@ -8,7 +8,8 @@
     tools:context="com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo"
     android:background="#ffe5df">
 
-    <TextView android:text="NO.108" android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/titleId_txt"
         android:textSize="30sp"
@@ -46,35 +47,57 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/star_imgbtn1"
+        android:id="@+id/starinfo1_img"
         android:background="@drawable/star"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/titleId_txt"
-        android:layout_alignStart="@+id/titleId_txt" />
+        android:layout_alignStart="@+id/titleId_txt"
+        android:visibility="invisible" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView3"
+        android:id="@+id/starinfo2_img"
         android:background="@drawable/star"
-        android:layout_alignTop="@+id/star_imgbtn1"
-        android:layout_toRightOf="@+id/star_imgbtn1"
-        android:layout_toEndOf="@+id/star_imgbtn1" />
+        android:layout_alignTop="@+id/starinfo1_img"
+        android:layout_toRightOf="@+id/starinfo1_img"
+        android:layout_toEndOf="@+id/starinfo1_img"
+        android:visibility="invisible" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView4"
+        android:id="@+id/starinfo3_img"
         android:background="@drawable/star"
-        android:layout_alignTop="@+id/imageView3"
-        android:layout_toRightOf="@+id/imageView3"
-        android:layout_toEndOf="@+id/imageView3" />
+        android:layout_alignTop="@+id/starinfo2_img"
+        android:layout_toRightOf="@+id/starinfo2_img"
+        android:layout_toEndOf="@+id/starinfo2_img"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/starinfo4_img"
+        android:background="@drawable/star"
+        android:layout_alignTop="@+id/starinfo5_img"
+        android:layout_toRightOf="@+id/starinfo3_img"
+        android:layout_toEndOf="@+id/starinfo3_img"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/starinfo5_img"
+        android:background="@drawable/star"
+        android:layout_alignTop="@+id/starinfo3_img"
+        android:layout_toRightOf="@+id/starinfo4_img"
+        android:layout_toEndOf="@+id/starinfo4_img"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="6樓"
         android:id="@+id/floor_txt"
         android:textColor="#ff898989"
         android:textSize="30sp"
@@ -87,11 +110,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="林元博"
         android:id="@+id/author_txt"
         android:textSize="30dp"
         android:textColor="#ff898989"
-        android:layout_below="@+id/imageView4"
+        android:layout_below="@+id/starinfo3_img"
         android:layout_alignRight="@+id/rate"
         android:layout_alignEnd="@+id/rate" />
 
