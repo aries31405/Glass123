@@ -108,7 +108,10 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
                 {
                     Toast.makeText(Evaluation.this,"請給星星",Toast.LENGTH_SHORT).show();
                 }
-                uploadevaluation();
+                else
+                {
+                    uploadevaluation();
+                }
             }
         });
 
@@ -133,13 +136,13 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
         else if(event.getAction() == MotionEvent.ACTION_UP){
             touchUpX=event.getX();
             touchUpY=event.getY();
-            if(touchUpX-touchDownX > 100){
+            if(touchUpY-touchDownY > 100){
                 viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
                 viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
 
                 viewFlipper.showPrevious();
             }
-            else if(touchDownX-touchUpX > 100){
+            else if(touchDownY-touchUpY > 100){
                 viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_in));
                 viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_out));
 

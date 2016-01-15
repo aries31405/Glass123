@@ -1,6 +1,8 @@
 package com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +32,8 @@ public class Answer extends Activity {
     int titleId=0;
     String right_or_wrong="";
 
+    Button abortans_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,16 @@ public class Answer extends Activity {
 
         answer_edittext = (EditText)findViewById(R.id.answer_edittext);
 
+        abortans_btn = (Button)findViewById(R.id.abortans_btn);
+
+        //放棄按鈕監聽器
+        abortans_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abort();
+            }
+        });
+
     }
 
 
@@ -59,35 +73,38 @@ public class Answer extends Activity {
         //使用者輸入的答案
         UserAnswer=answer_edittext.getText().toString();
 
-        //判斷答案是否正確
-        if(answer.equals(UserAnswer))
+        if(UserAnswer.equals(""))
         {
-            right_or_wrong = "1";
-            // 答對UI
-            Toast.makeText(this,"答對了",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Answer.this,"請輸入答案",Toast.LENGTH_SHORT).show();
         }
         else
         {
-            right_or_wrong = "0";
-            //答錯UI
-            Toast.makeText(this,"答錯了",Toast.LENGTH_SHORT).show();
+            //判斷答案是否正確
+            if(answer.equals(UserAnswer))
+            {
+                right_or_wrong = "1";
+                // 答對UI
+                Toast.makeText(this,"答對了",Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                right_or_wrong = "0";
+                //答錯UI
+                Toast.makeText(this,"答錯了",Toast.LENGTH_SHORT).show();
+            }
+
+            Log.e("niki", UserAnswer);
+            Log.e("niki", UserId);
+            Log.e("niki", String.valueOf(titleId));
+            Log.e("niki", right_or_wrong);
+
+            //上傳使用者解題紀錄
+            uploaduseranswer();
+
+            //到評價頁面
+            toevaluate();
         }
 
-        Log.e("niki",UserAnswer);
-        Log.e("niki", UserId);
-        Log.e("niki", String.valueOf(titleId));
-        Log.e("niki", right_or_wrong);
-
-        //上傳使用者解題紀錄
-        uploaduseranswer();
-
-        //到評價頁面
-        Bundle bundle = new Bundle();
-        bundle.putInt("titleId",titleId);
-        bundle.putString("UserId",UserId);
-        Intent intent = new Intent(Answer.this,Evaluation.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     private void uploaduseranswer(){
@@ -97,25 +114,55 @@ public class Answer extends Activity {
         Map<String,Object> params = new HashMap<String, Object>();
 
         params.put("titleId",titleId);
-        params.put("UserId",UserId);
-        params.put("UserAnswer",UserAnswer);
-        params.put("right_or_wrong",right_or_wrong);
+        params.put("UserId", UserId);
+        params.put("UserAnswer", UserAnswer);
+        params.put("right_or_wrong", right_or_wrong);
 
-        aq.ajax(url,params,String.class,new AjaxCallback<String>(){
+        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
             @Override
             public void callback(String url, String object, AjaxStatus status) {
                 //成功
-                if(status.getCode() == 200)
-                {
-                    Toast.makeText(Answer.this,"上傳成功",Toast.LENGTH_SHORT).show();
+                if (status.getCode() == 200) {
+                    Toast.makeText(Answer.this, "上傳成功", Toast.LENGTH_SHORT).show();
                 }
                 //失敗
-                else
-                {
-                    Toast.makeText(Answer.this,String.valueOf(status.getCode()),Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(Answer.this, String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    //放棄作答，還需寫回資料庫
+    private void abort(){
+        new AlertDialog.Builder(Answer.this)
+                .setTitle("放棄")
+                .setMessage("要放棄解答此題目嗎?")
+                .setPositiveButton("放棄", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //放棄，寫回資料庫
+                        right_or_wrong = "2";
+                        uploaduseranswer();
+                        Answer.this.finish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+    }
+
+    private void toevaluate(){
+        //到評價頁面
+        Bundle bundle = new Bundle();
+        bundle.putInt("titleId",titleId);
+        bundle.putString("UserId", UserId);
+        Intent intent = new Intent(Answer.this,Evaluation.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

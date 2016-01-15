@@ -11,8 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.example.glass123.glasslogin.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Hints extends Activity {
 
@@ -24,6 +31,9 @@ public class Hints extends Activity {
     String hint1;
     String hint2;
     String hint3;
+    String UserId="20151211151346511431";
+    String UserAnswer="";
+    String right_or_wrong="";
 
     TextView hint1_txt;
     TextView hint2_txt;
@@ -90,8 +100,8 @@ public class Hints extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //放棄，寫回資料庫
-
-
+                        right_or_wrong = "2";
+                        uploaduseranswer();
                         Hints.this.finish();
                     }
                 })
@@ -101,6 +111,42 @@ public class Hints extends Activity {
 
                     }
                 }).show();
+    }
+
+    private void uploaduseranswer(){
+        AQuery aq = new AQuery(this);
+        String url = "http://163.17.135.76/glass/uploaduseranswer.php";
+
+        Map<String,Object> params = new HashMap<String, Object>();
+
+        params.put("titleId",titleId);
+        params.put("UserId", UserId);
+        params.put("UserAnswer", UserAnswer);
+        params.put("right_or_wrong", right_or_wrong);
+
+        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+            @Override
+            public void callback(String url, String object, AjaxStatus status) {
+                //成功
+                if (status.getCode() == 200) {
+                    Toast.makeText(Hints.this, "上傳成功", Toast.LENGTH_SHORT).show();
+                }
+                //失敗
+                else {
+                    Toast.makeText(Hints.this, String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void toevaluate(){
+        //到評價頁面
+        Bundle bundle = new Bundle();
+        bundle.putInt("titleId", titleId);
+        bundle.putString("UserId", UserId);
+        Intent intent = new Intent(Hints.this,Evaluation.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

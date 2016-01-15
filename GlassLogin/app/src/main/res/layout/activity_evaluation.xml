@@ -55,10 +55,11 @@
 
     <ViewFlipper
         android:layout_width="400dp"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:id="@+id/viewFlipper"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/sendevaluation_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp" />
 
     <Button
         android:layout_width="150dp"
