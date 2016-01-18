@@ -14,6 +14,7 @@ import android.graphics.PorterDuffXfermode;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -31,7 +32,6 @@ import java.util.ArrayList;
 public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Runnable{
     private ArrayList<AndroidUnit> Au; //AndroidUnit 類別型態的物件陣列
     private Canvas canvas = null;
-    public static Canvas newcanvas = null;
     private Thread db_thread;
     boolean flag =true,first=true,IsNotCreating = true;
     private Resources res;
@@ -74,23 +74,15 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         //建立執行緒
         db_thread = new Thread(this);
 
-        final ProgressDialog dialog = ProgressDialog.show(context, "讀取中", "請等待數秒...", true);
         new Thread(new Runnable()
         {
             @Override
             public void run()
             {
-                while(true) {
-                    if((FindQuestion.latitude != 0.0 || FindQuestion.longitude != 0.0) && Sen.postion !=0)
-                    {
-                        for (AndroidUnit a: Au) {
-                            a.start();
-                        }
-                        db_thread.start();
-                        dialog.dismiss();
-                        break;
-                    }
+                for (AndroidUnit a: Au) {
+                    a.start();
                 }
+                db_thread.start();
             }
         }).start();
 
@@ -193,7 +185,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                     {
                        draw();
                     }
-                    else if((Sen.nowpostion + 5 < Sen.postion) || (Sen.nowpostion - 5) > Sen.postion || FindQuestion.latitude > (FindQuestion.nowlatitude + 0.000009) || FindQuestion.latitude < (FindQuestion.nowlatitude-0.000009) || FindQuestion.longitude > (FindQuestion.nowlongitude + 0.000009) || FindQuestion.longitude < (FindQuestion.nowlongitude-0.000009))
+                    else if((Sen.nowpostion + 5 < Sen.postion) || (Sen.nowpostion - 5) > Sen.postion || FindQuestion.latitude > (FindQuestion.nowlatitude + 0.00000900900901) || FindQuestion.latitude < (FindQuestion.nowlatitude-0.00000900900901) || FindQuestion.longitude > (FindQuestion.nowlongitude + 0.00000900900901) || FindQuestion.longitude < (FindQuestion.nowlongitude-0.00000900900901))
                     {
                         draw();
                     }
@@ -215,7 +207,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     //繪製畫面
     public void draw()
     {
-
         //取得並鎖住畫布(canvas)
         canvas = holder.lockCanvas();
         //清除畫面

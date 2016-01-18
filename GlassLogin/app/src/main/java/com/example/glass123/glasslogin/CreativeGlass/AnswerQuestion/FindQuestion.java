@@ -65,14 +65,27 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, G
 
         bt = (Button)findViewById(R.id.button2);
 
+        // 建立Google API用戶端物件
+        configGoogleApiClient();
+        // 建立Location請求物件
+        configLocationRequest();
+        //啟動
+        googleApiClient.connect();
+
         new Thread(new Runnable()
         {
             @Override
             public void run()
             {
-                GetServerMessage message = new GetServerMessage();
-                allmsg = message.all("http://163.17.135.76/glass/question_search.php","UserId="+"20151211151346511431");
-                handler.post(split);
+                while(true) {
+                    if((latitude != 0.0 || longitude != 0.0))
+                    {
+                        GetServerMessage message = new GetServerMessage();
+                        allmsg = message.all("http://163.17.135.76/glass/question_search.php","UserId="+"20151211151346511431"+"&lat="+latitude+"&lon="+longitude);
+                        handler.post(split);
+                        break;
+                    }
+                }
             }
 
         }).start();
@@ -83,14 +96,6 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, G
         //ac = new Acceleration(sm);
         //自定義方位類別
         senor = new Sen(sm);
-
-        // 建立Google API用戶端物件
-        configGoogleApiClient();
-        // 建立Location請求物件
-        configLocationRequest();
-        //啟動
-        googleApiClient.connect();
-
     }
 
     public void onPause(){
@@ -99,13 +104,23 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, G
         super.onPause();
     }
 
+
+
     final Runnable split = new Runnable()
     {
         @Override
         public void run()
         {
-            sp = new Sp(allmsg);
-            handler.post(uiupdate);
+            if(allmsg.equals("No question"))
+            {
+                Toast.makeText(FindQuestion.this,"附近無任何題目",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                sp = new Sp(allmsg);
+                handler.post(uiupdate);
+            }
+
         }
     };
 
@@ -220,13 +235,16 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, G
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(final Location location) {
 
        // latitude = location.getLatitude();
         //longitude = location.getLongitude();
 
-        latitude = 24.149384;
-        longitude = 120.683561;
+        //latitude = 24.149384;
+        //longitude = 120.683561;
+
+        latitude = 24.149592;
+        longitude = 120.683449;
 
         if(nowlatitude == 0.0)
         {
