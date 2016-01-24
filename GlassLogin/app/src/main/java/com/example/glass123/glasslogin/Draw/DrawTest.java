@@ -74,18 +74,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         //建立執行緒
         db_thread = new Thread(this);
 
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                for (AndroidUnit a: Au) {
-                    a.start();
-                }
-                db_thread.start();
-            }
-        }).start();
-
     }
 
     //==== 初始設定 ====
@@ -155,6 +143,11 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     public void surfaceCreated(SurfaceHolder holder) {
         // TODO Auto-generated method stub
 
+        for (AndroidUnit a: Au) {
+            a.start();
+        }
+
+        db_thread.start();
     }
 
     @Override

@@ -152,13 +152,13 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".GlassMap"
             android:label="@string/title_activity_glass_map"
-            android:screenOrientation="landscape">
-        </activity>
-
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.FindMap"
+            android:label="@string/title_activity_find_map"></activity>
     </application>
 
 </manifest>

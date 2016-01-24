@@ -33,25 +33,6 @@ public class AndroidUnit implements Runnable{
         this.lontitud = lontitude;
         this.titleId = titleId;
 
-       /* int toWidth = 72;
-        int toHeight = 72;
-
-        Bitmap bb = unit_bmp;
-        int bmpWidth  = bb.getWidth();
-        int bmpHeight  = bb.getHeight();
-
-        float scale;
-        if (bmpWidth > bmpHeight) {
-            scale = (float) toWidth/bmpWidth;
-        }else {
-            scale = (float) toHeight/bmpHeight;
-        }
-
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale, scale);
-
-        this.unit_bmp = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, true);*/
-
         //此物件參數的初始設定
         UnitInitial();
 
@@ -65,7 +46,7 @@ public class AndroidUnit implements Runnable{
         unit_Height = unit_bmp.getHeight();
         unit_Width = unit_bmp.getWidth();
 
-        y = 330;
+        y = (int) (Math.random() *500+100);
 
     }
 
@@ -93,7 +74,7 @@ public class AndroidUnit implements Runnable{
         //設定矩形框範圍，與觸碰事件比對是否觸碰到此物件範圍內
             unit_rect.set(decide.x(), y, decide.x() + unit_Width, y + unit_Height) ;
             //在 canvas 上繪出物件本體
-            canvas.drawBitmap(this.unit_bmp,decide.x(), y, null);
+        canvas.drawBitmap(this.unit_bmp, decide.x(), y, null);
     }
 
     public boolean cancareat()
@@ -162,4 +143,7 @@ public class AndroidUnit implements Runnable{
 
         return d;
     }
+
+
+
 }
