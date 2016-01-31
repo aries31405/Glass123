@@ -72,7 +72,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener,
     int i=0;
 
     //不知道
-    private static final String TAG = TitleCard.class.getSimpleName(),url="http://163.17.135.76";
+    private static String url="http://163.17.135.76";
 
     //定義卡片順序 方便了解
     static final int HintOne = 0;

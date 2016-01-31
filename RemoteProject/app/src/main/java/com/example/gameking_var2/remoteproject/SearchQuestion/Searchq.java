@@ -339,7 +339,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             sp.upnow();
             for (int ii =0;ii < sp.getLenght(); ii++)
             {
-                if(latitude >= (sp.getX(ii) - 0.00001) && latitude <= (sp.getY(ii) + 0.00001) )
+                if((sp.getX(ii) <= (latitude + 0.0000900900901) && sp.getX(ii) <= (latitude - 0.0000900900901))&&(sp.getY(ii) <= (longitude + 0.0000900900901) && sp.getY(ii) <= (longitude - 0.0000900900901)) )
                 {
                     if(mp.isPlaying())
                         mp.pause();

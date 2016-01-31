@@ -158,7 +158,8 @@
             android:screenOrientation="landscape"></activity>
         <activity
             android:name=".CreativeGlass.AnswerQuestion.FindMap"
-            android:label="@string/title_activity_find_map"></activity>
+            android:label="@string/title_activity_find_map"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

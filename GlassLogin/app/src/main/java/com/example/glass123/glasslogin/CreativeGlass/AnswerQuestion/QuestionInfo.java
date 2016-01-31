@@ -57,6 +57,7 @@ public class QuestionInfo extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_question_info);
 
+
         //init
         startans_btn = (Button)findViewById(R.id.startans_btn);
         close_btn = (Button)findViewById(R.id.close_btn);
@@ -82,6 +83,7 @@ public class QuestionInfo extends Activity {
         titleId = bundle.getInt("titleId");
 
         getquestioninfo();
+
 
         titleId_txt = (TextView)findViewById(R.id.titleId_txt);
         author_txt = (TextView)findViewById(R.id.author_txt);
@@ -116,13 +118,13 @@ public class QuestionInfo extends Activity {
                     try
                     {
                         //set info
-                        titleId_txt.setText("NO."+String.valueOf(titleId));
-                        floor_txt.setText(json.getInt("floor")+"樓");
-                        author_txt.setText(json.getString("author"));
-                        answer = json.getString("answer");
                         hint1 = json.getString("hint1");
                         hint2 = json.getString("hint2");
                         hint3 = json.getString("hint3");
+                        titleId_txt.setText("NO."+String.valueOf(titleId));
+                        floor_txt.setText(json.getInt("floor")+"樓");
+                        answer = json.getString("answer");
+                        author_txt.setText(json.getString("author"));
                         star = json.getInt("star");
                         setstar();
                     }

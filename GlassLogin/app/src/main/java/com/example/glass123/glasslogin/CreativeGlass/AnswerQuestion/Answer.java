@@ -79,18 +79,19 @@ public class Answer extends Activity {
         }
         else
         {
+
             //判斷答案是否正確
             if(answer.equals(UserAnswer))
             {
                 right_or_wrong = "1";
                 // 答對UI
-                Toast.makeText(this,"答對了",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Answer.this,"答對了",Toast.LENGTH_SHORT).show();
             }
             else
             {
                 right_or_wrong = "0";
                 //答錯UI
-                Toast.makeText(this,"答錯了",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Answer.this,"答錯了",Toast.LENGTH_SHORT).show();
             }
 
             Log.e("niki", UserAnswer);
@@ -99,10 +100,10 @@ public class Answer extends Activity {
             Log.e("niki", right_or_wrong);
 
             //上傳使用者解題紀錄
-            uploaduseranswer();
+           // uploaduseranswer();
 
             //到評價頁面
-            toevaluate();
+           // toevaluate();
         }
 
     }

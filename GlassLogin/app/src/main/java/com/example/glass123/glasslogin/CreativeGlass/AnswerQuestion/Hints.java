@@ -43,6 +43,7 @@ public class Hints extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hints);
 
+
         //init
         answer_btn = (Button)findViewById(R.id.answer_btn);
         abort_btn = (Button)findViewById(R.id.abort_btn);
