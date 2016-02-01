@@ -100,10 +100,10 @@ public class Answer extends Activity {
             Log.e("niki", right_or_wrong);
 
             //上傳使用者解題紀錄
-           // uploaduseranswer();
+            uploaduseranswer();
 
             //到評價頁面
-           // toevaluate();
+            toevaluate();
         }
 
     }

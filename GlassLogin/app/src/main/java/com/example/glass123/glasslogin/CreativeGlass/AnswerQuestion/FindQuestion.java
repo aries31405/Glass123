@@ -193,17 +193,20 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
 
     @Override
     public void onLocationChanged(Location location) {
-        // latitude = location.getLatitude();
-        //longitude = location.getLongitude();
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
 
-        latitude = 24.149592;
-        longitude = 120.683449;
+        //latitude = 24.149592;
+        //longitude = 120.683449;
 
         if(nowlatitude == 0.0)
         {
             nowlatitude = latitude;
             nowlongitude = longitude;
         }
+
+        Toast.makeText(FindQuestion.this,"latitude="+latitude+"__longitude="+longitude,Toast.LENGTH_LONG).show();
+
     }
 
     @Override
