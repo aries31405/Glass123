@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +47,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class GlassMap extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    String[] all,titleId,x,y;
+    String[] all,titleId,x,y,status;
+    Boolean[] canmaker;
     String msg;
     private GoogleMap mMap;
 
@@ -88,7 +90,77 @@ public class GlassMap extends FragmentActivity implements OnMapReadyCallback, Go
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    public void click(View v)
+    {
+        CheckBox ch;
+        ch = (CheckBox)findViewById(v.getId());
 
+        switch (v.getId())
+        {
+            case R.id.glass_map_undo:
+                if(ch.isChecked()) {
+                    Reforming("1",0);
+                }else
+                {
+                    Reforming("1",1);
+                }
+                break;
+            case R.id.glass_map_correct:
+                if(ch.isChecked()) {
+                    Reforming("2",0);
+                }else
+                {
+                    Reforming("2",1);
+                }
+                break;
+            case R.id.glass_map_wrong:
+                if(ch.isChecked()) {
+                    Reforming("3",0);
+                }else
+                {
+                    Reforming("3",1);
+                }
+                break;
+            case R.id.glass_map_custom:
+                if(ch.isChecked()) {
+                    Reforming("4",0);
+                }else
+                {
+                    Reforming("4",1);
+                }
+                break;
+        }
+
+
+        mMap.clear();
+
+        for (int i = 0;i < titleId.length;i++)
+        {
+
+            if(canmaker[i])
+            {
+                LatLng place = new LatLng(Double.parseDouble(x[i]), Double.parseDouble(y[i]));
+
+                setUpMap(place,titleId[i]);
+            }
+        }
+
+    }
+
+    public void Reforming(String status,int openclose)
+    {
+        for (int i = 0;i < titleId.length;i++)
+        {
+            if(openclose == 0 && this.status[i].equals(status))
+            {
+                canmaker[i] = true;
+            }
+            else if(this.status[i].equals(status))
+            {
+                canmaker[i] = false;
+            }
+        }
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -281,6 +353,11 @@ public class GlassMap extends FragmentActivity implements OnMapReadyCallback, Go
             titleId = all[0].split("-");
             x = all[1].split("-");
             y = all[2].split("-");
+            status = all[3].split("-");
+            canmaker = new Boolean[all[0].length()];
+
+            for (int i = 0;i < titleId.length;i++){canmaker[i] = true;}
+
 
             handler.post(uiupdate);
 

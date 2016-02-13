@@ -1,3 +1,9 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:appNs="http://schemas.android.com/apk/res-auto">
+
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,3 +12,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.glass123.glasslogin.GlassMap" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未做"
+            android:id="@+id/glass_map_undo"
+            android:checked="true"
+            android:onClick="click"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已做正確"
+            android:id="@+id/glass_map_correct"
+            android:checked="true"
+            android:onClick="click"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已做錯誤"
+            android:id="@+id/glass_map_wrong"
+            android:checked="true"
+            android:onClick="click"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自出"
+            android:id="@+id/glass_map_custom"
+            android:checked="true"
+            android:onClick="click"/>
+    </LinearLayout>
+
+</RelativeLayout>
