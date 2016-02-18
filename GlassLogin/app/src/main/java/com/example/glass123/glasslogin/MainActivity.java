@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,7 @@ public class MainActivity extends Activity implements
 
     private TextToSpeech tts;
 
+    //SwitchButton
     SwitchButton withglass_sb;
     boolean mThumbSizeFlag;
     boolean mThumbRadiusFlag;
@@ -110,17 +112,23 @@ public class MainActivity extends Activity implements
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 
-        double i = 1;
-        double n=0;
-        for(i=1;i<=3;i++)
-        {
-            n+=(Math.pow(-1,(i+1)))*(1/i);
-        }
+//        double i = 1;
+//        double n=0;
+//        for(i=1;i<=3;i++)
+//        {
+//            n+=(Math.pow(-1,(i+1)))*(1/i);
+//        }
 //        Toast.makeText(this,String.valueOf(n),Toast.LENGTH_SHORT).show();
 
         //SwitchButton init
         withglass_sb = (SwitchButton)findViewById(R.id.withglass_sb);
         ChangeSwitchButtonStyle();
+        withglass_sb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                withglass_sb.setBackColorRes(isChecked ? R.color.purple : R.color.white);
+            }
+        });
 
     }
 
@@ -334,7 +342,7 @@ public class MainActivity extends Activity implements
     private void ChangeSwitchButtonStyle(){
 
         //背景顏色
-        withglass_sb.setBackColorRes(R.color.purple);
+        withglass_sb.setBackColorRes(R.color.white);
 
         //大小
         float size = 30 * getResources().getDisplayMetrics().density;

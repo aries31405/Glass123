@@ -5,49 +5,6 @@
     android:background="#731a89"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="請開始出題"
-        android:id="@+id/textView8"
-        android:textSize="60dp"
-        android:textColor="#ffffff"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="48dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="5dp"/>
-
-    <EditText
-        android:layout_width="560dp"
-        android:layout_height="45dp"
-        android:id="@+id/hint2"
-        android:background="#ffffff"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
-        android:singleLine="true"
-        android:paddingTop="5dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="提示二"
-        android:id="@+id/textView4"
-        android:textSize="80dp"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/textView8"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="5dp"
-        />
 
     <ImageButton
         android:layout_width="100dp"
@@ -58,16 +15,37 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/createqnext_btn2"
+        android:background="@drawable/next"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Hint2"
+        android:text="請輸入提示二"
         android:layout_alignParentTop="true"
         android:background="@drawable/title"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:textSize="40dp"
+        android:textColor="#ffffff" />
+
+    <EditText
+        android:layout_width="560dp"
+        android:layout_height="45dp"
+        android:id="@+id/hint2"
+        android:background="#ffffff"
+        android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
+        android:singleLine="true"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/createqnext_btn2"
+        android:layout_toLeftOf="@+id/createqnext_btn" />
 
 </RelativeLayout>

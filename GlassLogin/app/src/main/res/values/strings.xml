@@ -69,5 +69,7 @@
     <string name="title_activity_maps2">Map</string>
     <string name="title_activity_glass_map">Map</string>
     <string name="title_activity_find_map">Map</string>
+    <string name="title_activity_my_creative">MyCreative</string>
+    <string name="title_activity_achievement">Achievement</string>
 
 </resources>
