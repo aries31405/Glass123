@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.CheckBox;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo;
@@ -52,6 +53,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
         // TODO Auto-generated constructor stub
 
         this.context = context;
+
 
         //指定圖片來源
         res = getResources();
@@ -103,7 +105,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 bmp = bmp4;
             }
 
-            AndroidUnit au = new AndroidUnit(bmp,a.getLatitude(),a.getLontitude(),a.gettitleId());
+            AndroidUnit au = new AndroidUnit(bmp,a.getLatitude(),a.getLontitude(),a.gettitleId(),a.getstatus());
             //陸續將 au 放入 Au 物件陣列中
             Au.add(au);
         }

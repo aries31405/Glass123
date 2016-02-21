@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.util.Log;
+import android.widget.CheckBox;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Decide;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
@@ -18,20 +20,21 @@ import com.example.glass123.glasslogin.Sensor.Sen;
 public class AndroidUnit implements Runnable{
     Decide decide;
     private double ag , latitude, lontitud;
-    private boolean flag = true;
-    private int  y,unit_Width, unit_Height,titleId;//顯示物件的座標,物件圖片的寬、高
+    private boolean flag = true,ch_draw;
+    private int  y,unit_Width, unit_Height,titleId,ch;//顯示物件的座標,物件圖片的寬、高
     private Bitmap unit_bmp = null;       //代表該物件的圖片
     private  boolean notcreat = true;
     //矩形框變數，與觸碰事件比對座標，看是否點在此物件圖片範圍內
     Rect unit_rect = new Rect();
 
-    public AndroidUnit(Bitmap unit_bmp,double latitude,double lontitude,int titleId){
+    public AndroidUnit(Bitmap unit_bmp,double latitude,double lontitude,int titleId,int ch){
 
         //指定圖片來源
         this.unit_bmp = unit_bmp;
         this.latitude = latitude;
         this.lontitud = lontitude;
         this.titleId = titleId;
+        this.ch = ch;
 
         //此物件參數的初始設定
         UnitInitial();
@@ -95,7 +98,32 @@ public class AndroidUnit implements Runnable{
                 //暫停 0.5 秒(每隔 0.5 秒更新畫面一次)
                 Thread.sleep(10);
 
-                update(FindQuestion.latitude, FindQuestion.longitude, Sen.postion);
+                switch (ch)
+                {
+                    case 1:
+                        ch_draw = FindQuestion.ch_undo;
+                        break;
+                    case 2:
+                        ch_draw = FindQuestion.ch_correct;
+                        break;
+                    case 3:
+                        ch_draw = FindQuestion.ch_wrong;
+                        break;
+                    case 4:
+                        ch_draw = FindQuestion.ch_custom;
+                        break;
+                }
+
+               if(ch_draw)
+               {
+                   update(FindQuestion.latitude, FindQuestion.longitude, Sen.postion);
+                   Log.e("GGG","isChecked");
+               }
+                else if(decide.cancareat())
+               {
+                   decide.cantcreate();
+                   Log.e("GGG", "no");
+               }
             } catch (Exception e) {
                 e.printStackTrace();
             }
