@@ -13,6 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.GetServerMessage;
@@ -38,6 +39,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     private DrawTest drawTest = null;
     private SurfaceView svCamera = null;
     protected SurfaceHolder mSurfaceHolder;
+    public static Boolean ch_undo = true,ch_correct = true,ch_wrong = true,ch_custom = true;
 
     boolean previewing = false;
     Camera myCamera;
@@ -57,7 +59,6 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        bt = (Button)findViewById(R.id.button2);
 
         Bundle bundle = this.getIntent().getExtras();
         choose = bundle.getString("choose");
@@ -159,7 +160,44 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
 
     public void click(View v)
     {
-        finish();
+        CheckBox ch;
+        ch = (CheckBox)findViewById(v.getId());
+
+        switch (v.getId())
+        {
+            case R.id.draw_undo:
+                if(ch.isChecked()) {
+                    ch_undo = true;
+                }else
+                {
+                    ch_undo = false;
+                }
+                break;
+            case R.id.draw_correct:
+                if(ch.isChecked()) {
+                    ch_correct = true;
+                }else
+                {
+                    ch_correct = true;
+                }
+                break;
+            case R.id.draw_wrong:
+                if(ch.isChecked()) {
+                    ch_wrong = true;
+                }else
+                {
+                    ch_wrong = false;
+                }
+                break;
+            case R.id.draw_custom:
+                if(ch.isChecked()) {
+                   ch_custom = true;
+                }else
+                {
+                    ch_custom = false;
+                }
+                break;
+        }
     }
 
     @Override

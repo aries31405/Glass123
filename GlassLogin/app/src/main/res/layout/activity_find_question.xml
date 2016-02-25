@@ -18,21 +18,47 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2"
-            android:layout_gravity="center_horizontal|top"
-            android:onClick="click" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal|bottom">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/te"
-            android:layout_gravity="center" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未做"
+                android:id="@+id/draw_undo"
+                android:checked="true"
+                android:onClick="click"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已做正確"
+                android:id="@+id/draw_correct"
+                android:checked="true"
+                android:onClick="click"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已做錯誤"
+                android:id="@+id/draw_wrong"
+                android:checked="true"
+                android:onClick="click"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自出"
+                android:id="@+id/draw_custom"
+                android:checked="true"
+                android:onClick="click"/>
+        </LinearLayout>
 
     </FrameLayout>
 </LinearLayout> 

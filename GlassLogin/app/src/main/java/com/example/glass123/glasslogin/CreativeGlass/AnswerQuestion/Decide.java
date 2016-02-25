@@ -40,6 +40,11 @@ public class Decide {
         return cancreat;
     }
 
+    public void cantcreate()
+    {
+        cancreat = false;
+    }
+
     public int x()
     {
         return x;

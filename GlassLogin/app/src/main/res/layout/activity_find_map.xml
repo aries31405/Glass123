@@ -16,32 +16,19 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:id="@+id/find_map_cut"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="click"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:id="@+id/find_map_sum"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/find_map_cut"
-        android:layout_toStartOf="@+id/find_map_cut"
-        android:onClick="click"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="OK"
         android:id="@+id/find_map_ok"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="ok"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

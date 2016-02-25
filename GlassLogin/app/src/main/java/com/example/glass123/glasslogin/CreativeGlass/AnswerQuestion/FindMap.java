@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.R;
@@ -33,6 +34,8 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
     private double latitude=0.0,longitude=0.0;
 
     int radius = 0;
+
+    public SeekBar sb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,50 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                     }
                 }).show();
 
+        sb = (SeekBar)findViewById(R.id.seekBar);
+
+
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+                //拉動SeekBar停止時做的動作
+
+                if(latitude != 0.0)
+                {
+                    LatLng place = new LatLng(latitude, longitude);
+
+                    mMap.clear();
+
+                    addMarker(place, "您所選取室內中心位置", latitude + " : " + longitude);
+
+                    if(radius!=0) {
+                        mMap.addCircle(new CircleOptions()
+                                .center(new LatLng(latitude, longitude))
+                                .radius(radius)
+                                .strokeColor(Color.RED)
+                                .fillColor(Color.RED));}
+
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+                //開始拉動SeekBar時做的動作
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                // TODO Auto-generated method stub
+                //SeekBar改變時做的動作
+
+                radius = progress;
+
+            }
+        });
+
     }
 
 
@@ -87,8 +134,6 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                 @Override
                 public void onMapClick(LatLng latLng) {
 
-                    radius = 0;
-
                     latitude = latLng.latitude;
                     longitude = latLng.longitude;
 
@@ -98,37 +143,19 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
 
                     addMarker(place, "您所選取室內中心位置", latLng.latitude + " : " + latLng.longitude);
 
+                    if(radius!=0) {
+                        mMap.addCircle(new CircleOptions()
+                                .center(new LatLng(latitude, longitude))
+                                .radius(radius)
+                                .strokeColor(Color.RED)
+                                .fillColor(Color.RED));}
+
                 }
             });
         }
 
     }
 
-    public void click(View v)
-    {
-        mMap.clear();
-        LatLng place = new LatLng(latitude, longitude);
-        addMarker(place, "您所選取室內中心位置", latitude + " : " + longitude);
-        switch (v.getId())
-        {
-            case R.id.find_map_sum:
-                radius++;
-                mMap.addCircle(new CircleOptions()
-                        .center(new LatLng(latitude,longitude))
-                        .radius(radius)
-                        .strokeColor(Color.RED)
-                        .fillColor(Color.RED));
-                break;
-            case R.id.find_map_cut:
-                radius--;
-                mMap.addCircle(new CircleOptions()
-                        .center(new LatLng(latitude, longitude))
-                        .radius(radius)
-                        .strokeColor(Color.RED)
-                        .fillColor(Color.RED));
-                break;
-        }
-    }
 
     public void ok(View v)
     {
