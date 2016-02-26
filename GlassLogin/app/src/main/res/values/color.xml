@@ -3,4 +3,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#FF8904B1</color>
     <color name="creative_purple">#FF731a89</color>
+    <color name="new_purple">#5c196b</color>
+    <color name="new_yellow">#ffda8e</color>
+    <color name="new_white">#fffff5</color>
+    <color name="new_blue">#80d4f6</color>
+    <color name="new_red">#bd1550</color>
+
 </resources>
