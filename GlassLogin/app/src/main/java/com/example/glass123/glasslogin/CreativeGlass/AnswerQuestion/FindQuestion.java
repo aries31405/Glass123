@@ -178,7 +178,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
                     ch_correct = true;
                 }else
                 {
-                    ch_correct = true;
+                    ch_correct = false;
                 }
                 break;
             case R.id.draw_wrong:

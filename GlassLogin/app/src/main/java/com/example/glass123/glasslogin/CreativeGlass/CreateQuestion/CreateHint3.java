@@ -30,7 +30,7 @@ import java.io.InputStream;
  * Created by seahorse on 2015/11/28.
  */
 public class CreateHint3 extends AppCompatActivity implements View.OnClickListener {
-    ImageButton createqnext_btn;
+    ImageButton createqnext_btn,camera_btn;
     String answer,hint1,hint2,imagepath;
 
     ImageView hint3;
@@ -46,6 +46,8 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
 
         createqnext_btn = (ImageButton)findViewById(R.id.createqnext_btn);
         createqnext_btn.setOnClickListener(this);
+        camera_btn = (ImageButton)findViewById(R.id.camera_btn);
+        camera_btn.setOnClickListener(this);
 
         Bundle bundle = this.getIntent().getExtras();
         answer = bundle.getString("answer");
@@ -63,15 +65,8 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
         //init
         hint3 = (ImageView)findViewById(R.id.hint3);
 
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-
-        Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
-
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri.getPath());
-        startActivityForResult(intent, CAMERA);
-
+        //首次進入自動開相機
+        OpenCamera();
 
     }
 
@@ -80,6 +75,20 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
         if(view.getId() == R.id.createqnext_btn){
             CreateQuestionNext();
         }
+        else if(view.getId() == R.id.camera_btn){
+            OpenCamera();
+        }
+    }
+
+    private void OpenCamera(){
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+
+        Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri.getPath());
+        startActivityForResult(intent, CAMERA);
     }
 
     //拍照完畢或選取圖片後呼叫此函式
@@ -94,7 +103,7 @@ public class CreateHint3 extends AppCompatActivity implements View.OnClickListen
             try{
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize=4;
-                Log.e("PETER",uri.getPath());
+                Log.e("PETER",uri.toString());
                 InputStream inputStream = resolver.openInputStream(uri);
                 Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(uri),null,options);
 

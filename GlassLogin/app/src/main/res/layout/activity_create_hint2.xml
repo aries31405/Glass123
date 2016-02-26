@@ -19,7 +19,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/createqnext_btn2"
-        android:background="@drawable/next"
+        android:background="@drawable/forward"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true" />
 

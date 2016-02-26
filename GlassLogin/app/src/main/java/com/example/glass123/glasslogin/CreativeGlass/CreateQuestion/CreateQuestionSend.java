@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,9 +19,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +32,7 @@ import com.example.glass123.glasslogin.MapsActivity;
 import com.example.glass123.glasslogin.R;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Created by seahorse on 2015/11/28.
@@ -35,6 +41,8 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
     TextView hint1_tv,hint2_tv;
     String hint1,hint2,imagepath,answer,titleId=null,ResponseMessages=null,msg;
     Button questionsend_btn;
+    ImageView hint3_img;
+    private DisplayMetrics metrics;
     private Handler handler  = new Handler();
     private double latitude=0.0,longitude=0.0;
     @Override
@@ -45,6 +53,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         hint1_tv = (TextView)findViewById(R.id.hint1_tv);
         hint2_tv = (TextView)findViewById(R.id.hint2_tv);
         questionsend_btn = (Button)findViewById(R.id.questionsend_btn);
+        hint3_img = (ImageView)findViewById(R.id.hint3_img);
 
         //接bundle
         Bundle bundle = this.getIntent().getExtras();
@@ -60,7 +69,13 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
 
         questionsend_btn.setOnClickListener(this);
 
-        Log.e("PETER",String.valueOf(latitude) +" , "+String.valueOf(longitude));
+        Log.e("PETER", String.valueOf(latitude) + " , " + String.valueOf(longitude));
+
+        //讀取手機解析度
+        metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        setPic();
     }
 
     @Override
@@ -87,6 +102,49 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
             }
 
         }).start();
+    }
+
+    private void setPic(){
+        Uri uri = Uri.parse("file://" + imagepath);
+        ContentResolver resolver = this.getContentResolver();
+
+        try{
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize=4;
+            Log.e("PETER",uri.toString());
+            InputStream inputStream = resolver.openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(uri),null,options);
+
+            if(bitmap.getWidth()>bitmap.getHeight()){
+                scalepic(bitmap,metrics.heightPixels);
+            }
+            else{
+                scalepic(bitmap,metrics.widthPixels);
+            }
+            inputStream.close();
+
+        }
+        catch (Exception e){
+            Log.e("PETER",e.toString());
+
+        }
+    }
+
+    //調整圖片大小
+    private void scalepic(Bitmap bitmap,int metrics){
+        float scale = 1;
+        if(bitmap.getWidth()>metrics){
+            scale = (float)metrics/(float)bitmap.getWidth();
+            Matrix matrix = new Matrix();
+            matrix.setScale(scale,scale);
+
+            Bitmap scale_bitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,false);
+
+            hint3_img.setImageBitmap(scale_bitmap);
+        }
+        else{
+            hint3_img.setImageBitmap(bitmap);
+        }
     }
 
     //執行緒

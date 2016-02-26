@@ -31,9 +31,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/createqnext_btn2"
-        android:background="@drawable/next"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/forward" />
 
     <TextView
         android:id="@+id/title"
