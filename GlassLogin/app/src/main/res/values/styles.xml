@@ -10,7 +10,9 @@
     <!-- Actitviy Themes -->
 
     <style name="AppTheme" parent="Theme.Sample" />
+
     <style name="Theme.Sample" parent="Theme.Base" />
+
     <style name="Theme.Base" parent="android:Theme.Holo.Light" />
 
     <!-- 開關樣式 -->
@@ -33,5 +35,28 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
+
+
+    <!-- Material Design 2016/2/28 -->
+    <style name="AppTheme_new" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme_new.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme_new.NoActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme_new.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme_new.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

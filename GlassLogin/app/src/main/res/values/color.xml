@@ -9,4 +9,9 @@
     <color name="new_blue">#80d4f6</color>
     <color name="new_red">#bd1550</color>
 
+    <!-- Material Design 2016/2/28 -->
+    <color name="colorPrimary">#5c196b</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
 </resources>

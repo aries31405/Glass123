@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateQuestion;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateQuestionAnswer;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -98,7 +99,7 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
         setfloor_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MapsActivity.this, CreateQuestionAnswer.class);
+                Intent intent = new Intent(MapsActivity.this, CreateQuestion.class);
                 Bundle bundle = new Bundle();
                 bundle.putDouble("lat",latitude);
                 bundle.putDouble("lon",longitude);
