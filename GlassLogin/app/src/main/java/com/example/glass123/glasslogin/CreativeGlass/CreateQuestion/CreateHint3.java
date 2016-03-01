@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.Image;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.R;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,16 +79,17 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if((requestCode == CAMERA) && (data != null)) {
             Uri uri = data.getData();
-            imagepath = uri.toString();
+            imagepath = getPath(uri);
+            Uri aa = Uri.parse("file://" + imagepath);
             Toast.makeText(getActivity().getApplicationContext(), imagepath, Toast.LENGTH_LONG).show();
             ContentResolver resolver = getActivity().getContentResolver();
 
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 4;
-                Log.e("PETER", uri.toString());
-//                InputStream inputStream = resolver.openInputStream(Uri.parse("content://media/external/images/media/137889"));
-                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(Uri.parse("content://media/external/images/media/137889")), null, options);
+                Log.e("PETER", aa.toString());
+//                InputStream inputStream = resolver.openInputStream(aa);
+                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(aa), null, options);
 
                 if (bitmap.getWidth() > bitmap.getHeight()) {
                     scalepic(bitmap, metrics.heightPixels);
@@ -117,6 +120,14 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
         else{
             hint3.setImageBitmap(bitmap);
         }
+    }
+    public String getPath(Uri uri) {
+
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 
     //    @Override
