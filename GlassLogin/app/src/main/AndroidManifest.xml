@@ -94,7 +94,9 @@
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateQuestion"
             android:label="@string/title_activity_create_question"
-            android:theme="@style/AppTheme_new.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme_new.NoActionBar.NoActionBar"
+            android:screenOrientation="landscape">
+        </activity>
 
         <activity
             android:name=".CreativeGlass.AnswerQuestion.QuestionInfo"

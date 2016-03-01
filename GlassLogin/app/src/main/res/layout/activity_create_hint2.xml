@@ -2,26 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#731a89"
+    android:background="@color/new_yellow"
     >
 
-
-    <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/createqnext_btn"
-        android:background="@drawable/next"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/createqnext_btn2"
-        android:background="@drawable/forward"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="match_parent"
@@ -29,23 +12,23 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="請輸入提示二"
         android:layout_alignParentTop="true"
-        android:background="@drawable/title"
+        android:background="@color/new_purple"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textSize="40dp"
-        android:textColor="#ffffff" />
+        android:textSize="30dp"
+        android:textColor="@color/new_white"
+        android:id="@+id/textView168" />
 
     <EditText
-        android:layout_width="560dp"
+        android:layout_width="350dp"
         android:layout_height="45dp"
         android:id="@+id/hint2"
-        android:background="#ffffff"
+        android:background="@color/new_white"
         android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
         android:singleLine="true"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/createqnext_btn2"
-        android:layout_toLeftOf="@+id/createqnext_btn" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

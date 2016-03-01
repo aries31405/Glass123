@@ -27,13 +27,14 @@ import android.widget.Toast;
 
 import com.example.glass123.glasslogin.R;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
  * Created by seahorse on 2015/11/28.
  */
-public class CreateHint3 extends Fragment {
+public class CreateHint3 extends Fragment implements View.OnClickListener{
     ImageButton createqnext_btn,camera_btn;
     String answer,hint1,hint2,imagepath;
 
@@ -46,9 +47,79 @@ public class CreateHint3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_create_hint3,container,false);
+
+        camera_btn = (ImageButton)v.findViewById(R.id.camera_btn);
+        camera_btn.setOnClickListener(this);
+
         return v;
     }
-//    @Override
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.camera_btn){
+            OpenCamera();
+        }
+    }
+
+
+    private void OpenCamera(){
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+
+        Uri uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri.getPath());
+        startActivityForResult(intent, CAMERA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if((requestCode == CAMERA) && (data != null)) {
+            Uri uri = data.getData();
+            imagepath = uri.toString();
+            Toast.makeText(getActivity().getApplicationContext(), imagepath, Toast.LENGTH_LONG).show();
+            ContentResolver resolver = getActivity().getContentResolver();
+
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+                Log.e("PETER", uri.toString());
+//                InputStream inputStream = resolver.openInputStream(Uri.parse("content://media/external/images/media/137889"));
+                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(Uri.parse("content://media/external/images/media/137889")), null, options);
+
+                if (bitmap.getWidth() > bitmap.getHeight()) {
+                    scalepic(bitmap, metrics.heightPixels);
+                } else {
+                    scalepic(bitmap, metrics.widthPixels);
+                }
+//                inputStream.close();
+
+            } catch (Exception e) {
+                Log.e("PETER", e.toString());
+
+            }
+        }
+    }
+
+    //調整圖片大小
+    private void scalepic(Bitmap bitmap,int metrics){
+        float scale = 1;
+        if(bitmap.getWidth()>metrics){
+            scale = (float)metrics/(float)bitmap.getWidth();
+            Matrix matrix = new Matrix();
+            matrix.setScale(scale,scale);
+
+            Bitmap scale_bitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,false);
+
+            hint3.setImageBitmap(scale_bitmap);
+        }
+        else{
+            hint3.setImageBitmap(bitmap);
+        }
+    }
+
+    //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_create_hint3);
