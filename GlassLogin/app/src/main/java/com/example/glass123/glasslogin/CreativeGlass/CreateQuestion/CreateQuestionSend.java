@@ -38,8 +38,9 @@ import java.io.InputStream;
  * Created by seahorse on 2015/11/28.
  */
 public class CreateQuestionSend extends Activity implements View.OnClickListener{
+    ProgressDialog dialog;
     TextView hint1_tv,hint2_tv;
-    String hint1,hint2,imagepath,answer,titleId=null,ResponseMessages=null,msg;
+    String hint1,hint2,imagepath,answer,floor,device,titleId=null,ResponseMessages=null,msg;
     Button questionsend_btn;
     ImageView hint3_img;
     private DisplayMetrics metrics;
@@ -63,6 +64,9 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         answer = bundle.getString("answer");
         latitude = bundle.getDouble("lat");
         longitude = bundle.getDouble("lon");
+        floor = "1";//---------------------------------------------------還要拿
+        device = "1";//手機固定1
+
 
         hint1_tv.setText(hint1);
         hint2_tv.setText(hint2);
@@ -81,7 +85,8 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
     @Override
     public void onClick(View view) {
 
-        final ProgressDialog dialog = ProgressDialog.show(CreateQuestionSend.this, "讀取中", "請等待數秒...", true);
+        dialog = ProgressDialog.show(CreateQuestionSend.this, "讀取中", "請等待數秒...", true);
+
         new Thread(new Runnable()
         {
             @Override
@@ -90,11 +95,9 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                 while(true) {
                     if(latitude != 0.0 || longitude !=0.0)
                     {
-                        dialog.dismiss();
-                        GetServerMessage message = new GetServerMessage();
-                        titleId = message.all("http://163.17.135.76/glass/add_title.php","UserId="+"20151211151346511431"+"&x="+ latitude+"&y="+longitude+"&floor="+1+"&titleDevice="+1);
-                        handler.post(add_image);
-                        Log.e("PETER", "UserId=" + "20151211151346511431" + "&x=" + latitude + "&y=" + longitude + "&floor=" + 6 + "&titleDevice=" + 1);
+                        UploadImage uploadImage = new UploadImage();
+                        ResponseMessages = uploadImage.uploadFile(imagepath);
+                        handler.post(add_info);
                         break;
                     }
                 }
@@ -104,7 +107,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         }).start();
     }
 
-    private void setPic(){
+    private void setPic() {
         Uri uri = Uri.parse("file://" + imagepath);
         ContentResolver resolver = this.getContentResolver();
 
@@ -148,26 +151,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
     }
 
     //執行緒
-    final Runnable add_image = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            new Thread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    UploadImage uploadImage = new UploadImage();
-                    ResponseMessages = uploadImage.uploadFile(imagepath);
-                    handler.post(add_prompt);
-                }
-
-            }).start();
-        }
-    };
-
-    final Runnable add_prompt = new Runnable()
+    final Runnable add_info = new Runnable()
     {
         @Override
         public void run()
@@ -179,8 +163,9 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                 {
                     if (!ResponseMessages.equals("fail"))
                     {
+                        dialog.dismiss();
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ hint1+"&p2="+hint2+"&p3=three&imagepath="+ResponseMessages+"&ans="+answer);
+                        msg = message.all("http://163.17.135.76/new glass/add_info.php","userId="+"1"+"&p1="+ hint1+"&p2="+hint2+"&p3="+ResponseMessages+"&ans="+answer+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
                         Log.e("PETER", "@!#");
                         handler.post(askcontinue);
                     }
