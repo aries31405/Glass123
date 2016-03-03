@@ -2,6 +2,7 @@ package com.example.glass123.glasslogin.CreativeGlass.CreateQuestion;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -78,6 +80,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
     public void saveImagepath(String im){
         imagepath = im;
         checkupload();
+        Toast.makeText(this,imagepath,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -104,29 +107,38 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
     }
 
     private void checkupload(){
+
+        Log.e("niki",answer);
+        Log.e("niki", hint1);
+        Log.e("niki",hint2);
+        Log.e("niki",imagepath);
         if(!(answer.equals("")||hint1.equals("")||hint2.equals("")||imagepath.equals("")))
         {
             fab.setEnabled(true);
         }
         else
         {
-
+            fab.setEnabled(false);
         }
     }
 
     private void toCreateQuestionSend(){
-//        Intent intent = new Intent(CreateQuestion.this,CreateQuestionSend.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("answer",answer);
-//        bundle.putString("hint1",hint1);
-//        bundle.putString("hint2",hint2);
-//        bundle.putString("imagepath",imagepath);
-//        bundle.putDouble("lat",latitude);
-//        bundle.putDouble("lon",longitude);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
+        Intent intent = new Intent(CreateQuestion.this,CreateQuestionSend.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("answer",answer);
+        bundle.putString("hint1",hint1);
+        bundle.putString("hint2",hint2);
+        bundle.putString("imagepath",imagepath);
+        bundle.putDouble("lat",latitude);
+        bundle.putDouble("lon",longitude);
+        intent.putExtras(bundle);
+        startActivity(intent);
         Toast.makeText(this,answer+hint1+hint2,Toast.LENGTH_SHORT).show();
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
 }
