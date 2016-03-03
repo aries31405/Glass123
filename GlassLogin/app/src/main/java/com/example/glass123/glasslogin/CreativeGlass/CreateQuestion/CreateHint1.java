@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,11 +24,37 @@ public class CreateHint1 extends Fragment {
     String answer;
     private double latitude=0.0,longitude=0.0;
 
+    public interface Listener {
+        public void saveHint1(String ht1);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_create_hint1,container,false);
+
+        //init
+        hint1= (EditText)v.findViewById(R.id.hint1);
+        hint1.addTextChangedListener(textchangelistener);
+
         return v;
     }
+
+    private TextWatcher textchangelistener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            ((Listener)getActivity()).saveHint1(hint1.getText().toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);

@@ -10,7 +10,8 @@
         android:layout_height="162dp"
         android:id="@+id/hint3"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@color/new_blue" />
 
     <TextView
         android:layout_width="match_parent"

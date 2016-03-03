@@ -43,15 +43,37 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
     ImageView hint3;
     private DisplayMetrics metrics;
     private final static int CAMERA = 66 ;
-    private final static int PHOTO = 99 ;
 
     private double latitude=0.0,longitude=0.0;
+
+    public interface Listener {
+        public void saveImagepath(String im);
+        public String getImagepath();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_create_hint3,container,false);
 
         camera_btn = (ImageButton)v.findViewById(R.id.camera_btn);
         camera_btn.setOnClickListener(this);
+
+        //讀取手機解析度
+        metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        //init
+        hint3 = (ImageView)v.findViewById(R.id.hint3);
+
+        //取得imagepath，可能為路徑或空值
+        imagepath = ((Listener)getActivity()).getImagepath();
+
+        //有照片的路徑，顯示圖片
+        if(!imagepath.equals(""))
+        {
+            Toast.makeText(getActivity().getApplicationContext(),"有東西，"+imagepath,Toast.LENGTH_SHORT).show();
+            setPic();
+        }
 
         return v;
     }
@@ -80,28 +102,58 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
         if((requestCode == CAMERA) && (data != null)) {
             Uri uri = data.getData();
             imagepath = getPath(uri);
-            Uri aa = Uri.parse("file://" + imagepath);
-            Toast.makeText(getActivity().getApplicationContext(), imagepath, Toast.LENGTH_LONG).show();
-            ContentResolver resolver = getActivity().getContentResolver();
 
-            try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 4;
-                Log.e("PETER", aa.toString());
-//                InputStream inputStream = resolver.openInputStream(aa);
-                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(aa), null, options);
+            //拍照後儲存路徑
+            ((Listener)getActivity()).saveImagepath(imagepath);
 
-                if (bitmap.getWidth() > bitmap.getHeight()) {
-                    scalepic(bitmap, metrics.heightPixels);
-                } else {
-                    scalepic(bitmap, metrics.widthPixels);
-                }
-//                inputStream.close();
+            //顯示圖片
+            setPic();
+//            Uri aa = Uri.parse("file://" + imagepath);
+//            Toast.makeText(getActivity().getApplicationContext(), imagepath, Toast.LENGTH_LONG).show();
+//            ContentResolver resolver = getActivity().getContentResolver();
+//
+//            try {
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inSampleSize = 4;
+//                Log.e("PETER", aa.toString());
+//                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(aa), null, options);
+//
+//                if (bitmap.getWidth() > bitmap.getHeight()) {
+//                    scalepic(bitmap, metrics.heightPixels);
+//                } else {
+//                    scalepic(bitmap, metrics.widthPixels);
+//                }
+//
+//            } catch (Exception e) {
+//                Log.e("PETER", e.toString());
+//
+//            }
+        }
+    }
 
-            } catch (Exception e) {
-                Log.e("PETER", e.toString());
+    private void setPic(){
+        Uri uri = Uri.parse("file://" + imagepath);
+        ContentResolver resolver = getActivity().getContentResolver();
 
+        try{
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize=4;
+            Log.e("PETER",uri.toString());
+            InputStream inputStream = resolver.openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(uri),null,options);
+
+            if(bitmap.getWidth()>bitmap.getHeight()){
+                scalepic(bitmap,metrics.heightPixels);
             }
+            else{
+                scalepic(bitmap,metrics.widthPixels);
+            }
+            inputStream.close();
+
+        }
+        catch (Exception e){
+            Log.e("PETER",e.toString());
+
         }
     }
 

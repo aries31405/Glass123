@@ -8,7 +8,7 @@
     <EditText
         android:layout_width="350dp"
         android:layout_height="45dp"
-        android:id="@+id/hint1_txt"
+        android:id="@+id/hint1"
         android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
         android:singleLine="true"
         android:layout_centerVertical="true"

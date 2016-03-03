@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,16 +19,60 @@ import android.widget.ImageButton;
 
 import com.example.glass123.glasslogin.R;
 
-public class CreateQuestionAnswer extends Fragment {
+public class CreateQuestionAnswer extends Fragment{
     ImageButton createqnext_btn;
     EditText answer;
     private double latitude=0.0,longitude=0.0;
 
+    public interface Listener {
+        public void saveAnswer(String ans);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_create_question_answer,container,false);
+
+        //init
+        answer= (EditText)v.findViewById(R.id.answer);
+        answer.addTextChangedListener(textchangelistener);
+
         return v;
     }
+
+    private TextWatcher textchangelistener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            ((Listener)getActivity()).saveAnswer(answer.getText().toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    //    @Override
+//    public void onStop() {
+//        super.onStop();
+//        ((Listener) getActivity()).saveAnswer(answer.getText().toString());
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        ((Listener) getActivity()).saveAnswer(answer.getText().toString());
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        ((Listener) getActivity()).saveAnswer(answer.getText().toString());
+//    }
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
