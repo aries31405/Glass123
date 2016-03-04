@@ -178,11 +178,33 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
     }
     public String getPath(Uri uri) {
 
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
+//        String[] projection = { MediaStore.Images.Media.DATA };
+//        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+
+        Cursor cursor = null;
+        try
+        {
+            String[] projection = {MediaStore.Images.Media.DATA};
+            cursor = getActivity().getContentResolver().query(uri,projection,null,null,null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return "no!";
+        }
+        finally
+        {
+            if(cursor != null)
+            {
+                cursor.close();
+            }
+        }
     }
 
     //    @Override
