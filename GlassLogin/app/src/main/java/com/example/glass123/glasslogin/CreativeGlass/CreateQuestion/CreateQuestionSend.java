@@ -85,6 +85,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
     @Override
     public void onClick(View view) {
 
+
         dialog = ProgressDialog.show(CreateQuestionSend.this, "讀取中", "請等待數秒...", true);
 
         new Thread(new Runnable()
@@ -105,6 +106,21 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
             }
 
         }).start();
+    }
+
+    public void set_image(View v)
+    {
+        // 建立 "選擇檔案 Action" 的 Intent
+        Intent intent = new Intent( Intent.ACTION_PICK );
+
+        // 過濾檔案格式
+        intent.setType( "image/*" );
+
+        // 建立 "檔案選擇器" 的 Intent  (第二個參數: 選擇器的標題)
+        Intent destIntent = Intent.createChooser( intent, "選擇檔案" );
+
+        // 切換到檔案選擇器 (它的處理結果, 會觸發 onActivityResult 事件)
+        startActivityForResult( destIntent, 0 );
     }
 
     private void setPic() {
@@ -163,9 +179,8 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                 {
                     if (!ResponseMessages.equals("fail"))
                     {
-                        dialog.dismiss();
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.76/new glass/add_info.php","userId="+"1"+"&p1="+ hint1+"&p2="+hint2+"&p3="+ResponseMessages+"&ans="+answer+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
+                        msg = message.all("http://163.17.135.76/new_glass/add_info.php","userId="+"1"+"&p1="+ hint1+"&p2="+hint2+"&p3="+ResponseMessages+"&ans="+answer+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
                         Log.e("PETER", "@!#");
                         handler.post(askcontinue);
                     }
@@ -184,6 +199,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         @Override
         public void run()
         {
+            dialog.dismiss();
             new AlertDialog.Builder(CreateQuestionSend.this)
                     .setTitle("繼續出題")
                     .setMessage("要繼續出題嗎?")
@@ -206,4 +222,41 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         }
     };
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 有選擇檔案
+        if ( resultCode == RESULT_OK )
+        {
+            // 取得檔案的 Uri
+            Uri uri = data.getData();
+            if( uri != null )
+            {
+                Toast.makeText(CreateQuestionSend.this,getPath(uri),Toast.LENGTH_LONG).show();
+                imagepath = getPath(uri);
+                setPic();
+            }
+            else
+            {
+                Toast.makeText(CreateQuestionSend.this,"無效的檔案路徑 !!",Toast.LENGTH_LONG).show();
+            }
+        }
+        else
+        {
+            Toast.makeText(CreateQuestionSend.this,"取消選擇檔案 !!",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public String getPath(Uri uri) {
+
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
 }

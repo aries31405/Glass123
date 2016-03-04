@@ -41,7 +41,8 @@
         android:nestedScrollingEnabled="false"
         android:layout_alignTop="@+id/hint1_tv"
         android:layout_toRightOf="@+id/questionsend_btn"
-        android:layout_toEndOf="@+id/questionsend_btn" />
+        android:layout_toEndOf="@+id/questionsend_btn"
+        android:onClick="set_image"/>
 
     <Button
         android:layout_width="150dp"
