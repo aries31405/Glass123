@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.glass123.glasslogin">
+    package="com.example.glass123.glasslogin" >
 
     <!-- Google Plus Login -->
 
@@ -27,11 +27,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme_new.NoActionBar">
+        android:theme="@style/AppTheme_new.NoActionBar" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -94,10 +94,9 @@
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateQuestion"
             android:label="@string/title_activity_create_question"
-            android:theme="@style/AppTheme_new.NoActionBar.NoActionBar"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme_new.NoActionBar.NoActionBar" >
         </activity>
-
         <activity
             android:name=".CreativeGlass.AnswerQuestion.QuestionInfo"
             android:label="@string/title_activity_question_info"
@@ -151,11 +150,10 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.MyCreative.MyCreative"
-            android:label="@string/title_activity_my_creative"></activity>
+            android:label="@string/title_activity_my_creative" />
         <activity
             android:name=".CreativeGlass.MyCreative.Achievement"
-            android:label="@string/title_activity_achievement"></activity>
-
+            android:label="@string/title_activity_achievement" />
     </application>
 
 </manifest>

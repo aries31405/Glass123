@@ -71,8 +71,6 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         hint1_tv.setText(hint1);
         hint2_tv.setText(hint2);
 
-        questionsend_btn.setOnClickListener(this);
-
         Log.e("PETER", String.valueOf(latitude) + " , " + String.valueOf(longitude));
 
         //讀取手機解析度
@@ -80,6 +78,8 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         setPic();
+
+        questionsend_btn.setOnClickListener(this);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                     {
 
                     }
-
+                    Log.e("Image",  ResponseMessages);
                 }
             }).start();
         }

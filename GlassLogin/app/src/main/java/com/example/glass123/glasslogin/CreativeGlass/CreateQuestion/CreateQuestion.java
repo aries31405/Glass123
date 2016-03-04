@@ -66,6 +66,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
                 toCreateQuestionSend();
             }
         });
+
         fab.setEnabled(false);
 
         adapter.getCount();
