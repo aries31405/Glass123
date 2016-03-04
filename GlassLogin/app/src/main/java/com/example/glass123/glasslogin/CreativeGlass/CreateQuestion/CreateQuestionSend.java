@@ -180,7 +180,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                     if (!ResponseMessages.equals("fail"))
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.76/new_glass/add_info.php","userId="+"1"+"&p1="+ hint1+"&p2="+hint2+"&p3="+ResponseMessages+"&ans="+answer+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
+                        msg = message.all("http://163.17.135.76/new_glass/add_info.php","userId="+"1"+"&p1="+ hint1+"&p2="+hint2+"&p3=/TTS/"+ResponseMessages+"&ans="+answer+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
                         Log.e("PETER", "@!#");
                         handler.post(askcontinue);
                     }
