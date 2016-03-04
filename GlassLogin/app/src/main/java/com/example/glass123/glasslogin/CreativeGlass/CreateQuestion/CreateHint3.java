@@ -108,6 +108,9 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
 
             //顯示圖片
             setPic();
+
+            Log.e("PETER", "0");
+
 //            Uri aa = Uri.parse("file://" + imagepath);
 //            Toast.makeText(getActivity().getApplicationContext(), imagepath, Toast.LENGTH_LONG).show();
 //            ContentResolver resolver = getActivity().getContentResolver();

@@ -109,10 +109,13 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
 
     private void checkupload(){
 
-        Log.e("niki",answer);
-        Log.e("niki", hint1);
-        Log.e("niki",hint2);
-        Log.e("niki",imagepath);
+//        Log.e("niki",answer);
+//        Log.e("niki", hint1);
+//        Log.e("niki",hint2);
+//        Log.e("niki",imagepath);
+
+        Log.e("PETER","123");
+
         if(!(answer.equals("")||hint1.equals("")||hint2.equals("")||imagepath.equals("")))
         {
             fab.setEnabled(true);
