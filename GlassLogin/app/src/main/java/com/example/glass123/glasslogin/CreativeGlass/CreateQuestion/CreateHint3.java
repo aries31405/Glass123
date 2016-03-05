@@ -11,6 +11,7 @@ import android.media.Image;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,46 +33,52 @@ import com.example.glass123.glasslogin.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by seahorse on 2015/11/28.
  */
-public class CreateHint3 extends Fragment implements View.OnClickListener{
-    ImageButton createqnext_btn,camera_btn;
-    String answer,hint1,hint2,imagepath;
+public class CreateHint3 extends Fragment implements View.OnClickListener {
+    ImageButton createqnext_btn, camera_btn;
+    String answer, hint1, hint2, imagepath;
 
     ImageView hint3;
     private DisplayMetrics metrics;
-    private final static int CAMERA = 66 ;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    public static final int MEDIA_TYPE_IMAGE = 1;
 
-    private double latitude=0.0,longitude=0.0;
+    private double latitude = 0.0, longitude = 0.0;
+
+    private Uri fileUri;
 
     public interface Listener {
         public void saveImagepath(String im);
+
         public String getImagepath();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_create_hint3,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_create_hint3, container, false);
 
-        camera_btn = (ImageButton)v.findViewById(R.id.camera_btn);
+        //相機按鈕 init
+        camera_btn = (ImageButton) v.findViewById(R.id.camera_btn);
         camera_btn.setOnClickListener(this);
 
         //讀取手機解析度
         metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        //init
-        hint3 = (ImageView)v.findViewById(R.id.hint3);
+        //提示三圖片init
+        hint3 = (ImageView) v.findViewById(R.id.hint3);
 
         //取得imagepath，可能為路徑或空值
-        imagepath = ((Listener)getActivity()).getImagepath();
+        imagepath = ((Listener) getActivity()).getImagepath();
 
         //有照片的路徑，顯示圖片
-        if(!imagepath.equals(""))
-        {
-            Toast.makeText(getActivity().getApplicationContext(),"有東西，"+imagepath,Toast.LENGTH_SHORT).show();
+        if (!imagepath.equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(), "有東西，" + imagepath, Toast.LENGTH_SHORT).show();
             setPic();
         }
 
@@ -80,57 +87,68 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.camera_btn){
+        if (v.getId() == R.id.camera_btn) {
             OpenCamera();
         }
     }
 
 
-    private void OpenCamera(){
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+    private void OpenCamera() {
 
-        Uri uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri.getPath());
-        startActivityForResult(intent, CAMERA);
+        //開啟相機
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
+
+    //回傳圖片檔案的uri
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    //儲存圖片，回傳圖片檔案
+    private static File getOutputMediaFile(int type){
+
+        //將儲存圖片於Pictures/CreativeGlass/ 下
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "CreativeGlass");
+
+        //目錄不在時建立目錄
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.e("PETER", "failed to create directory");
+                return null;
+            }
+        }
+
+        //建立Media檔案的名稱
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        }
+        else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if((requestCode == CAMERA) && (data != null)) {
-            Uri uri = data.getData();
-            imagepath = getPath(uri);
+        //在開啟相機時使用MediaStore.EXTRA_OUTPUT，故data會回傳null
+        if((requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) && resultCode == getActivity().RESULT_OK) {
+            //儲存圖片uri路徑的部分
+            imagepath = fileUri.getPath();
 
             //拍照後儲存路徑
             ((Listener)getActivity()).saveImagepath(imagepath);
 
             //顯示圖片
             setPic();
-
-            Log.e("PETER", "0");
-
-//            Uri aa = Uri.parse("file://" + imagepath);
-//            Toast.makeText(getActivity().getApplicationContext(), imagepath, Toast.LENGTH_LONG).show();
-//            ContentResolver resolver = getActivity().getContentResolver();
-//
-//            try {
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inSampleSize = 4;
-//                Log.e("PETER", aa.toString());
-//                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(aa), null, options);
-//
-//                if (bitmap.getWidth() > bitmap.getHeight()) {
-//                    scalepic(bitmap, metrics.heightPixels);
-//                } else {
-//                    scalepic(bitmap, metrics.widthPixels);
-//                }
-//
-//            } catch (Exception e) {
-//                Log.e("PETER", e.toString());
-//
-//            }
         }
     }
 
@@ -156,7 +174,6 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
         }
         catch (Exception e){
             Log.e("PETER",e.toString());
-
         }
     }
 
@@ -176,36 +193,30 @@ public class CreateHint3 extends Fragment implements View.OnClickListener{
             hint3.setImageBitmap(bitmap);
         }
     }
-    public String getPath(Uri uri) {
-
-//        String[] projection = { MediaStore.Images.Media.DATA };
-//        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
-//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        cursor.moveToFirst();
-//        return cursor.getString(column_index);
-
-        Cursor cursor = null;
-        try
-        {
-            String[] projection = {MediaStore.Images.Media.DATA};
-            cursor = getActivity().getContentResolver().query(uri,projection,null,null,null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return "no!";
-        }
-        finally
-        {
-            if(cursor != null)
-            {
-                cursor.close();
-            }
-        }
-    }
+//    public String getPath(Uri uri) {
+//
+//        Cursor cursor = null;
+//        try
+//        {
+//            String[] projection = {MediaStore.Images.Media.DATA};
+//            cursor = getActivity().getContentResolver().query(uri,projection,null,null,null);
+//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//            cursor.moveToFirst();
+//            return cursor.getString(column_index);
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//            return "no!";
+//        }
+//        finally
+//        {
+//            if(cursor != null)
+//            {
+//                cursor.close();
+//            }
+//        }
+//    }
 
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {

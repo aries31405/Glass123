@@ -85,18 +85,19 @@
             android:name=".CreativeGlass.WithGlass.WithGlassStart"
             android:label="@string/title_activity_with_glass_start"
             android:screenOrientation="landscape" />
+
         <!-- Create Question -->
 
-        <activity
-            android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
-            android:label="CreateHint3"
-            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.CreateQuestion.CreateQuestion"
             android:label="@string/title_activity_create_question"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme_new.NoActionBar.NoActionBar" >
+            android:theme="@style/AppTheme_new.NoActionBar.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
         </activity>
+
+        <!-- Answer Question -->
+
         <activity
             android:name=".CreativeGlass.AnswerQuestion.QuestionInfo"
             android:label="@string/title_activity_question_info"
@@ -107,14 +108,15 @@
             android:label="@string/title_activity_hints"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".CreativeGlass.AnswerQuestion.Answer"
-            android:label="@string/title_activity_answer"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".CreativeGlass.AnswerQuestion.Evaluation"
             android:label="@string/title_activity_evaluation"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.AnswerQuestion"
+            android:label="@string/title_activity_answer_question"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
+
         <activity
             android:name=".CreativeGlass.SetFloor"
             android:label="@string/title_activity_set_floor"

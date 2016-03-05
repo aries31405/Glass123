@@ -149,7 +149,7 @@ public class QuestionInfo extends Activity {
         bundle.putString("hint1",hint1);
         bundle.putString("hint2",hint2);
         bundle.putString("hint3",hint3);
-        Intent intent = new Intent(QuestionInfo.this,Hints.class);
+        Intent intent = new Intent(QuestionInfo.this,AnswerQuestion.class);
         intent.putExtras(bundle);
         startActivity(intent);
         this.finish();
