@@ -28,7 +28,6 @@ import java.util.Map;
 public class Answer extends Fragment {
 
     Button sendans_btn;
-
     EditText answer_edittext;
     String answer="";
     String UserAnswer="";
@@ -36,7 +35,9 @@ public class Answer extends Fragment {
     int titleId=0;
     String right_or_wrong="";
 
-    Button abortans_btn;
+    public interface Listener{
+        void sendAns(String userans);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,9 +45,18 @@ public class Answer extends Fragment {
 
         //init
         answer_edittext = (EditText)v.findViewById(R.id.answer_edittext);
+        sendans_btn = (Button)v.findViewById(R.id.sendans_btn);
+        sendans_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserAnswer = answer_edittext.getText().toString();
+                ((Listener)getActivity()).sendAns(UserAnswer);
+            }
+        });
 
         return v;
     }
+
 //
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {

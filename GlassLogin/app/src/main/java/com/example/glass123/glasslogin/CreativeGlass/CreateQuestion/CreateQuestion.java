@@ -1,6 +1,7 @@
 package com.example.glass123.glasslogin.CreativeGlass.CreateQuestion;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,8 +28,10 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
     FloatingActionButton fab;
     CharSequence Titles[] = {"答案","提示一","提示二","提示三"};
     int NumOfTabs = 4;
+
     String answer="",hint1="",hint2="",imagepath="";
     Double latitude=0.0,longitude=0.0;
+    boolean check_flag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +64,11 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 toCreateQuestionSend();
             }
         });
 
-        fab.setEnabled(false);
+        setuploadfab();
 
         adapter.getCount();
 
@@ -113,10 +114,25 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         if(!(answer.equals("")||hint1.equals("")||hint2.equals("")||imagepath.equals("")))
         {
             fab.setEnabled(true);
+            check_flag = true;
         }
         else
         {
             fab.setEnabled(false);
+            check_flag = false;
+        }
+        setuploadfab();
+
+    }
+
+    private void setuploadfab(){
+        if(check_flag){
+            fab.setEnabled(true);
+            fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+        }
+        else if(!check_flag){
+            fab.setEnabled(false);
+            fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.new_white)));
         }
     }
 

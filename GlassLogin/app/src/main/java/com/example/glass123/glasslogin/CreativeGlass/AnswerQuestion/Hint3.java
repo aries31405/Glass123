@@ -38,7 +38,7 @@ public class Hint3 extends Fragment{
 
     public void setImage(String imageurl) {
 
-        imageurl = "http://163.17.135.76/TTS/20160112162028/DSC_0048.JPG";
+        imageurl = "http://163.17.135.76"+imageurl;
         Log.e("PETER", "imageurl : " + imageurl);
 
         try{

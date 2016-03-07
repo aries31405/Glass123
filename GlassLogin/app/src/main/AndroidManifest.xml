@@ -78,10 +78,6 @@
             android:label="@string/title_activity_creative_glass_start"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".CreativeGlass.AnswerQuestion.FindQuestion"
-            android:label="@string/title_activity_find_question"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".CreativeGlass.WithGlass.WithGlassStart"
             android:label="@string/title_activity_with_glass_start"
             android:screenOrientation="landscape" />
@@ -93,11 +89,21 @@
             android:label="@string/title_activity_create_question"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme_new.NoActionBar.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".CreativeGlass.CreateQuestion.CreateQuestionSend"
+            android:label="@string/title_activity_create_question_send"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme_new.NoActionBar.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
 
         <!-- Answer Question -->
-
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.FindQuestion"
+            android:label="@string/title_activity_find_question"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CreativeGlass.AnswerQuestion.QuestionInfo"
             android:label="@string/title_activity_question_info"
@@ -116,6 +122,15 @@
             android:label="@string/title_activity_answer_question"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.FindMap"
+            android:label="@string/title_activity_find_map"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".CreativeGlass.AnswerQuestion.Score"
+            android:label="@string/title_activity_score"
+            android:screenOrientation="landscape">
+        </activity>
 
         <activity
             android:name=".CreativeGlass.SetFloor"
@@ -146,10 +161,8 @@
             android:name=".GlassMap"
             android:label="@string/title_activity_glass_map"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".CreativeGlass.AnswerQuestion.FindMap"
-            android:label="@string/title_activity_find_map"
-            android:screenOrientation="landscape" />
+
+
         <activity
             android:name=".CreativeGlass.MyCreative.MyCreative"
             android:label="@string/title_activity_my_creative" />

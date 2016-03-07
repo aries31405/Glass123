@@ -117,7 +117,7 @@ public class AndroidUnit implements Runnable{
                if(ch_draw)
                {
                    update(FindQuestion.latitude, FindQuestion.longitude, Sen.postion);
-                   Log.e("GGG","isChecked");
+//                   Log.e("GGG","isChecked");
                }
                 else if(decide.cancareat())
                {

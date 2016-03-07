@@ -41,8 +41,15 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
 
     Button sendevaluation_btn;
 
-    int titleId=0;
-    String UserId="20151211151346511431";
+    //作答紀錄用
+    int QuestionNo=0;
+    String MemberId=""; //待接值
+    String AnswerContent="";
+    int AnswerType;
+    int AnswerTimer=0;
+    int AnswerRevolution = 0;
+    int AnswerStar;
+    int CommendNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,15 +117,20 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
                 }
                 else
                 {
-                    uploadevaluation();
+                    Toast.makeText(getApplicationContext(),nowstar+"，第"+String.valueOf(viewFlipper.getDisplayedChild()+1),Toast.LENGTH_SHORT).show();
+//                    uploadevaluation();
                 }
             }
         });
 
         //接bundle的值
         Bundle bundle = this.getIntent().getExtras();
-        titleId = bundle.getInt("titleId");
-        UserId = bundle.getString("UserId");
+        QuestionNo = bundle.getInt("QuestionNo");
+        MemberId = bundle.getString("MemberId");
+        AnswerContent = bundle.getString("AnswerContent");
+        AnswerType = bundle.getInt("AnswerType");
+        AnswerTimer = bundle.getInt("AnswerTimer");
+        AnswerRevolution = bundle.getInt("AnswerRevolution");
 
 
 
@@ -206,53 +218,31 @@ public class Evaluation extends Activity implements View.OnTouchListener,View.On
         }
     }
 
-    private void uploadevaluation(){
-        AQuery aq = new AQuery(this);
-        String url = "http://163.17.135.76/glass/uploaduserevaluation.php";
-
-        Map<String,Object> params = new HashMap<String, Object>();
-
-        params.put("titleId",titleId);
-        params.put("UserId",UserId);
-        params.put("evaluationStar",nowstar);
-
-        aq.ajax(url,params,String.class,new AjaxCallback<String>(){
-            @Override
-            public void callback(String url, String object, AjaxStatus status) {
-                //成功
-                if(status.getCode() == 200)
-                {
-                    Toast.makeText(Evaluation.this, "上傳評價成功", Toast.LENGTH_SHORT).show();
-                }
-                //失敗
-                else
-                {
-                    Toast.makeText(Evaluation.this,String.valueOf(status.getCode()),Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_evaluation, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    private void uploadevaluation(){
+//        AQuery aq = new AQuery(this);
+//        String url = "http://163.17.135.76/glass/uploaduserevaluation.php";
+//
+//        Map<String,Object> params = new HashMap<String, Object>();
+//
+//        params.put("titleId",titleId);
+//        params.put("UserId",UserId);
+//        params.put("evaluationStar",nowstar);
+//
+//        aq.ajax(url,params,String.class,new AjaxCallback<String>(){
+//            @Override
+//            public void callback(String url, String object, AjaxStatus status) {
+//                //成功
+//                if(status.getCode() == 200)
+//                {
+//                    Toast.makeText(Evaluation.this, "上傳評價成功", Toast.LENGTH_SHORT).show();
+//                }
+//                //失敗
+//                else
+//                {
+//                    Toast.makeText(Evaluation.this,String.valueOf(status.getCode()),Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
 
 }
