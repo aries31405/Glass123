@@ -84,7 +84,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
                     if((latitude != 0.0 || longitude != 0.0))
                     {
                         GetServerMessage message = new GetServerMessage();
-                        allmsg = message.all("http://163.17.135.76/glass/question_search.php","UserId="+"20151211151346511431"+"&lat="+latitude+"&lon="+longitude+"&radius="+(radius*0.00000900900901));
+                        allmsg = message.all("http://163.17.135.76/new_glass/question_search.php","UserId="+"1"+"&lat="+latitude+"&lon="+longitude+"&radius="+(radius*0.00000900900901));
                         handler.post(split);
                         break;
                     }

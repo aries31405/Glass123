@@ -78,7 +78,7 @@ public class AnswerQuestion extends FragmentActivity implements Hint1.Listener,H
 
 
         //產生tab
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(),Titles,NumOfTabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(),Titles,NumOfTabs,"AnswerQuestion");
 
         pager = (ViewPager) findViewById(R.id.pager_answer);
         pager.setAdapter(adapter);

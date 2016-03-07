@@ -102,7 +102,7 @@ public class QuestionInfo extends Activity {
 
         //撈題目
         AQuery aq = new AQuery(this);
-        String url = "http://163.17.135.76/glass/getquestioninfo.php";
+        String url = "http://163.17.135.76/new_glass/getquestioninfo.php";
 
         Map<String,Object> params = new HashMap<String, Object>();
 

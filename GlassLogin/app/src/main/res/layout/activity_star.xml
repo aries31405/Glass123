@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/new_yellow">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="請給題目星等"
+        android:layout_alignParentTop="true"
+        android:background="@color/new_purple"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="30dp"
+        android:textColor="@color/new_white"
+        android:id="@+id/star_title" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/star_imgbtn1"
+        android:background="@drawable/notstar"
+        android:onClick="click"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/star_imgbtn2"
+        android:layout_toStartOf="@+id/star_imgbtn2" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/star_imgbtn2"
+        android:background="@drawable/notstar"
+        android:layout_alignTop="@+id/star_imgbtn1"
+        android:layout_toLeftOf="@+id/star_imgbtn3"
+        android:layout_toStartOf="@+id/star_imgbtn3" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/star_imgbtn3"
+        android:background="@drawable/notstar"
+        android:layout_alignTop="@+id/star_imgbtn4"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/star_imgbtn4"
+        android:background="@drawable/notstar"
+        android:layout_alignTop="@+id/star_imgbtn2"
+        android:layout_toRightOf="@+id/star_imgbtn3"
+        android:layout_toEndOf="@+id/star_imgbtn3" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/star_imgbtn5"
+        android:background="@drawable/notstar"
+        android:layout_alignBottom="@+id/star_imgbtn4"
+        android:layout_toRightOf="@+id/star_imgbtn4"
+        android:layout_toEndOf="@+id/star_imgbtn4" />
+</RelativeLayout>
