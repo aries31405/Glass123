@@ -115,22 +115,16 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
-        try
-        {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
-                //取得並鎖住畫布(canvas)
-                canvas = holder.lockCanvas();
 
                 //巡覽 Au 物件陣列一遍，逐一比對是否碰觸到物件圖片
                 for (AndroidUnit a: Au) {
-                    a.IsTouch(x, y,canvas);
+                    a.IsTouch(x, y);
                 }
 
                 if (canvas != null && titleId != 0) {
-                    //解鎖畫布(canvas)並顯示到螢幕上
-                    holder.unlockCanvasAndPost(canvas);
                     Intent intent = new Intent(context, QuestionInfo.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt("titleId",titleId);
@@ -140,11 +134,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 }
 
             }
-        }
-        catch (Exception e)
-        {
-            Log.e("PETER",e.toString());
-        }
 
         return true;
     }
@@ -238,10 +227,10 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
             FindQuestion.nowlongitude =FindQuestion.longitude;
         }
 
-        if (canvas != null) {
+       // if (canvas != null) {
             //解鎖畫布(canvas)並顯示到螢幕上
             holder.unlockCanvasAndPost(canvas);
-        }
+       // }
 
     }
 
