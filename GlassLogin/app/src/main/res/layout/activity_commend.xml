@@ -24,6 +24,7 @@
         android:layout_height="100dp"
         android:id="@+id/viewFlipper"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="100dp" />
 
 </RelativeLayout>

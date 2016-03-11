@@ -165,10 +165,12 @@
 
         <activity
             android:name=".CreativeGlass.MyCreative.MyCreative"
-            android:label="@string/title_activity_my_creative" />
+            android:label="@string/title_activity_my_creative"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".CreativeGlass.MyCreative.Achievement"
-            android:label="@string/title_activity_achievement" />
+            android:label="@string/title_activity_achievement"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

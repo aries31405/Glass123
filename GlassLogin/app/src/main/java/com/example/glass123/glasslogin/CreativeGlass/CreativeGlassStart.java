@@ -15,6 +15,7 @@ import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateHint1;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateQuestionAnswer;
+import com.example.glass123.glasslogin.CreativeGlass.MyCreative.MyCreative;
 import com.example.glass123.glasslogin.MapsActivity;
 import com.example.glass123.glasslogin.R;
 
@@ -23,6 +24,7 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
     //按鈕
     private ImageButton answer_btn;
     private ImageButton create_btn;
+    private ImageButton profile_btn;
 
 
     @Override
@@ -33,10 +35,12 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         //按鈕init
         answer_btn = (ImageButton)findViewById(R.id.answer_btn);
         create_btn = (ImageButton)findViewById(R.id.create_btn);
+        profile_btn = (ImageButton)findViewById(R.id.profile_btn);
 
         //按鈕設定監聽
         answer_btn.setOnClickListener(this);
         create_btn.setOnClickListener(this);
+        profile_btn.setOnClickListener(this);
 
     }
 
@@ -74,6 +78,11 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
 //            Intent intent = new Intent(CreativeGlassStart.this,CreateQuestionAnswer.class);
 //            startActivity(intent);
             Intent intent = new Intent(CreativeGlassStart.this, MapsActivity.class);
+            startActivity(intent);
+        }
+        else if(v.getId() == R.id.profile_btn)
+        {
+            Intent intent = new Intent(CreativeGlassStart.this, MyCreative.class);
             startActivity(intent);
         }
     }

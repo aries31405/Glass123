@@ -112,7 +112,7 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
         AQuery aq = new AQuery(this);
         String url = "http://163.17.135.76/new_glass/uploaduseranswer.php";
 
-        Map<String,Object> params = new HashMap<String, Object>();
+        Map<String,Object> params = new HashMap<>();
 
         params.put("QuestionNo",QuestionNo);
         params.put("MemberId",MemberId);
@@ -158,7 +158,7 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Evaluation.this, FindMap.class);
                         startActivity(intent);
-                        finish();
+                        Evaluation.this.finish();
                     }
                 })
                 .setNegativeButton("不繼續", new DialogInterface.OnClickListener() {
@@ -166,9 +166,10 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Evaluation.this, CreativeGlassStart.class);
                         startActivity(intent);
-                        finish();
+                        Evaluation.this.finish();
                     }
                 }).show();
+
     }
 
     //    @Override

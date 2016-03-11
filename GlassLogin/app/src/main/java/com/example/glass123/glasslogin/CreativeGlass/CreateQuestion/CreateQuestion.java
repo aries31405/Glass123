@@ -146,13 +146,13 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         bundle.putDouble("lat",latitude);
         bundle.putDouble("lon",longitude);
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
         Toast.makeText(this,answer+hint1+hint2,Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -39,7 +39,7 @@ import java.io.InputStream;
  */
 public class CreateQuestionSend extends Activity implements View.OnClickListener{
     ProgressDialog dialog;
-    TextView hint1_tv,hint2_tv;
+    TextView hint1_tv,hint2_tv,answer_tv;
     String hint1,hint2,imagepath,answer,floor,device,titleId=null,ResponseMessages=null,msg;
     Button questionsend_btn;
     ImageView hint3_img;
@@ -53,6 +53,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
 
         hint1_tv = (TextView)findViewById(R.id.hint1_tv);
         hint2_tv = (TextView)findViewById(R.id.hint2_tv);
+        answer_tv = (TextView)findViewById(R.id.answer_tv);
         questionsend_btn = (Button)findViewById(R.id.questionsend_btn);
         hint3_img = (ImageView)findViewById(R.id.hint3_img);
 
@@ -70,6 +71,8 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
 
         hint1_tv.setText(hint1);
         hint2_tv.setText(hint2);
+        answer_tv.setText(answer);
+
 
         Log.e("PETER", String.valueOf(latitude) + " , " + String.valueOf(longitude));
 
@@ -208,7 +211,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(CreateQuestionSend.this, MapsActivity.class);
                             startActivity(intent);
-                            finish();
+                            CreateQuestionSend.this.finish();
                         }
                     })
                     .setNegativeButton("不繼續", new DialogInterface.OnClickListener() {
@@ -216,7 +219,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(CreateQuestionSend.this, CreativeGlassStart.class);
                             startActivity(intent);
-                            finish();
+                            CreateQuestionSend.this.finish();
                         }
                     }).show();
         }

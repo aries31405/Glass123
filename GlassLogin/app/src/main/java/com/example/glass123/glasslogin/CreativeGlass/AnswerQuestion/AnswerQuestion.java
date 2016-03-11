@@ -126,50 +126,50 @@ public class AnswerQuestion extends FragmentActivity implements Hint1.Listener,H
         timer = new Timer();
         timer.schedule(task,0,1000);
 
-        timer_txt = (TextView)findViewById(R.id.timer_txt);
+//        timer_txt = (TextView)findViewById(R.id.timer_txt);
 
     }
 
-    //負責處理計時器UI的handler
-    private Handler handler = new Handler(){
-        public void handleMessage(Message msg){
-            super.handleMessage(msg);
-            String txt = "";
-            switch (msg.what) {
-                case 1:
-                    int min = AnswerTimer/60;
-                    int sec = AnswerTimer%60;
-                    if(min<10)
-                    {
-                        txt = "0"+min;
-                    }
-                    else
-                    {
-                        txt = " "+min;
-                    }
-                    if(sec<10)
-                    {
-                        txt = txt + " : 0"+sec;
-                    }
-                    else
-                    {
-                        txt = txt + " : " +sec;
-                    }
-
-                    break;
-            }
-            timer_txt.setText(txt);
-        }
-    };
+//    //負責處理計時器UI的handler
+//    private Handler handler = new Handler(){
+//        public void handleMessage(Message msg){
+//            super.handleMessage(msg);
+//            String txt = "";
+//            switch (msg.what) {
+//                case 1:
+//                    int min = AnswerTimer/60;
+//                    int sec = AnswerTimer%60;
+//                    if(min<10)
+//                    {
+//                        txt = "0"+min;
+//                    }
+//                    else
+//                    {
+//                        txt = " "+min;
+//                    }
+//                    if(sec<10)
+//                    {
+//                        txt = txt + " : 0"+sec;
+//                    }
+//                    else
+//                    {
+//                        txt = txt + " : " +sec;
+//                    }
+//
+//                    break;
+//            }
+//            timer_txt.setText(txt);
+//        }
+//    };
 
     //計時器的任務
     private TimerTask task = new TimerTask(){
         @Override
         public void run() {
             AnswerTimer++;
-            Message message = new Message();
-            message.what = 1;
-            handler.sendMessage(message);
+//            Message message = new Message();
+//            message.what = 1;
+//            handler.sendMessage(message);
         }
     };
 
