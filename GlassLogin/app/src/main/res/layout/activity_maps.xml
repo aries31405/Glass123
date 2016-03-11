@@ -9,7 +9,7 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="請思考提示間的關聯"
+        android:text="請選擇存放題目的位置"
         android:layout_alignParentTop="true"
         android:background="@color/new_purple"
         android:layout_centerHorizontal="true"
@@ -58,16 +58,17 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto"
         android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="準備出題"
         android:id="@+id/setfloor_btn"
-        android:layout_marginRight="37dp"
+        android:layout_marginRight="32dp"
         android:background="#ffffff"
-        android:textColor="@color/creative_purple"
+        android:textColor="@color/new_purple"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginBottom="40dp"
+        android:textSize="20dp" />
 
 </RelativeLayout>

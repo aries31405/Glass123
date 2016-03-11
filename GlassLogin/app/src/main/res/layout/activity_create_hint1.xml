@@ -16,17 +16,17 @@
         android:background="@color/new_white" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="請輸入提示一"
-        android:layout_alignParentTop="true"
-        android:background="@color/new_purple"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="30dp"
-        android:textColor="@color/new_white"
-        android:id="@+id/textView167" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:text="請輸入提示一"
+    android:layout_alignParentTop="true"
+    android:background="@color/new_purple"
+    android:layout_centerHorizontal="true"
+    android:gravity="center_horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:textSize="30dp"
+    android:textColor="@color/new_white"
+    android:id="@+id/textView167" />
 </RelativeLayout>

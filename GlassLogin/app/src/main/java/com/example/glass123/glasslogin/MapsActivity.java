@@ -235,15 +235,15 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
         else if(event.getAction() == MotionEvent.ACTION_UP){
             touchUpX=event.getX();
             touchUpY=event.getY();
-            if(touchUpY-touchDownY > 100){
-                floor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in));
-                floor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out));
+            if(touchUpX-touchDownX > 100){
+                floor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_b));
+                floor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_b));
 
                 floor_viewflipper.showPrevious();
             }
-            else if(touchDownY-touchUpY > 100){
-                floor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_in));
-                floor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_out));
+            else if(touchDownX-touchUpX > 100){
+                floor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_in_b));
+                floor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_out_b));
 
                 floor_viewflipper.showNext();
             }
