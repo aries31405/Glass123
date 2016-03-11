@@ -3,6 +3,20 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 xmlns:appNs="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="請輸入提示一"
+        android:layout_alignParentTop="true"
+        android:background="@color/new_purple"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="30dp"
+        android:textColor="@color/new_white"
+        android:id="@+id/textView167" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -11,7 +25,19 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto">
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindMap" />
+        tools:context="com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindMap"
+        android:layout_below="@+id/textView167" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/find_map_ok"
+        android:layout_toStartOf="@+id/find_map_ok"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -21,16 +47,8 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto">
         android:onClick="ok"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:layout_above="@+id/find_map_ok"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="15dp" />
 
 </RelativeLayout>
 

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.glass123.glasslogin.CreativeGlass.MyCreative.MyCreative"
-    android:background="@color/creative_purple">
+    android:background="@color/new_yellow">
 
     <TextView
         android:id="@+id/title_profile"
@@ -16,22 +16,22 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textSize="30dp"
-        android:textColor="#ffffff"
+        android:textColor="@color/new_white"
         android:background="@color/new_purple" />
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/mycreative_img"
         android:background="@drawable/profile"
-        android:layout_marginLeft="67dp"
-        android:layout_marginStart="67dp"
-        android:layout_below="@+id/title_profile"
+        android:layout_marginLeft="108dp"
+        android:layout_marginStart="108dp"
+        android:layout_alignBottom="@+id/correct_txt"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="使用者"
@@ -40,10 +40,10 @@
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/creative_purple"
+        android:textSize="25dp"
         android:layout_below="@+id/mycreative_img"
         android:layout_alignLeft="@+id/mycreative_img"
-        android:layout_alignStart="@+id/mycreative_img"
-        android:textSize="25dp" />
+        android:layout_alignStart="@+id/mycreative_img" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,12 +51,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="總題數："
         android:id="@+id/all_txt"
-        android:textColor="@color/white"
         android:textSize="30dp"
-        android:layout_marginLeft="65dp"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentTop="true"
+        android:layout_marginLeft="40dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/mycreative_img"
         android:layout_toEndOf="@+id/mycreative_img" />
 
@@ -66,7 +63,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="答對率："
         android:id="@+id/percentage_txt"
-        android:textColor="@color/white"
         android:textSize="30dp"
         android:layout_below="@+id/all_txt"
         android:layout_alignLeft="@+id/all_txt"
@@ -78,7 +74,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="答對題數："
         android:id="@+id/correct_txt"
-        android:textColor="@color/white"
         android:textSize="30dp"
         android:layout_below="@+id/percentage_txt"
         android:layout_alignLeft="@+id/percentage_txt"
@@ -91,45 +86,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="答錯題數："
         android:id="@+id/wrong_txt"
-        android:textColor="@color/white"
         android:textSize="30dp"
         android:layout_below="@+id/correct_txt"
         android:layout_alignLeft="@+id/correct_txt"
         android:layout_alignStart="@+id/correct_txt" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="答對率自上周："
-        android:id="@+id/textView14"
-        android:layout_below="@+id/mycreative_img"
-        android:layout_alignLeft="@+id/wrong_txt"
-        android:layout_alignStart="@+id/wrong_txt"
-        android:textSize="25dp"
-        android:textColor="#ffbd24" />
-
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:id="@+id/imageView5"
-        android:background="@drawable/raise"
-        android:layout_alignBottom="@+id/textView14"
-        android:layout_toRightOf="@+id/correct_txt"
-        android:layout_toEndOf="@+id/correct_txt"
-        android:layout_marginBottom="4dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="5%"
-        android:id="@+id/textView15"
-        android:textSize="25dp"
-        android:textColor="@color/white"
-        android:layout_alignTop="@+id/textView14"
-        android:layout_toRightOf="@+id/imageView5"
-        android:layout_toEndOf="@+id/imageView5"
-        android:layout_marginLeft="5dp" />
 
 </RelativeLayout>

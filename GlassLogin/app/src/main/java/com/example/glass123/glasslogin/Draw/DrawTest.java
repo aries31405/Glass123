@@ -138,7 +138,6 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                     titleId = 0;
                     context.startActivity(intent);
                 }
-
             }
         }
         catch (Exception e)

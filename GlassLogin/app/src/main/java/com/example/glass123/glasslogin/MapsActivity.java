@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
                 tv1.setText(String.valueOf(i)+"樓");
             }
 
-            tv1.setTextColor(this.getResources().getColor(R.color.white));
+            tv1.setTextColor(this.getResources().getColor(R.color.new_purple));
             tv1.setTextSize(50);
 
 //            tv1.setGravity(0x11);
