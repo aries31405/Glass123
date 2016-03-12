@@ -50,7 +50,13 @@ public class Answer extends Fragment {
             @Override
             public void onClick(View v) {
                 UserAnswer = answer_edittext.getText().toString();
-                ((Listener)getActivity()).sendAns(UserAnswer);
+                if(UserAnswer.equals(""))
+                {
+                    Toast.makeText(getActivity(),"請輸入答案",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    ((Listener)getActivity()).sendAns(UserAnswer);
+                }
             }
         });
 

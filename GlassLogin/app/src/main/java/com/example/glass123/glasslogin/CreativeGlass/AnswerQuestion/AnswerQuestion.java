@@ -206,6 +206,7 @@ public class AnswerQuestion extends FragmentActivity implements Hint1.Listener,H
     //放棄作答，還需寫回資料庫
     private void abort(){
         new AlertDialog.Builder(AnswerQuestion.this)
+                .setCancelable(false)
                 .setTitle("放棄")
                 .setMessage("要放棄解答此題目嗎?")
                 .setPositiveButton("放棄", new DialogInterface.OnClickListener() {

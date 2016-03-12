@@ -151,7 +151,8 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
 
     private void continueans(){
         new AlertDialog.Builder(Evaluation.this)
-                .setTitle("繼續解題")
+                .setCancelable(false)
+                .setTitle("解題完成")
                 .setMessage("要繼續解題嗎?")
                 .setPositiveButton("繼續", new DialogInterface.OnClickListener() {
                     @Override
@@ -165,6 +166,7 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Evaluation.this, CreativeGlassStart.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         Evaluation.this.finish();
                     }

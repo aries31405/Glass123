@@ -14,14 +14,14 @@ tools:context="com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.Answ
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_upload" />
+        android:src="@drawable/giveup" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/revolution_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_upload"
-        app:backgroundTint="@color/new_white" />
+        android:src="@drawable/revolution"
+        app:backgroundTint="@color/new_gray" />
 
 </android.support.design.widget.CoordinatorLayout>

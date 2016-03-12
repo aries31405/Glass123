@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -89,8 +90,8 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                         mMap.addCircle(new CircleOptions()
                                 .center(new LatLng(latitude, longitude))
                                 .radius(radius)
-                                .strokeColor(getResources().getColor(R.color.new_blue))
-                                .fillColor(getResources().getColor(R.color.new_blue)));}
+                                .strokeColor(getResources().getColor(R.color.transparent_blue))
+                                .fillColor(getResources().getColor(R.color.transparent_blue)));}
 
                 }
             }
@@ -147,8 +148,8 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                         mMap.addCircle(new CircleOptions()
                                 .center(new LatLng(latitude, longitude))
                                 .radius(radius)
-                                .strokeColor(getResources().getColor(R.color.new_blue))
-                                .fillColor(getResources().getColor(R.color.new_blue)));}
+                                .strokeColor(getResources().getColor(R.color.transparent_blue))
+                                .fillColor(getResources().getColor(R.color.transparent_blue)));}
 
                 }
             });
@@ -219,5 +220,16 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        //在此返回上一頁視同放棄作答
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            int EXIT_CODE=1;
+            setResult(EXIT_CODE);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -8,6 +8,10 @@
     <color name="new_white">#fffff5</color>
     <color name="new_blue">#80d4f6</color>
     <color name="new_red">#bd1550</color>
+    <color name="new_gray">#e6e5e2</color>
+    <color name="transparent_blue">#8880d4f6</color>
+    <color name="right">#ff4e3a</color>
+    <color name="wrong">#7885ff</color>
 
     <!-- Material Design 2016/2/28 -->
     <color name="colorPrimary">#5c196b</color>

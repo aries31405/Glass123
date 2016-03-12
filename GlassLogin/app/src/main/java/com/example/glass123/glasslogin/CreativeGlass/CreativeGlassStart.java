@@ -1,9 +1,12 @@
 package com.example.glass123.glasslogin.CreativeGlass;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateHint1;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.CreateQuestionAnswer;
 import com.example.glass123.glasslogin.CreativeGlass.MyCreative.MyCreative;
+import com.example.glass123.glasslogin.MainActivity;
 import com.example.glass123.glasslogin.MapsActivity;
 import com.example.glass123.glasslogin.R;
 
@@ -42,6 +46,39 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         create_btn.setOnClickListener(this);
         profile_btn.setOnClickListener(this);
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        //在此返回上一頁視同放棄作答
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            closeapp();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void closeapp(){
+        new AlertDialog.Builder(CreativeGlassStart.this)
+                .setCancelable(false)
+                .setTitle("登出")
+                .setMessage("要否登出回到主畫面?")
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(CreativeGlassStart.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        CreativeGlassStart.this.finish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
     }
 
     @Override

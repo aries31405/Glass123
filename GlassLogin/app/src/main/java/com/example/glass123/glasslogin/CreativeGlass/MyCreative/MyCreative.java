@@ -84,7 +84,7 @@ public class MyCreative extends Activity {
     }
     private void setProfile(){
         all_txt.setText("總題數："+AllQuestion);
-        percentage_txt.setText("答對率："+Percentage);
+        percentage_txt.setText("答對率："+Percentage+"%");
         correct_txt.setText("答對題數："+CorrectQuestion);
         wrong_txt.setText("答錯題數：" + WrongQuestion);
     }

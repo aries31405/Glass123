@@ -108,4 +108,14 @@ public class Score extends Activity {
         startActivity(intent);
     }
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        int EXIT_CODE=1;
+//        if(resultCode == EXIT_CODE)
+//        {
+//            Log.e("PETER","123456789");
+//            Score.this.finish();
+//        }
+//    }
 }

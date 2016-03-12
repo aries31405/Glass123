@@ -1,12 +1,15 @@
 package com.example.glass123.glasslogin;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -198,6 +201,36 @@ public class MainActivity extends Activity implements
             Intent it = new Intent(MainActivity.this, CreativeGlassStart.class);
             startActivity(it);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        //在此返回上一頁視同放棄作答
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            closeapp();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void closeapp(){
+        new AlertDialog.Builder(MainActivity.this)
+                .setCancelable(false)
+                .setTitle("退出")
+                .setMessage("要否退出創意戴鏡")
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
     }
 
     @Override

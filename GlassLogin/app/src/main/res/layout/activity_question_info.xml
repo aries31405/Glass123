@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="horizontal"
     tools:context="com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.QuestionInfo"
-    android:background="#ffe5df">
+    android:background="@color/new_yellow">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,10 +16,8 @@
         android:textStyle="bold"
         android:layout_toRightOf="@+id/logo"
         android:layout_toEndOf="@+id/logo"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="48dp"
-        android:layout_alignBottom="@+id/logo"
-        android:textColor="#ff898989" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/logo" />
 
     <ImageView
         android:layout_width="50dp"
@@ -38,61 +36,59 @@
         android:id="@+id/rate"
         android:progress="55"
         android:indeterminate="false"
-        android:progressTint="#ff4e3a"
-        android:progressBackgroundTint="#7885ff"
         android:layout_alignTop="@+id/titleId_txt"
         android:layout_alignRight="@+id/startans_btn"
-        android:layout_alignEnd="@+id/startans_btn" />
+        android:layout_alignEnd="@+id/startans_btn"
+        android:progressDrawable="@drawable/progressbar" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/starinfo1_img"
         android:background="@drawable/star"
+        android:visibility="invisible"
         android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/titleId_txt"
-        android:layout_alignStart="@+id/titleId_txt"
-        android:visibility="invisible" />
+        android:layout_toLeftOf="@+id/starinfo2_img"
+        android:layout_toStartOf="@+id/starinfo2_img" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/starinfo2_img"
         android:background="@drawable/star"
+        android:visibility="invisible"
         android:layout_alignTop="@+id/starinfo1_img"
-        android:layout_toRightOf="@+id/starinfo1_img"
-        android:layout_toEndOf="@+id/starinfo1_img"
-        android:visibility="invisible" />
+        android:layout_toLeftOf="@+id/starinfo3_img"
+        android:layout_toStartOf="@+id/starinfo3_img" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/starinfo3_img"
         android:background="@drawable/star"
+        android:visibility="invisible"
         android:layout_alignTop="@+id/starinfo2_img"
-        android:layout_toRightOf="@+id/starinfo2_img"
-        android:layout_toEndOf="@+id/starinfo2_img"
-        android:visibility="invisible" />
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/starinfo4_img"
         android:background="@drawable/star"
-        android:layout_alignTop="@+id/starinfo5_img"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/starinfo3_img"
         android:layout_toRightOf="@+id/starinfo3_img"
-        android:layout_toEndOf="@+id/starinfo3_img"
-        android:visibility="invisible" />
+        android:layout_toEndOf="@+id/starinfo3_img" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/starinfo5_img"
         android:background="@drawable/star"
+        android:visibility="invisible"
         android:layout_alignTop="@+id/starinfo3_img"
         android:layout_toRightOf="@+id/starinfo4_img"
-        android:layout_toEndOf="@+id/starinfo4_img"
-        android:visibility="invisible" />
+        android:layout_toEndOf="@+id/starinfo4_img" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -125,9 +121,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#ffffa98d"
+        android:background="@color/new_white"
         android:textStyle="bold"
-        android:textColor="#ffffffff" />
+        android:textColor="@color/new_purple" />
 
     <Button
         android:layout_width="100dp"
@@ -137,8 +133,8 @@
         android:layout_alignTop="@+id/close_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="#ffffa98d"
-        android:textColor="#ffffffff"
+        android:background="@color/new_white"
+        android:textColor="@color/new_purple"
         android:textStyle="bold" />
 
 

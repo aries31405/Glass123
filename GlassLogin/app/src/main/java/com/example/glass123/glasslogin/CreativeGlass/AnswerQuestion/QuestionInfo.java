@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class QuestionInfo extends Activity {
     Button startans_btn;
     Button close_btn;
     int titleId = 0;
+    int percentage = 0;
 
     TextView titleId_txt;
     TextView author_txt;
@@ -47,6 +49,8 @@ public class QuestionInfo extends Activity {
     ImageView starinfo3_img;
     ImageView starinfo4_img;
     ImageView starinfo5_img;
+
+    ProgressBar rate;
 
     int star=0;
     @Override
@@ -88,6 +92,7 @@ public class QuestionInfo extends Activity {
         titleId_txt = (TextView)findViewById(R.id.titleId_txt);
         author_txt = (TextView)findViewById(R.id.author_txt);
         floor_txt = (TextView)findViewById(R.id.floor_txt);
+        rate = (ProgressBar)findViewById(R.id.rate);
 
         //starinfo_img init
         starinfo1_img = (ImageView)findViewById(R.id.starinfo1_img);
@@ -126,6 +131,11 @@ public class QuestionInfo extends Activity {
                         answer = json.getString("answer");
                         author_txt.setText(json.getString("author"));
                         star = json.getInt("star");
+                        percentage=json.getInt("percentage");
+                        Log.e("PETER","star "+star);
+                        Log.e("PETER","percentage "+percentage);
+                        rate.setProgress(percentage);
+
                         setstar();
                     }
                     catch (Exception e)

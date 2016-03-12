@@ -99,15 +99,14 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
         //ac = new Acceleration(sm);
         //自定義方位類別
         senor = new Sen(sm);
-    }
 
+    }
 
     public void onPause(){
         //senor.stop();
         //ac.stop();
         super.onPause();
     }
-
 
 
     final Runnable split = new Runnable()
