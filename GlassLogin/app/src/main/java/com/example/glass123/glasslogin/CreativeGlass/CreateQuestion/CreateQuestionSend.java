@@ -69,9 +69,9 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         device = "1";//手機固定1
 
 
-        hint1_tv.setText(hint1);
-        hint2_tv.setText(hint2);
-        answer_tv.setText(answer);
+        hint1_tv.setText("提示一　"+hint1);
+        hint2_tv.setText("提示二　"+hint2);
+        answer_tv.setText("答　案　"+answer);
 
 
         Log.e("PETER", String.valueOf(latitude) + " , " + String.valueOf(longitude));

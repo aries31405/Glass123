@@ -89,8 +89,8 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                         mMap.addCircle(new CircleOptions()
                                 .center(new LatLng(latitude, longitude))
                                 .radius(radius)
-                                .strokeColor(Color.RED)
-                                .fillColor(Color.RED));}
+                                .strokeColor(getResources().getColor(R.color.new_blue))
+                                .fillColor(getResources().getColor(R.color.new_blue)));}
 
                 }
             }
@@ -147,8 +147,8 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                         mMap.addCircle(new CircleOptions()
                                 .center(new LatLng(latitude, longitude))
                                 .radius(radius)
-                                .strokeColor(Color.RED)
-                                .fillColor(Color.RED));}
+                                .strokeColor(getResources().getColor(R.color.new_blue))
+                                .fillColor(getResources().getColor(R.color.new_blue)));}
 
                 }
             });
