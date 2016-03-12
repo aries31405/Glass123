@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <!-- 对于自定义控件要指明的控件的包名与空间名，系统自带的控件不需要指定包名 -->
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/checkL">
         <SurfaceView
             android:id="@+id/svCamera"
             android:layout_width="fill_parent"
@@ -16,49 +18,50 @@
         <com.example.glass123.glasslogin.Draw.DrawTest
             android:id="@+id/svDraw"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal|bottom">
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="未做"
-                android:id="@+id/draw_undo"
-                android:checked="true"
-                android:onClick="click"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已做正確"
-                android:id="@+id/draw_correct"
-                android:checked="true"
-                android:onClick="click"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已做錯誤"
-                android:id="@+id/draw_wrong"
-                android:checked="true"
-                android:onClick="click"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="自出"
-                android:id="@+id/draw_custom"
-                android:checked="true"
-                android:onClick="click"/>
-        </LinearLayout>
+            android:layout_height="match_parent"/>
 
     </FrameLayout>
-</LinearLayout> 
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal|bottom"
+        android:id="@+id/checkL">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未做"
+            android:id="@+id/draw_undo"
+            android:checked="true"
+            android:onClick="click"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已做正確"
+            android:id="@+id/draw_correct"
+            android:checked="true"
+            android:onClick="click"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已做錯誤"
+            android:id="@+id/draw_wrong"
+            android:checked="true"
+            android:onClick="click"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自出"
+            android:id="@+id/draw_custom"
+            android:checked="true"
+            android:onClick="click"/>
+    </LinearLayout>
+</RelativeLayout>
