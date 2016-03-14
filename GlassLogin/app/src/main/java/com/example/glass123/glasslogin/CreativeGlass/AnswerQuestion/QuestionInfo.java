@@ -19,6 +19,8 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.example.glass123.glasslogin.ChooseDevice;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.GetServerMessage;
+import com.example.glass123.glasslogin.Draw.AndroidUnit;
+import com.example.glass123.glasslogin.Draw.DrawTest;
 import com.example.glass123.glasslogin.R;
 import com.example.glass123.glasslogin.SetProfile;
 
@@ -153,6 +155,9 @@ public class QuestionInfo extends Activity {
 
     //跳到提示的畫面
     private void startans(){
+        DrawTest.flag = false;
+        AndroidUnit.flag = false;
+        FindQuestion.INSTANCE.finish();
         Bundle bundle = new Bundle();
         bundle.putInt("titleId", titleId);
         bundle.putString("answer",answer);

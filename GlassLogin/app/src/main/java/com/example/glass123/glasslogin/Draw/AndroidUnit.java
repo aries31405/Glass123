@@ -19,8 +19,9 @@ import com.example.glass123.glasslogin.Sensor.Sen;
  */
 public class AndroidUnit implements Runnable{
     Decide decide;
+    public static boolean flag =true;
     private double ag , latitude, lontitud;
-    private boolean flag = true,ch_draw;
+    private boolean ch_draw;
     private int  y,unit_Width, unit_Height,titleId,ch;//顯示物件的座標,物件圖片的寬、高
     private Bitmap unit_bmp = null;       //代表該物件的圖片
     private  boolean notcreat = true;
