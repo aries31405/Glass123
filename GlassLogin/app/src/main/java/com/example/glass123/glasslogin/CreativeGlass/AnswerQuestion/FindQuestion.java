@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.GetServerMessage;
+import com.example.glass123.glasslogin.Draw.AndroidUnit;
 import com.example.glass123.glasslogin.Draw.Data;
 import com.example.glass123.glasslogin.Draw.DrawTest;
 import com.example.glass123.glasslogin.R;
@@ -34,7 +35,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     public static double latitude=0.0,longitude=0.0,nowlatitude=0.0,nowlongitude=0.0;
     public static String choose;
 
-    private  int radius = 10;
+    private  int radius = 10,floor;
     private String allmsg;
 
     private Button bt;
@@ -61,10 +62,13 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        DrawTest.flag = true;
+        AndroidUnit.flag = true;
         INSTANCE = this;
 
         Bundle bundle = this.getIntent().getExtras();
         choose = bundle.getString("choose");
+        floor = bundle.getInt("floor");
         if(choose.equals("Network")){
             radius = bundle.getInt("radius");
             latitude = bundle.getDouble("latitude");
@@ -87,7 +91,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
                     if((latitude != 0.0 || longitude != 0.0))
                     {
                         GetServerMessage message = new GetServerMessage();
-                        allmsg = message.all("http://163.17.135.76/new_glass/question_search.php","UserId="+"1"+"&lat="+latitude+"&lon="+longitude+"&radius="+(radius*0.00000900900901));
+                        allmsg = message.all("http://163.17.135.76/new_glass/question_search.php","UserId="+"1"+"&lat="+latitude+"&lon="+longitude+"&radius="+(radius*0.00000900900901)+"&floor="+String.valueOf(floor));
                         handler.post(split);
                         break;
                     }

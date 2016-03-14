@@ -39,7 +39,7 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
 
     private double latitude=0.0,longitude=0.0;
 
-    int radius = 0;
+    int radius = 0,floor;
 
     public SeekBar sb;
     private ViewFlipper findfloor_viewflipper;
@@ -79,8 +79,6 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
         }
 
         findfloor_viewflipper.setOnTouchListener(this);
-        //抓樓層
-//        findfloor_viewflipper.getDisplayedChild();
 
         //設定向使用者連接的手持裝置取得位置
         mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
@@ -206,8 +204,12 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
 
     public void ok(View v)
     {
+        //抓樓層
+        floor = findfloor_viewflipper.getDisplayedChild();
+
         Bundle bundle = new Bundle();
         bundle.putString("choose", choose);
+        bundle.putInt("floor", floor);
         if(choose.equals("Network")){
             bundle.putInt("radius",radius);
             bundle.putDouble("latitude", latitude);
