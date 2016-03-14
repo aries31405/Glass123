@@ -103,6 +103,7 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
                 Bundle bundle = new Bundle();
                 bundle.putDouble("lat",latitude);
                 bundle.putDouble("lon",longitude);
+                bundle.putInt("floor",floor_viewflipper.getDisplayedChild());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

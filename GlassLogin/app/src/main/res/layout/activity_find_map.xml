@@ -34,30 +34,37 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="搜尋範圍："
+        android:text="搜尋範圍"
         android:id="@+id/textView4"
         android:textSize="25dp"
-        android:layout_marginLeft="32dp"
-        android:layout_alignBottom="@+id/seekBar"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_above="@+id/seekBar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
-        android:textStyle="bold" />
+        android:layout_alignParentStart="true" />
 
     <SeekBar
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="29dp"
-        android:layout_toLeftOf="@+id/find_map_ok"
-        android:layout_toRightOf="@+id/textView4"
-        android:layout_toEndOf="@+id/textView4"
-        android:layout_marginRight="140dp"
         android:progressDrawable="@drawable/pink_seekbar_progress"
         android:thumbTint="@color/colorAccent"
         android:maxHeight="3dp"
-        android:minHeight="3dp"/>
+        android:minHeight="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="300dp"
+        android:layout_marginTop="5dp" />
+
+    <ViewFlipper
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:id="@+id/findfloor_viewflipper"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/find_map_ok"
+        android:layout_toStartOf="@+id/find_map_ok" />
 
     <Button
         android:layout_width="100dp"
@@ -72,8 +79,9 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto"
         android:textSize="25dp"
         android:textColor="@color/new_purple"
         android:background="@color/new_white"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp" />
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="12dp" />
 
 </RelativeLayout>
 

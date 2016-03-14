@@ -31,6 +31,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
 
     String answer="",hint1="",hint2="",imagepath="";
     Double latitude=0.0,longitude=0.0;
+    int floor;
     boolean check_flag=false;
 
     @Override
@@ -145,6 +146,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         bundle.putString("imagepath",imagepath);
         bundle.putDouble("lat",latitude);
         bundle.putDouble("lon",longitude);
+        bundle.putInt("floor",floor);
         intent.putExtras(bundle);
         startActivityForResult(intent, 1);
         Toast.makeText(this,answer+hint1+hint2,Toast.LENGTH_SHORT).show();

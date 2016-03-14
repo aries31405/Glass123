@@ -10,9 +10,14 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.example.glass123.glasslogin.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,7 +29,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FindMap extends FragmentActivity implements OnMapReadyCallback,LocationListener {
+public class FindMap extends FragmentActivity implements OnMapReadyCallback,LocationListener,View.OnTouchListener {
 
     private GoogleMap mMap;
 
@@ -37,11 +42,45 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
     int radius = 0;
 
     public SeekBar sb;
+    private ViewFlipper findfloor_viewflipper;
+    private float touchDownX;
+    private float touchUpX;
+    private float touchDownY;
+    private float touchUpY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_map);
+
+        findfloor_viewflipper = (ViewFlipper)findViewById(R.id.findfloor_viewflipper);
+        int i = 0;
+
+        for(i=0;i<11;i++){
+
+            TextView tv1 = new TextView(this);
+
+            if(i==0)
+            {
+                tv1.setText("戶外");
+            }
+            else
+            {
+                tv1.setText(String.valueOf(i)+"樓");
+            }
+
+            tv1.setTextColor(this.getResources().getColor(R.color.new_purple));
+            tv1.setTextSize(50);
+
+            LinearLayout lq1 = new LinearLayout(this);
+            lq1.addView(tv1);
+            findfloor_viewflipper.addView(lq1);
+
+        }
+
+        findfloor_viewflipper.setOnTouchListener(this);
+        //抓樓層
+//        findfloor_viewflipper.getDisplayedChild();
 
         //設定向使用者連接的手持裝置取得位置
         mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
@@ -231,5 +270,31 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
             setResult(EXIT_CODE);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            touchDownX = event.getX();
+            touchDownY = event.getY();
+            return true;
+        }
+        else if(event.getAction() == MotionEvent.ACTION_UP){
+            touchUpX=event.getX();
+            touchUpY=event.getY();
+            if(touchUpX-touchDownX > 100){
+                findfloor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_in_b));
+                findfloor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.push_up_out_b));
+
+                findfloor_viewflipper.showPrevious();
+            } else if (touchDownX - touchUpX > 100){
+                findfloor_viewflipper.setInAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_in_b));
+                findfloor_viewflipper.setOutAnimation(AnimationUtils.loadAnimation(this,R.anim.push_down_out_b));
+
+                findfloor_viewflipper.showNext();
+            }
+            return true;
+        }
+        return false;
     }
 }

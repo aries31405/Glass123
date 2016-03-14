@@ -34,7 +34,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/rate"
-        android:progress="55"
+        android:progress="0"
         android:indeterminate="false"
         android:layout_alignTop="@+id/titleId_txt"
         android:layout_alignRight="@+id/startans_btn"
