@@ -159,6 +159,8 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Evaluation.this, FindMap.class);
                         startActivity(intent);
+                        int EXIT_CODE = 1;
+                        setResult(EXIT_CODE);
                         Evaluation.this.finish();
                     }
                 })

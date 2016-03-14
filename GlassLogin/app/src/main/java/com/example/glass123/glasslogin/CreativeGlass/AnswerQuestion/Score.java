@@ -105,17 +105,18 @@ public class Score extends Activity {
         bundle.putInt("AnswerRevolution", AnswerRevolution);
         Intent intent = new Intent(Score.this,Evaluation.class);
         intent.putExtras(bundle);
-        startActivity(intent);
+        int EXIT_CODE=1;
+        startActivityForResult(intent,EXIT_CODE);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        int EXIT_CODE=1;
-//        if(resultCode == EXIT_CODE)
-//        {
-//            Log.e("PETER","123456789");
-//            Score.this.finish();
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        int EXIT_CODE=1;
+        if(resultCode == EXIT_CODE)
+        {
+            Log.e("PETER","123456789");
+            Score.this.finish();
+        }
+    }
 }

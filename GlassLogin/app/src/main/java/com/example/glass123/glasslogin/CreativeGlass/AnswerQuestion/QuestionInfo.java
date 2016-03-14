@@ -154,13 +154,14 @@ public class QuestionInfo extends Activity {
     //跳到提示的畫面
     private void startans(){
         Bundle bundle = new Bundle();
-        bundle.putInt("titleId",titleId);
+        bundle.putInt("titleId", titleId);
         bundle.putString("answer",answer);
         bundle.putString("hint1",hint1);
-        bundle.putString("hint2",hint2);
-        bundle.putString("hint3",hint3);
+        bundle.putString("hint2", hint2);
+        bundle.putString("hint3", hint3);
         Intent intent = new Intent(QuestionInfo.this,AnswerQuestion.class);
         intent.putExtras(bundle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         this.finish();
     }
