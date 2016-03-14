@@ -48,7 +48,7 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
-        new AlertDialog.Builder(FindMap.this)
+        /*new AlertDialog.Builder(FindMap.this)
                 .setTitle("提示")
                 .setMessage("室內or室外")
                 .setPositiveButton("內", new DialogInterface.OnClickListener() {
@@ -66,7 +66,14 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                         mlocation.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, FindMap.this);
                         mapFragment.getMapAsync(FindMap.this);
                     }
-                }).show();
+                }).show();*/
+
+        //暫時刪去GPS用法 ^^^^^^^^^^^^^^^^^^^^^^^^^
+        choose = "Network";
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,FindMap.this);
+        mapFragment.getMapAsync(FindMap.this);
+
+
 
         sb = (SeekBar)findViewById(R.id.seekBar);
 

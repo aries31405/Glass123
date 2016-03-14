@@ -34,7 +34,8 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
     private ArrayList<AndroidUnit> Au; //AndroidUnit 類別型態的物件陣列
     private Canvas canvas = null;
     private Thread db_thread;
-    boolean flag =true,first=true,IsNotCreating = true;
+    boolean first=true,IsNotCreating = true;
+    public static boolean flag =true;
     private Resources res;
     private Bitmap bmp1,bmp2,bmp3,bmp4;
 
@@ -127,7 +128,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                 if (canvas != null && titleId != 0) {
                     Intent intent = new Intent(context, QuestionInfo.class);
                     Bundle bundle = new Bundle();
-                    bundle.putInt("titleId",titleId);
+                    bundle.putInt("titleId", titleId);
                     intent.putExtras(bundle);
                     titleId = 0;
                     context.startActivity(intent);

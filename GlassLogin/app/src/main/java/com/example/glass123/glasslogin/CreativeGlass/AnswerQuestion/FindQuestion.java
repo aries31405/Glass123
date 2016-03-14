@@ -29,6 +29,8 @@ import java.util.ArrayList;
 
 public class FindQuestion extends Activity  implements SurfaceHolder.Callback, LocationListener {
 
+    public static FindQuestion INSTANCE;
+
     public static double latitude=0.0,longitude=0.0,nowlatitude=0.0,nowlongitude=0.0;
     public static String choose;
 
@@ -59,15 +61,16 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        INSTANCE = this;
 
         Bundle bundle = this.getIntent().getExtras();
         choose = bundle.getString("choose");
         if(choose.equals("Network")){
             radius = bundle.getInt("radius");
-            //latitude = bundle.getDouble("latitude");
-            //longitude = bundle.getDouble("longitude");
-            latitude = 24.149592;
-            longitude = 120.683449;
+            latitude = bundle.getDouble("latitude");
+            longitude = bundle.getDouble("longitude");
+            //latitude = 24.149592;
+            //longitude = 120.683449;
         }
         else {
             mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
@@ -242,7 +245,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
             nowlongitude = longitude;
         }
 
-        Toast.makeText(FindQuestion.this,"latitude="+latitude+"__longitude="+longitude,Toast.LENGTH_LONG).show();
+        //Toast.makeText(FindQuestion.this,"latitude="+latitude+"__longitude="+longitude,Toast.LENGTH_LONG).show();
 
     }
 
@@ -260,8 +263,5 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     public void onProviderDisabled(String provider) {
 
     }
-
-
-
 
 }
