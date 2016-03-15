@@ -30,11 +30,16 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
     private ImageButton create_btn;
     private ImageButton profile_btn;
 
+    String memberId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creative_glass_start);
+
+        Bundle bundle= this.getIntent().getExtras();
+        memberId = bundle.getString("MemberId");
+
 
         //按鈕init
         answer_btn = (ImageButton)findViewById(R.id.answer_btn);
@@ -108,6 +113,9 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         if(v.getId() == R.id.answer_btn)
         {
             Intent intent = new Intent(CreativeGlassStart.this,FindMap.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", memberId);
+            intent .putExtras(bundle);
             startActivity(intent);
         }
         else if(v.getId() == R.id.create_btn)
@@ -115,11 +123,17 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
 //            Intent intent = new Intent(CreativeGlassStart.this,CreateQuestionAnswer.class);
 //            startActivity(intent);
             Intent intent = new Intent(CreativeGlassStart.this, MapsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", memberId);
+            intent .putExtras(bundle);
             startActivity(intent);
         }
         else if(v.getId() == R.id.profile_btn)
         {
             Intent intent = new Intent(CreativeGlassStart.this, MyCreative.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", memberId);
+            intent .putExtras(bundle);
             startActivity(intent);
         }
     }

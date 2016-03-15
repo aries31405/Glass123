@@ -35,7 +35,7 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
 
     LocationManager mlocation;
 
-    String choose;
+    String choose,memberId;
 
     private double latitude=0.0,longitude=0.0;
 
@@ -52,6 +52,9 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_map);
+
+        Bundle bundle= this.getIntent().getExtras();
+        memberId = bundle.getString("memberId");
 
         findfloor_viewflipper = (ViewFlipper)findViewById(R.id.findfloor_viewflipper);
         int i = 0;
@@ -208,7 +211,8 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
         floor = findfloor_viewflipper.getDisplayedChild();
 
         Bundle bundle = new Bundle();
-        bundle.putString("choose", choose);
+        bundle.putString("choose", choose);;
+        bundle.putString("memberId", memberId);
         bundle.putInt("floor", floor);
         if(choose.equals("Network")){
             bundle.putInt("radius",radius);

@@ -29,7 +29,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
     CharSequence Titles[] = {"答案","提示一","提示二","提示三"};
     int NumOfTabs = 4;
 
-    String answer="",hint1="",hint2="",imagepath="";
+    String answer="",hint1="",hint2="",imagepath="",memberId="";
     Double latitude=0.0,longitude=0.0;
     int floor;
     boolean check_flag=false;
@@ -76,6 +76,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         Bundle bundle = this.getIntent().getExtras();
         latitude = bundle.getDouble("lat");
         longitude = bundle.getDouble("lon");
+        memberId = bundle.getString("memberId");
 
     }
 
@@ -147,6 +148,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         bundle.putDouble("lat",latitude);
         bundle.putDouble("lon",longitude);
         bundle.putInt("floor",floor);
+        bundle.putString("memberId", memberId);
         intent.putExtras(bundle);
         startActivityForResult(intent, 1);
         Toast.makeText(this,answer+hint1+hint2,Toast.LENGTH_SHORT).show();

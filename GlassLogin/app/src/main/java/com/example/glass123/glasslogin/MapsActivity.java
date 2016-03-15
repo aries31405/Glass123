@@ -47,10 +47,15 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
     Button setfloor_btn;
 
     private double latitude=0.0,longitude=0.0;
+    String memberId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Bundle bundle = this.getIntent().getExtras();
+        memberId = bundle.getString("memberId");
+
         // 建立Google API用戶端物件
         configGoogleApiClient();
 
@@ -101,6 +106,7 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
             public void onClick(View view) {
                 Intent intent = new Intent(MapsActivity.this, CreateQuestion.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("memberId", memberId);
                 bundle.putDouble("lat",latitude);
                 bundle.putDouble("lon",longitude);
                 bundle.putInt("floor",floor_viewflipper.getDisplayedChild());
