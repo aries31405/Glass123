@@ -211,7 +211,12 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(CreateQuestionSend.this, MapsActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("memberId", memberId);
+                            intent.putExtras(bundle);
                             startActivity(intent);
+                            int EXIT_CODE = 1;
+                            setResult(EXIT_CODE);
                             CreateQuestionSend.this.finish();
                         }
                     })
@@ -219,7 +224,12 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(CreateQuestionSend.this, CreativeGlassStart.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("memberId", memberId);
+                            intent.putExtras(bundle);
                             startActivity(intent);
+                            int EXIT_CODE = 1;
+                            setResult(EXIT_CODE);
                             CreateQuestionSend.this.finish();
                         }
                     }).show();

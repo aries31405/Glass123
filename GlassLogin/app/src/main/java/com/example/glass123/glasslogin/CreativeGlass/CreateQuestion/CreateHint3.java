@@ -78,7 +78,7 @@ public class CreateHint3 extends Fragment implements View.OnClickListener {
 
         //有照片的路徑，顯示圖片
         if (!imagepath.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "有東西，" + imagepath, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity().getApplicationContext(), "有東西，" + imagepath, Toast.LENGTH_SHORT).show();
             setPic();
         }
 

@@ -150,9 +150,21 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         bundle.putInt("floor",floor);
         bundle.putString("memberId", memberId);
         intent.putExtras(bundle);
-        startActivityForResult(intent, 1);
-        Toast.makeText(this,answer+hint1+hint2,Toast.LENGTH_SHORT).show();
+        int EXIT_CODE=1;
+        startActivityForResult(intent, EXIT_CODE);
+//        Toast.makeText(this,answer+hint1+hint2,Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        int EXIT_CODE=1;
+        if(resultCode == EXIT_CODE)
+        {
+            Log.e("PETER","123456789");
+            CreateQuestion.this.finish();
+        }
     }
 
 }

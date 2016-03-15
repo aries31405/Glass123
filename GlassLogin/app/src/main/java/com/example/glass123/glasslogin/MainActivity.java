@@ -75,9 +75,9 @@ public class MainActivity extends Activity implements
         if (v.getId() == R.id.sign_in_button) {
             onSignInClicked();
         }
-        else if(v.getId() == R.id.skip_btn){
-            onSkipClick();
-        }
+//        else if(v.getId() == R.id.skip_btn){
+//            onSkipClick();
+//        }
         /*
         else if(v.getId() == R.id.login_glass){
             onGlassLoginClick();
@@ -99,17 +99,17 @@ public class MainActivity extends Activity implements
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
-        // 按鈕 findViewById
-        mStatus = (TextView) findViewById(R.id.welcome);
+//        // 按鈕 findViewById
+//        mStatus = (TextView) findViewById(R.id.welcome);
         mSignInBtn = (SignInButton) findViewById(R.id.sign_in_button);
-        skip_btn = (Button)findViewById(R.id.skip_btn);
+//        skip_btn = (Button)findViewById(R.id.skip_btn);
 
-        // Google大頭貼 findViewById
-        mPhoto = (CircleImageView) findViewById(R.id.profile_image);
+//        // Google大頭貼 findViewById
+//        mPhoto = (CircleImageView) findViewById(R.id.profile_image);
 
         // 設定所有按鈕監聽
         mSignInBtn.setOnClickListener(this);
-        skip_btn.setOnClickListener(this);
+//        skip_btn.setOnClickListener(this);
 
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -124,14 +124,14 @@ public class MainActivity extends Activity implements
 //        Toast.makeText(this,String.valueOf(n),Toast.LENGTH_SHORT).show();
 
         //SwitchButton init
-        withglass_sb = (SwitchButton)findViewById(R.id.withglass_sb);
-        ChangeSwitchButtonStyle();
-        withglass_sb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                withglass_sb.setBackColorRes(isChecked ? R.color.purple : R.color.white);
-            }
-        });
+//        withglass_sb = (SwitchButton)findViewById(R.id.withglass_sb);
+//        ChangeSwitchButtonStyle();
+//        withglass_sb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//                withglass_sb.setBackColorRes(isChecked ? R.color.purple : R.color.white);
+//            }
+//        });
 
     }
 

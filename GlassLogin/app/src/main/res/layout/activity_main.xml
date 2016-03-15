@@ -17,24 +17,25 @@
         android:textSize="50sp"
         android:alpha="0"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />
 
-    <com.kyleduo.switchbutton.SwitchButton
-        android:id="@+id/withglass_sb"
-        style="@style/SwitchButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/sign_in_button"
-        android:layout_alignLeft="@+id/sign_in_button"
-        android:layout_alignStart="@+id/sign_in_button" />
+    <!--<com.kyleduo.switchbutton.SwitchButton-->
+        <!--android:id="@+id/withglass_sb"-->
+        <!--style="@style/SwitchButtonStyle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/sign_in_button"-->
+        <!--android:layout_alignLeft="@+id/sign_in_button"-->
+        <!--android:layout_alignStart="@+id/sign_in_button" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Skip"
-        android:id="@+id/skip_btn"
-        android:layout_alignTop="@+id/withglass_sb"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Skip"-->
+        <!--android:id="@+id/skip_btn"-->
+        <!--android:layout_alignTop="@+id/withglass_sb"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
 
 </RelativeLayout>

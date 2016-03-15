@@ -107,11 +107,12 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
                 Intent intent = new Intent(MapsActivity.this, CreateQuestion.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("memberId", memberId);
-                bundle.putDouble("lat",latitude);
+                bundle.putDouble("lat", latitude);
                 bundle.putDouble("lon",longitude);
-                bundle.putInt("floor",floor_viewflipper.getDisplayedChild());
+                bundle.putInt("floor", floor_viewflipper.getDisplayedChild());
                 intent.putExtras(bundle);
                 startActivity(intent);
+                MapsActivity.this.finish();
             }
         });
     }

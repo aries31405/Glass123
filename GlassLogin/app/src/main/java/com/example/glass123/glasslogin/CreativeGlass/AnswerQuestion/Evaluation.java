@@ -107,7 +107,7 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
     }
 
     private void uploadAns(){
-        Toast.makeText(this,AnswerStar+"，評價 "+CommendNo,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,AnswerStar+"，評價 "+CommendNo,Toast.LENGTH_SHORT).show();
 
         AQuery aq = new AQuery(this);
         String url = "http://163.17.135.76/new_glass/uploaduseranswer.php";

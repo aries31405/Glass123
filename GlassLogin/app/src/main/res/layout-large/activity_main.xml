@@ -12,36 +12,36 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:layout_width="395dp"
-        android:layout_height="95dp"
+        android:layout_width="390dp"
+        android:layout_height="100dp"
         android:textSize="50sp"
         android:alpha="0"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="55dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <com.kyleduo.switchbutton.SwitchButton
-        android:id="@+id/withglass_sb"
-        style="@style/SwitchButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        appNs:kswTintColor="#FFFFFF"
-        android:layout_above="@+id/sign_in_button"
-        android:layout_alignLeft="@+id/sign_in_button"
-        android:layout_alignStart="@+id/sign_in_button"
-        android:layout_marginLeft="79dp"
-        android:layout_marginStart="79dp"
-        android:layout_marginBottom="37dp" />
+    <!--<com.kyleduo.switchbutton.SwitchButton-->
+        <!--android:id="@+id/withglass_sb"-->
+        <!--style="@style/SwitchButtonStyle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--appNs:kswTintColor="#FFFFFF"-->
+        <!--android:layout_above="@+id/sign_in_button"-->
+        <!--android:layout_alignLeft="@+id/sign_in_button"-->
+        <!--android:layout_alignStart="@+id/sign_in_button"-->
+        <!--android:layout_marginLeft="79dp"-->
+        <!--android:layout_marginStart="79dp"-->
+        <!--android:layout_marginBottom="37dp" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Skip"
-        android:id="@+id/skip_btn"
-        android:layout_marginRight="118dp"
-        android:layout_marginEnd="118dp"
-        android:layout_alignTop="@+id/sign_in_button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Skip"-->
+        <!--android:id="@+id/skip_btn"-->
+        <!--android:layout_marginRight="118dp"-->
+        <!--android:layout_marginEnd="118dp"-->
+        <!--android:layout_alignTop="@+id/sign_in_button"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
 
 </RelativeLayout>

@@ -77,7 +77,8 @@
         android:id="@+id/hint3_img"
         android:onClick="set_image"
         android:layout_alignTop="@+id/hint3_tv"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/hint3_tv"
+        android:layout_toEndOf="@+id/hint3_tv" />
 
     <Button
         android:layout_width="150dp"
