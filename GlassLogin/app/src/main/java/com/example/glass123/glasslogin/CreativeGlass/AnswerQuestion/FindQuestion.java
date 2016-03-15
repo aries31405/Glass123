@@ -33,10 +33,10 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     public static FindQuestion INSTANCE;
 
     public static double latitude=0.0,longitude=0.0,nowlatitude=0.0,nowlongitude=0.0;
-    public static String choose;
+    public static String choose,memberId;
 
     private  int radius = 10,floor;
-    private String allmsg,memberId;
+    private String allmsg;
 
     private Button bt;
     private DrawTest drawTest = null;

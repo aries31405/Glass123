@@ -39,7 +39,7 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
 
     private double latitude=0.0,longitude=0.0;
 
-    int radius = 0,floor;
+    int radius = 20,floor;
 
     public SeekBar sb;
     private ViewFlipper findfloor_viewflipper;
@@ -110,12 +110,12 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
 
         //暫時刪去GPS用法 ^^^^^^^^^^^^^^^^^^^^^^^^^
         choose = "Network";
-        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0,FindMap.this);
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, FindMap.this);
         mapFragment.getMapAsync(FindMap.this);
 
 
-
-        sb = (SeekBar)findViewById(R.id.seekBar);
+        //seekBar暫時關閉
+        /*sb = (SeekBar)findViewById(R.id.seekBar);
 
 
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -157,7 +157,7 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
                 radius = progress;
 
             }
-        });
+        });*/
 
     }
 
@@ -250,12 +250,26 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
 
     @Override
     public void onLocationChanged(Location location) {
-
         LatLng place = new LatLng(location.getLatitude(), location.getLongitude());
 
         if(choose.equals("GPS")){addMarker(place, "您現在所定位位置", location.getLatitude() + " : " + location.getLongitude());}
 
         moveMap(place);
+
+        if(latitude == 0.0)
+        {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            addMarker(place, "您所選取室內中心位置", latitude + " : " + longitude);
+
+            if(radius!=0) {
+                mMap.addCircle(new CircleOptions()
+                        .center(place)
+                        .radius(radius)
+                        .strokeColor(getResources().getColor(R.color.transparent_blue))
+                        .fillColor(getResources().getColor(R.color.transparent_blue)));}
+
+        }
 
     }
 

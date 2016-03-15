@@ -20,7 +20,7 @@ import org.w3c.dom.Text;
 public class Score extends Activity {
     //作答紀錄用
     int QuestionNo=0;
-    String MemberId=""; //待接值
+    String memberId=""; //待接值
     String AnswerContent="";
     int AnswerType;
     int AnswerTimer=0;
@@ -39,7 +39,7 @@ public class Score extends Activity {
 
         Bundle bundle = this.getIntent().getExtras();
         QuestionNo = bundle.getInt("QuestionNo");
-        MemberId = bundle.getString("MemberId");
+        memberId = bundle.getString("memberId");
         AnswerContent = bundle.getString("AnswerContent");
         AnswerType = bundle.getInt("AnswerType");
         AnswerTimer = bundle.getInt("AnswerTimer");
@@ -54,7 +54,7 @@ public class Score extends Activity {
         });
 
         Log.e("niki", "QuestionNo " + QuestionNo);
-        Log.e("niki", "MemberId " + MemberId);
+        Log.e("niki", "MemberId " + memberId);
         Log.e("niki","AnswerContent "+AnswerContent);
         Log.e("niki","AnswerType "+AnswerType);
         Log.e("niki","AnswerTimer "+AnswerTimer);
@@ -98,7 +98,7 @@ public class Score extends Activity {
         //到評價頁面
         Bundle bundle = new Bundle();
         bundle.putInt("QuestionNo", QuestionNo);
-        bundle.putString("MemberId", MemberId);
+        bundle.putString("memberId", memberId);
         bundle.putString("AnswerContent", AnswerContent);
         bundle.putInt("AnswerType", AnswerType);
         bundle.putInt("AnswerTimer",AnswerTimer);

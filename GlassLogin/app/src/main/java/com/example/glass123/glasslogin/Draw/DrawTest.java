@@ -129,6 +129,7 @@ public class DrawTest  extends SurfaceView implements SurfaceHolder.Callback, Ru
                     Intent intent = new Intent(context, QuestionInfo.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt("titleId", titleId);
+                    bundle.putString("memberId", FindQuestion.memberId);
                     intent.putExtras(bundle);
                     titleId = 0;
                     context.startActivity(intent);
