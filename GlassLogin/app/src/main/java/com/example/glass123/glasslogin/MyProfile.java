@@ -2,6 +2,7 @@ package com.example.glass123.glasslogin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
+import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.GetServerMessage;
+import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart;
 import com.example.glass123.glasslogin.Mplayer.Player;
 
 import java.util.HashMap;
@@ -27,6 +30,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyProfile extends Activity implements View.OnClickListener,TextToSpeech.OnInitListener{
+
+    Handler handler = new Handler();
 
     private Profile mProfile;
 
@@ -40,6 +45,9 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
 
     private static final int MY_DATA_CHECK_CODE = 0;
     private TextToSpeech tts;
+
+    public String msg;
+
     Player player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +111,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
         boolean memCache = false;
         boolean fileCache = true;
 
-        aq.id(R.id.myprofile_image).image(imageurl,memCache,fileCache);
+        aq.id(R.id.myprofile_image).image(imageurl, memCache, fileCache);
     }
 
     // 按下切換使用者按鈕回前頁
@@ -120,51 +128,45 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
     // 登入，檢查是否已註冊為使用者，之後跳轉到 profile頁面
     private void connDb0(){
 
-        AQuery aq = new AQuery(this);
-        String url = "http://163.17.135.76/db/selectusers.php";
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                GetServerMessage message = new GetServerMessage();
+                msg = message.all("http://163.17.135.76/new_glass/selectuser.php","MemberEmail="+mProfile.USER_EMAIL);
+                handler.post(update);
+            }
+
+        }).start();
+
+
+    }
+
+    private void addlogin(){
+        Log.e("PETER","HHH");
+
+        AQuery aq1 = new AQuery(this);
+        String url = "http://163.17.135.76/new_glass/addlogin.php";
 
         Map<String,Object> params = new HashMap<String, Object>();
 
         //測試用
-        params.put("email", mProfile.USER_EMAIL);
+        params.put("MemberEmail", mProfile.USER_EMAIL);
 
-        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+        aq1.ajax(url, params, String.class, new AjaxCallback<String>() {
 
             @Override
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-                    //資料庫已經有使用者資料
-                    if (result.equals("2")) {
-//                        if (player.pause()) {
-//
-//                        }
-                        Intent it = new Intent(MyProfile.this, ChooseDevice.class);
+                    Log.e("PETER", "HHH");
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("username", mProfile.USER_NAME);
-                        bundle.putString("useremail", mProfile.USER_EMAIL);
-                        bundle.putString("userimage", mProfile.USER_IMAGE);
-
-                        it.putExtras(bundle);
-                        startActivity(it);
-                    } else if (result.equals("0")) {
-//                        if (player.pause()) {
-//
-//                        }
-                        Intent it = new Intent(MyProfile.this, SetProfile.class);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString("username", mProfile.USER_NAME);
-                        bundle.putString("useremail", mProfile.USER_EMAIL);
-                        bundle.putString("userimage", mProfile.USER_IMAGE);
-
-                        it.putExtras(bundle);
-                        startActivity(it);
-                    } else {
-                        Toast.makeText(MyProfile.this, "Google帳戶登入失敗", Toast.LENGTH_SHORT).show();
-                    }
-
+                    Intent it = new Intent(MyProfile.this, CreativeGlassStart.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("MemberId", result);
+                    it.putExtras(bundle);
+                    MyProfile.this.startActivity(it);
                 }
                 //失敗傳回HTTP狀態碼
                 else {
@@ -173,6 +175,36 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
             }
         });
     }
+
+    final Runnable update = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+
+            switch (msg) {
+                case "yes":
+                    addlogin();
+                    break;
+                case "no":
+                    Intent it = new Intent(MyProfile.this, SetProfile.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", mProfile.USER_NAME);
+                    bundle.putString("useremail", mProfile.USER_EMAIL);
+                    bundle.putString("userimage", mProfile.USER_IMAGE);
+
+                    it.putExtras(bundle);
+                    MyProfile.this.startActivity(it);
+                    Log.e("PETER", "---");
+                    break;
+                default:
+                    Toast.makeText(MyProfile.this, "Google帳戶登入失敗"+msg, Toast.LENGTH_SHORT).show();
+                    break;
+            }
+
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
