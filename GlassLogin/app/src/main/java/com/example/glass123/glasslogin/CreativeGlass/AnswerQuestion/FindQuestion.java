@@ -33,7 +33,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
     public static FindQuestion INSTANCE;
 
     public static double latitude=0.0,longitude=0.0,nowlatitude=0.0,nowlongitude=0.0;
-    public static String choose;
+    public static String choose,memberId;
 
     private  int radius = 10,floor;
     private String allmsg;
@@ -68,6 +68,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
 
         Bundle bundle = this.getIntent().getExtras();
         choose = bundle.getString("choose");
+        memberId = bundle.getString("memberId");
         floor = bundle.getInt("floor");
         if(choose.equals("Network")){
             radius = bundle.getInt("radius");
@@ -91,7 +92,7 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
                     if((latitude != 0.0 || longitude != 0.0))
                     {
                         GetServerMessage message = new GetServerMessage();
-                        allmsg = message.all("http://163.17.135.76/new_glass/question_search.php","UserId="+"1"+"&lat="+latitude+"&lon="+longitude+"&radius="+(radius*0.00000900900901)+"&floor="+String.valueOf(floor));
+                        allmsg = message.all("http://163.17.135.76/new_glass/question_search.php","UserId="+memberId+"&lat="+latitude+"&lon="+longitude+"&radius="+(radius*0.00000900900901)+"&floor="+String.valueOf(floor));
                         handler.post(split);
                         break;
                     }

@@ -48,13 +48,13 @@ public class AnswerQuestion extends FragmentActivity implements Hint1.Listener,H
     String hint1="";
     String hint2="";
     String hint3="";
+    String memberId="";
 
     int QuestionNo=0;
 
     //作答紀錄用
     int AnswerType;
     String AnswerContent="";
-    String MemberId="1"; //待接值
     int AnswerTimer=0;
     int AnswerRevolution = 0;
 
@@ -75,6 +75,7 @@ public class AnswerQuestion extends FragmentActivity implements Hint1.Listener,H
         hint2 = bundle.getString("hint2");
         hint3 = bundle.getString("hint3");
         QuestionNo = bundle.getInt("titleId");
+        memberId = bundle.getString("memberId");
 
 
         //產生tab
@@ -275,11 +276,11 @@ public class AnswerQuestion extends FragmentActivity implements Hint1.Listener,H
         //到看答案正確與否的頁面
         Bundle bundle = new Bundle();
         bundle.putInt("QuestionNo", QuestionNo);
-        bundle.putString("MemberId", MemberId);
         bundle.putString("AnswerContent", AnswerContent);
         bundle.putInt("AnswerType", AnswerType);
         bundle.putInt("AnswerTimer",AnswerTimer);
         bundle.putInt("AnswerRevolution", AnswerRevolution);
+        bundle.putString("memberId",memberId);
         Intent intent = new Intent(AnswerQuestion.this,Score.class);
         intent.putExtras(bundle);
         startActivity(intent);

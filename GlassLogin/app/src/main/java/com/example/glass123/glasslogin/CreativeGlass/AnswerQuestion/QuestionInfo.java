@@ -45,6 +45,7 @@ public class QuestionInfo extends Activity {
     String hint1;
     String hint2;
     String hint3;
+    String memberId;
 
     ImageView starinfo1_img;
     ImageView starinfo2_img;
@@ -87,6 +88,7 @@ public class QuestionInfo extends Activity {
         //接titleId
         Bundle bundle = this.getIntent().getExtras();
         titleId = bundle.getInt("titleId");
+        memberId = bundle.getString("memberId");
 
         getquestioninfo();
 
@@ -160,10 +162,11 @@ public class QuestionInfo extends Activity {
         FindQuestion.INSTANCE.finish();
         Bundle bundle = new Bundle();
         bundle.putInt("titleId", titleId);
-        bundle.putString("answer",answer);
+        bundle.putString("answer", answer);
         bundle.putString("hint1",hint1);
         bundle.putString("hint2", hint2);
         bundle.putString("hint3", hint3);
+        bundle.putString("memberId",memberId);
         Intent intent = new Intent(QuestionInfo.this,AnswerQuestion.class);
         intent.putExtras(bundle);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -40,7 +40,7 @@ import java.io.InputStream;
 public class CreateQuestionSend extends Activity implements View.OnClickListener{
     ProgressDialog dialog;
     TextView hint1_tv,hint2_tv,answer_tv;
-    String hint1,hint2,imagepath,answer,floor,device,titleId=null,ResponseMessages=null,msg;
+    String hint1,hint2,imagepath,answer,floor,device,titleId=null,ResponseMessages=null,msg,memberId="";
     Button questionsend_btn;
     ImageView hint3_img;
     private DisplayMetrics metrics;
@@ -65,6 +65,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         answer = bundle.getString("answer");
         latitude = bundle.getDouble("lat");
         longitude = bundle.getDouble("lon");
+        memberId = bundle.getString("memberId");
         floor = "1";//---------------------------------------------------還要拿
         device = "1";//手機固定1
 
@@ -183,7 +184,7 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
                     if (!ResponseMessages.equals("fail"))
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.76/new_glass/add_info.php","userId="+"1"+"&p1="+ hint1+"&p2="+hint2+"&p3=/TTS/"+ResponseMessages+"&ans="+answer+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
+                        msg = message.all("http://163.17.135.76/new_glass/add_info.php","userId="+memberId+"&p1="+ hint1+"&p2="+hint2+"&p3=/TTS/"+ResponseMessages+"&ans="+answer+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
                         Log.e("PETER", "@!#");
                         handler.post(askcontinue);
                     }

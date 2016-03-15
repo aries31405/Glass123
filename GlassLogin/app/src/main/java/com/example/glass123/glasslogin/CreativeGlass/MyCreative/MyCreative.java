@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class MyCreative extends Activity {
 
-    String MemberId="1";
+    String memberId="";
     int AllQuestion = 0;
     int CorrectQuestion = 0;
     int WrongQuestion = 0;
@@ -35,6 +35,9 @@ public class MyCreative extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_creative);
 
+        Bundle bundle = this.getIntent().getExtras();
+        memberId = bundle.getString("memberId");
+
         //init
         all_txt = (TextView)findViewById(R.id.all_txt);
         percentage_txt = (TextView)findViewById(R.id.percentage_txt);
@@ -50,7 +53,7 @@ public class MyCreative extends Activity {
 
         Map<String,Object> params = new HashMap<>();
 
-        params.put("userId", MemberId);
+        params.put("userId", memberId);
         aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {

@@ -50,7 +50,7 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
 
     //作答紀錄用
     int QuestionNo=0;
-    String MemberId=""; //待接值
+    String memberId=""; //待接值
     String AnswerContent="";
     int AnswerType;
     int AnswerTimer=0;
@@ -83,7 +83,7 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
         //接bundle的值
         Bundle bundle = this.getIntent().getExtras();
         QuestionNo = bundle.getInt("QuestionNo");
-        MemberId = bundle.getString("MemberId");
+        memberId = bundle.getString("memberId");
         AnswerContent = bundle.getString("AnswerContent");
         AnswerType = bundle.getInt("AnswerType");
         AnswerTimer = bundle.getInt("AnswerTimer");
@@ -115,7 +115,7 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
         Map<String,Object> params = new HashMap<>();
 
         params.put("QuestionNo",QuestionNo);
-        params.put("MemberId",MemberId);
+        params.put("MemberId",memberId);
         params.put("AnswerContent",AnswerContent);
         params.put("AnswerType",AnswerType);
         params.put("AnswerTimer",AnswerTimer);
@@ -158,6 +158,9 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Evaluation.this, FindMap.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("memberId", memberId);
+                        intent.putExtras(bundle);
                         startActivity(intent);
                         int EXIT_CODE = 1;
                         setResult(EXIT_CODE);
@@ -168,6 +171,9 @@ public class Evaluation extends FragmentActivity implements Star.Listener,Commen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Evaluation.this, CreativeGlassStart.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("memberId", memberId);
+                        intent.putExtras(bundle);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         Evaluation.this.finish();
