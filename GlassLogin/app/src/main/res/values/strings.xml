@@ -30,18 +30,20 @@
 
     <string name="connect">登入Glass</string>
     <string name="welcome">Please Login Google+</string>
-    <string name="forward">Previous</string>
-    <string name="next">Next</string>
-    <string name="change_user">Change User</string>
+    <string name="forward">上一步</string>
+    <string name="next">下一步</string>
+    <string name="change_user">切換使用者</string>
     <string name="bluetooth">Login Creative Glass</string>
     <string name="connect_success">Login Success!</string>
-    <string name="please_gender">Please select your gender</string>
-    <string name="please_age">Please select your age</string>
+    <!--<string name="please_gender">Please select your gender</string>-->
+    <!--<string name="please_age">Please select your age</string>-->
+    <string name="please_gender">請選擇性別</string>
+    <string name="please_age">請選擇年齡</string>
     <string name="please_select_device">Please Select Your Device</string>
     <string name="please_connect">Please Connect Your Google Glass</string>
     <string name="introduction">Welcome to Creative Glass! You can now move on to your Google Glass.</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
+    <string name="male">男生</string>
+    <string name="female">女生</string>
     <string name="answerquestion_btn">Answer Question</string>
     <string name="createquestion_btn">Create Question</string>
     <string name="findquestion_txt">Walk around to find questions</string>
