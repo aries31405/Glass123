@@ -19,11 +19,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
+import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart;
 import com.example.glass123.glasslogin.Mplayer.Player;
 
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SetProfileAge extends Activity implements View.OnClickListener, View.OnTouchListener,TextToSpeech.OnInitListener{
 
@@ -242,21 +249,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     private void onNextClick(){
 
         mProfile.USER_AGE = String.valueOf(mViewFlipper1.getDisplayedChild() * 10 + mViewFlipper2.getDisplayedChild());
-//        if(player.pause())
-//        {
-//
-//        }
-        Intent it = new Intent(SetProfileAge.this, ChooseDevice.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("username", mProfile.USER_NAME);
-        bundle.putString("useremail", mProfile.USER_EMAIL);
-        bundle.putString("userimage", mProfile.USER_IMAGE);
-        bundle.putString("usersex",mProfile.USER_SEX);
-        bundle.putString("userage",mProfile.USER_AGE);
-
-        it.putExtras(bundle);
-        startActivity(it);
+        adduser();
 
     }
 
@@ -265,10 +258,53 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
         this.finish();
     }
 
-    @Override
-    public void onPause(){
-        super.onPause();
-        //this.finish();
+    private void adduser(){
+        AQuery aq = new AQuery(this);
+        String url = "http://163.17.135.76/new_glass/adduser.php";
+        Map<String,Object> params = new HashMap<String, Object>();
+        //測試用
+        params.put("MemberEmail", mProfile.USER_EMAIL);
+        params.put("MemberName", mProfile.USER_NAME);
+        params.put("MemberAge", mProfile.USER_AGE);
+        params.put("MemberGender", mProfile.USER_SEX);
+        params.put("MemberPicture", mProfile.USER_IMAGE);
+        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+            @Override
+            public void callback(String url, String result, AjaxStatus status) {
+                //連線成功
+                if (status.getCode() == 200) {
+                    addlogin();
+                }
+                //失敗傳回HTTP狀態碼
+                else {
+                    Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    private void addlogin(){
+        AQuery aq = new AQuery(this);
+        String url = "http://163.17.135.76/new_glass/addlogin.php";
+        Map<String,Object> params = new HashMap<String, Object>();
+        //測試用
+        params.put("MemberEmail", mProfile.USER_EMAIL);
+        aq.ajax(url, params, String.class, new AjaxCallback<String>() {
+            @Override
+            public void callback(String url, String result, AjaxStatus status) {
+                //連線成功
+                if (status.getCode() == 200) {
+                    Intent it = new Intent(SetProfileAge.this, CreativeGlassStart.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("MemberId", result);
+                    it.putExtras(bundle);
+                    SetProfileAge.this.startActivity(it);
+                }
+                //失敗傳回HTTP狀態碼
+                else {
+                    Toast.makeText(getApplicationContext(), String.valueOf(status.getCode()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

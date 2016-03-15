@@ -123,7 +123,7 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
                 if (checked)
                 {
                     // 設定為男性
-                    mProfile.USER_SEX = "0";
+                    mProfile.USER_SEX = "1";
                     Log.e("onRadioButtonClicked",mProfile.USER_SEX + "!");
 
                     mFemaleRBtn.setChecked(false);
@@ -134,7 +134,7 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
                 if (checked)
                 {
                     // 設定為女性
-                    mProfile.USER_SEX="1";
+                    mProfile.USER_SEX="0";
                     Log.e("onRadioButtonClicked",mProfile.USER_SEX + "!");
 
                     mMaleRBtn.setChecked(false);
