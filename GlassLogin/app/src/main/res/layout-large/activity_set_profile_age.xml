@@ -63,7 +63,8 @@
         android:id="@+id/viewFlipper1"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="350dp"
-        android:layout_below="@id/star_imgbtn3">
+        android:layout_below="@id/star_imgbtn3"
+        android:layout_marginTop="50dp">
 
     </ViewFlipper>
 
@@ -74,7 +75,8 @@
         android:layout_below="@+id/star_imgbtn3"
         android:layout_alignRight="@+id/textView5"
         android:layout_alignEnd="@+id/textView5"
-        android:layout_marginRight="220dp">
+        android:layout_marginRight="220dp"
+        android:layout_marginTop="50dp">
 
     </ViewFlipper>
 

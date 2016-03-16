@@ -115,7 +115,7 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
             Intent intent = new Intent(CreativeGlassStart.this,FindMap.class);
             Bundle bundle = new Bundle();
             bundle.putString("memberId", memberId);
-            intent .putExtras(bundle);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         else if(v.getId() == R.id.create_btn)
@@ -125,7 +125,7 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
             Intent intent = new Intent(CreativeGlassStart.this, MapsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("memberId", memberId);
-            intent .putExtras(bundle);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         else if(v.getId() == R.id.profile_btn)
@@ -133,7 +133,7 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
             Intent intent = new Intent(CreativeGlassStart.this, MyCreative.class);
             Bundle bundle = new Bundle();
             bundle.putString("memberId", memberId);
-            intent .putExtras(bundle);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
     }
