@@ -77,6 +77,7 @@ public class CreateQuestion extends FragmentActivity implements CreateQuestionAn
         latitude = bundle.getDouble("lat");
         longitude = bundle.getDouble("lon");
         memberId = bundle.getString("memberId");
+        floor = bundle.getInt("floor");
 
     }
 

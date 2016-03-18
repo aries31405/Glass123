@@ -5,7 +5,7 @@
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
     tools:context="com.example.glass123.glasslogin.CreativeGlass.WithGlass.WithGlassStart"
-    android:background="@mipmap/withglass_background">
+    android:background="@drawable/withglass_background">
 
 
     <ImageButton

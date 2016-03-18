@@ -2,6 +2,7 @@ package com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -124,7 +125,26 @@ public class FindQuestion extends Activity  implements SurfaceHolder.Callback, L
         {
             if(allmsg.equals("No question"))
             {
-                Toast.makeText(FindQuestion.this,"附近無任何題目",Toast.LENGTH_LONG).show();
+                Toast.makeText(FindQuestion.this,"附近無任何題目，將自動回到上一頁",Toast.LENGTH_LONG).show();
+                new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try {
+                            Thread.sleep(2500);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("memberId", memberId);
+                            Intent intent = new Intent(FindQuestion.this,FindMap.class);
+                            intent.putExtras(bundle);
+                            FindQuestion.this.startActivity(intent);
+                            finish();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }).start();
             }
             else
             {

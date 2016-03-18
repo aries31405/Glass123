@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="10dp"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="10dp"
     tools:context="com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart"
@@ -11,18 +10,18 @@
         android:layout_width="280dp"
         android:layout_height="fill_parent"
         android:id="@+id/profile_btn"
-        android:background="#00e6ff5b"
+        android:background="@drawable/profile_button"
         android:layout_alignTop="@+id/answer_btn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="28dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginRight="25dp" />
 
     <ImageButton
         android:layout_width="400dp"
         android:layout_height="245dp"
         android:id="@+id/create_btn"
-        android:background="#00e6ff5b"
+        android:background="@drawable/create_button"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/answer_btn"
         android:layout_toLeftOf="@id/answer_btn"
@@ -33,11 +32,12 @@
         android:layout_width="400dp"
         android:layout_height="245dp"
         android:id="@+id/answer_btn"
-        android:background="#00e6ff5b"
+        android:background="@drawable/answer_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@id/profile_btn" />
+        android:layout_toRightOf="@id/profile_btn"
+        android:layout_marginRight="32dp" />
 
 
 

@@ -66,7 +66,8 @@ public class CreateQuestionSend extends Activity implements View.OnClickListener
         latitude = bundle.getDouble("lat");
         longitude = bundle.getDouble("lon");
         memberId = bundle.getString("memberId");
-        floor = "1";//---------------------------------------------------還要拿
+        floor = String.valueOf(bundle.getInt("floor"));
+        Log.e("PETER",floor+"樓");
         device = "1";//手機固定1
 
 
