@@ -287,17 +287,6 @@ public class FindMap extends FragmentActivity implements OnMapReadyCallback,Loca
     public void onProviderDisabled(String provider) {
 
     }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        //在此返回上一頁視同放棄作答
-        if(keyCode == KeyEvent.KEYCODE_BACK)
-        {
-            int EXIT_CODE=1;
-            setResult(EXIT_CODE);
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

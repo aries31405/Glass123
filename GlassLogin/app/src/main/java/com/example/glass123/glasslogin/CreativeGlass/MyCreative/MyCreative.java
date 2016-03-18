@@ -59,17 +59,16 @@ public class MyCreative extends Activity {
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 //成功
                 if (status.getCode() == 200) {
-                    Log.e("PETER",""+"進來了");
                     try {
                         AllQuestion = json.getInt("all");
                         Percentage = json.getInt("percentage");
                         CorrectQuestion = json.getInt("true");
                         WrongQuestion = json.getInt("false");
 
-                        Log.e("PETER",""+AllQuestion);
-                        Log.e("PETER",""+Percentage);
-                        Log.e("PETER",""+CorrectQuestion);
-                        Log.e("PETER",""+WrongQuestion);
+//                        Log.e("PETER",""+AllQuestion);
+//                        Log.e("PETER",""+Percentage);
+//                        Log.e("PETER",""+CorrectQuestion);
+//                        Log.e("PETER",""+WrongQuestion);
 
                     } catch (Exception e) {
                         e.printStackTrace();

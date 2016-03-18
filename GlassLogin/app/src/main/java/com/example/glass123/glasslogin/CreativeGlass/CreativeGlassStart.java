@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,8 +39,8 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_creative_glass_start);
 
         Bundle bundle= this.getIntent().getExtras();
-        memberId = bundle.getString("MemberId");
-
+        memberId = bundle.getString("memberId");
+        Log.e("PETER",memberId);
 
         //按鈕init
         answer_btn = (ImageButton)findViewById(R.id.answer_btn);
@@ -120,8 +121,6 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
         }
         else if(v.getId() == R.id.create_btn)
         {
-//            Intent intent = new Intent(CreativeGlassStart.this,CreateQuestionAnswer.class);
-//            startActivity(intent);
             Intent intent = new Intent(CreativeGlassStart.this, MapsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("memberId", memberId);

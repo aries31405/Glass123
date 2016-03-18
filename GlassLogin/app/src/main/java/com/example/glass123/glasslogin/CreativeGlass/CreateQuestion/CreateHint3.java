@@ -41,7 +41,7 @@ import java.util.Date;
  */
 public class CreateHint3 extends Fragment implements View.OnClickListener {
     ImageButton createqnext_btn, camera_btn;
-    String answer, hint1, hint2, imagepath;
+    String answer, hint1, hint2, imagepath="";
 
     ImageView hint3;
     private DisplayMetrics metrics;
@@ -73,8 +73,15 @@ public class CreateHint3 extends Fragment implements View.OnClickListener {
         //提示三圖片init
         hint3 = (ImageView) v.findViewById(R.id.hint3);
 
-        //取得imagepath，可能為路徑或空值
-        imagepath = ((Listener) getActivity()).getImagepath();
+        if(savedInstanceState != null)
+        {
+            imagepath = savedInstanceState.getString("imagepath");
+        }
+        else
+        {
+            //取得imagepath，可能為路徑或空值
+            imagepath = ((Listener) getActivity()).getImagepath();
+        }
 
         //有照片的路徑，顯示圖片
         if (!imagepath.equals("")) {
@@ -99,6 +106,19 @@ public class CreateHint3 extends Fragment implements View.OnClickListener {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        //儲存圖片uri路徑的部分
+        try{
+            if (fileUri.getPath().equals(null) )
+            {
+            }
+            else
+            {
+                imagepath = fileUri.getPath();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
@@ -141,8 +161,15 @@ public class CreateHint3 extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //在開啟相機時使用MediaStore.EXTRA_OUTPUT，故data會回傳null
         if((requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) && resultCode == getActivity().RESULT_OK) {
-            //儲存圖片uri路徑的部分
-            imagepath = fileUri.getPath();
+
+//            try{
+//                imagepath = fileUri.getPath();
+//
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//                Log.e("PETER",e.toString());
+//            }
 
             //拍照後儲存路徑
             ((Listener)getActivity()).saveImagepath(imagepath);
@@ -193,7 +220,16 @@ public class CreateHint3 extends Fragment implements View.OnClickListener {
             hint3.setImageBitmap(bitmap);
         }
     }
-//    public String getPath(Uri uri) {
+
+    //關閉螢幕後再開啟仍可看見圖片，儲存圖片
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("imagepath", imagepath);
+        Log.e("PETER","onSaveInstanceState");
+    }
+
+    //    public String getPath(Uri uri) {
 //
 //        Cursor cursor = null;
 //        try

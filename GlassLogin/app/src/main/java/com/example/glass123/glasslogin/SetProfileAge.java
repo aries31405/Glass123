@@ -295,7 +295,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
                 if (status.getCode() == 200) {
                     Intent it = new Intent(SetProfileAge.this, CreativeGlassStart.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("MemberId", result);
+                    bundle.putString("memberId", result);
                     it.putExtras(bundle);
                     SetProfileAge.this.startActivity(it);
                 }

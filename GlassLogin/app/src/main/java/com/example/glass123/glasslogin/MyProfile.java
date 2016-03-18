@@ -144,7 +144,6 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
     }
 
     private void addlogin(){
-        Log.e("PETER","HHH");
 
         AQuery aq1 = new AQuery(this);
         String url = "http://163.17.135.76/new_glass/addlogin.php";
@@ -160,11 +159,10 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-                    Log.e("PETER", "HHH");
 
                     Intent it = new Intent(MyProfile.this, CreativeGlassStart.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("MemberId", result);
+                    bundle.putString("memberId", result);
                     it.putExtras(bundle);
                     MyProfile.this.startActivity(it);
                 }
