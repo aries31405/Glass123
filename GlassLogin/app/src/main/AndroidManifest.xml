@@ -27,7 +27,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme_new.NoActionBar" >
+        android:theme="@style/AppTheme_new.NoActionBar"
+        android:largeHeap="true">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

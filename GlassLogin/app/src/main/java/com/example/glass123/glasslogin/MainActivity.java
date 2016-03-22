@@ -99,13 +99,10 @@ public class MainActivity extends Activity implements
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
-//        // 按鈕 findViewById
-//        mStatus = (TextView) findViewById(R.id.welcome);
+        // 按鈕 findViewById
         mSignInBtn = (SignInButton) findViewById(R.id.sign_in_button);
 //        skip_btn = (Button)findViewById(R.id.skip_btn);
 
-//        // Google大頭貼 findViewById
-//        mPhoto = (CircleImageView) findViewById(R.id.profile_image);
 
         // 設定所有按鈕監聽
         mSignInBtn.setOnClickListener(this);
@@ -155,8 +152,6 @@ public class MainActivity extends Activity implements
         mGoogleApiClient.connect();
 
         // Show a message to the user that we are signing in.
-//        mStatus.setText(R.string.signing_in);
-//        Toast.makeText(this, "onSignInClicked", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -255,10 +250,8 @@ public class MainActivity extends Activity implements
         mShouldResolve = false;
 
         Person currentUser = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-        // Show the signed-in UI
-        //showSignedInUI();
 
-        //mStatus.setText(String.format("Sign in as: %s", currentUser.getDisplayName() + ", " + Plus.AccountApi.getAccountName(mGoogleApiClient)));
+        // Show the signed-in UI
 
         mProfile.USER_NAME = currentUser.getDisplayName();
         mProfile.USER_EMAIL = Plus.AccountApi.getAccountName(mGoogleApiClient);
@@ -291,11 +284,11 @@ public class MainActivity extends Activity implements
             } else {
                 // Could not resolve the connection result, show the user an
                 // error dialog.
-                //showErrorDialog(connectionResult);
+
             }
         } else {
             // Show the signed-out UI
-            //showSignedOutUI();
+
         }
 //        Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
 
@@ -330,7 +323,6 @@ public class MainActivity extends Activity implements
                 }
                 break;
         }
-//        Toast.makeText(this, "onActivityResult", Toast.LENGTH_SHORT).show();
 
     }
 

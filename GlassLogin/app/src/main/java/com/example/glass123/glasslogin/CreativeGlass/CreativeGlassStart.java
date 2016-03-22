@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindMap;
 import com.example.glass123.glasslogin.CreativeGlass.AnswerQuestion.FindQuestion;
@@ -23,6 +24,8 @@ import com.example.glass123.glasslogin.CreativeGlass.MyCreative.MyCreative;
 import com.example.glass123.glasslogin.MainActivity;
 import com.example.glass123.glasslogin.MapsActivity;
 import com.example.glass123.glasslogin.R;
+
+import java.util.Calendar;
 
 public class CreativeGlassStart extends Activity implements View.OnClickListener{
 
@@ -113,11 +116,21 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
     public void onClick(View v) {
         if(v.getId() == R.id.answer_btn)
         {
-            Intent intent = new Intent(CreativeGlassStart.this,FindMap.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("memberId", memberId);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            Calendar calendar = Calendar.getInstance();
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            Log.e("PETER",day+"日");
+            if(day == 30)
+            {
+                Intent intent = new Intent(CreativeGlassStart.this,FindMap.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("memberId", memberId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"解題尚未開放",Toast.LENGTH_SHORT).show();
+            }
         }
         else if(v.getId() == R.id.create_btn)
         {
