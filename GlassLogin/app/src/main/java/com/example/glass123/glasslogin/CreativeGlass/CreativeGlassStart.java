@@ -116,21 +116,11 @@ public class CreativeGlassStart extends Activity implements View.OnClickListener
     public void onClick(View v) {
         if(v.getId() == R.id.answer_btn)
         {
-            Calendar calendar = Calendar.getInstance();
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            Log.e("PETER",day+"日");
-            if(day == 30)
-            {
-                Intent intent = new Intent(CreativeGlassStart.this,FindMap.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("memberId", memberId);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"解題尚未開放",Toast.LENGTH_SHORT).show();
-            }
+            Intent intent = new Intent(CreativeGlassStart.this,FindMap.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", memberId);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         else if(v.getId() == R.id.create_btn)
         {
