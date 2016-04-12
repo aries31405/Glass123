@@ -19,10 +19,17 @@
         android:textColor="@color/new_white"
         android:id="@+id/answer_title1" />
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:layout_width="288dp"-->
+        <!--android:layout_height="162dp"-->
+        <!--android:id="@+id/hint3_img"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+
+    <WebView
         android:layout_width="288dp"
         android:layout_height="162dp"
-        android:id="@+id/hint3_img"
+        android:id="@+id/webView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

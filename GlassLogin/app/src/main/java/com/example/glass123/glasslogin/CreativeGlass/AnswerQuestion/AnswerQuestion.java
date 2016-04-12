@@ -116,7 +116,7 @@ public class AnswerQuestion extends FragmentActivity implements Hint1.Listener,H
                     Toast.makeText(getApplicationContext(),"革命模式開啟",Toast.LENGTH_SHORT).show();
                 }
                 else if(AnswerRevolution == 1){
-                    revolution_fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.new_white)));
+                    revolution_fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.new_gray)));
                     AnswerRevolution =0;
                     Toast.makeText(getApplicationContext(),"革命模式關閉",Toast.LENGTH_SHORT).show();
                 }
