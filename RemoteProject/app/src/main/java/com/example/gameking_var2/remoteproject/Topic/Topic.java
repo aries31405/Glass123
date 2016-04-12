@@ -43,12 +43,12 @@ import java.util.List;
 public class Topic  extends Activity  implements GestureDetector.BaseListener,LocationListener{
     LocationManager mlocation;
     private double latitude=0.0,longitude=0.0;
-    String[] Ttext = new String[2];
+    String[] Ttext = new String[3];
     private Handler handler  = new Handler();
     //計算已出的卡片
-    int ii[] = {0,0,0};
+    int ii[] = {0,0,0,0};
 
-    protected static final int RESULT_SPEECH = 1,TAKE_PICTURE_REQUEST = 007;
+    protected static final int RESULT_SPEECH = 1,TAKE_PICTURE_REQUEST = 007,device=0;
 
     String floor,Topic=null,msg,id,titleId,picturePath;
     Card card;
@@ -102,7 +102,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
 
         //設定向使用者連接的手持裝置取得位置
         mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
-        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Topic.this);
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, Topic.this);
 
     }
 
@@ -142,11 +142,11 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
         switch( gesture.name() )
         {
             case "TAP":
-                if(ii[0] == 1 &&  ii[1] == 1)
+                if(ii[0] == 1 &&  ii[1] == 1 && ii[2] == 0)
                 {
                     startCapture();
                 }
-                else
+                else if(ii[0] == 0 || ii[1] == 0 || ii[3] == 0)
                 {
                     speech();
                 }
@@ -162,9 +162,12 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                     @Override
                     public void run()
                     {
-                        GetServerMessage message = new GetServerMessage();
-                        titleId = message.all("http://163.17.135.76/glass/add_title.php","UserId="+id+"&x="+ latitude+"&y="+longitude+"&floor="+6);
-                        handler.post(add_image);
+                        if(ii[0] == 1 && ii[1] == 1 && ii[2] == 1 && ii[3] == 1)
+                        {
+                            UploadImage uploadImage = new UploadImage();
+                            ResponseMessages = uploadImage.uploadFile(picturePath);
+                            handler.post(add_info);
+                        }
                     }
 
                 }).start();
@@ -252,18 +255,24 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                         Ttext[0] = Topic;
                         ii[0] = 1;
                     }
-                    else
+                    else if(ii[1] == 0)
                     {
                         //新增卡片
                         insertNewCard(2,0);
                         Ttext[1] = Topic;
                         ii[1] = 1;
                     }
+                    else
+                    {
+                        //新增卡片
+                        insertNewCard(4,0);
+                        Ttext[2] = Topic;
+                        ii[3] = 1;
+                    }
                 }
                 break;
             }
-            case TAKE_PICTURE_REQUEST:
-            {
+            case TAKE_PICTURE_REQUEST: {
                 if (resultCode == RESULT_OK && null != data) {
                     Bundle extras = data.getExtras();
 
@@ -352,26 +361,7 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
     
 
     //執行緒
-    final Runnable add_image = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            new Thread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    UploadImage uploadImage = new UploadImage();
-                    ResponseMessages = uploadImage.uploadFile(picturePath);
-                    handler.post(add_prompt);
-                }
-
-            }).start();
-        }
-    };
-
-    final Runnable add_prompt = new Runnable()
+    final Runnable add_info = new Runnable()
     {
         @Override
         public void run()
@@ -382,8 +372,24 @@ public class Topic  extends Activity  implements GestureDetector.BaseListener,Lo
                 public void run()
                 {
                     GetServerMessage message = new GetServerMessage();
-                    msg = message.all("http://163.17.135.76/glass/add_prompt.php","titleId="+titleId.trim()+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3=three&imagepath="+ResponseMessages);
+                    titleId = message.all("http://163.17.135.76/new_glass/add_info.php",  "userId="+id+"&p1="+ Ttext[0]+"&p2="+Ttext[1]+"&p3=/TTS/"+ResponseMessages+"&ans="+Ttext[2]+"&x="+latitude+"&y="+longitude+"&floor="+floor+"&titleDevice="+device);
+                    handler.post(exit);
+                }
 
+            }).start();
+        }
+    };
+
+    final Runnable exit = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
                     finish();
                 }
             }).start();
