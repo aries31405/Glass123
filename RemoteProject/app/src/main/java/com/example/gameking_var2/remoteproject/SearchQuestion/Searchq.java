@@ -41,6 +41,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +76,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     //查詢資料庫 執行續
     private Handler handler  = new Handler();
     private Thread thread;
-    private String allurl = "http://163.17.135.76/glass/question_localtion.php",alldata = "",msg;
+    private String msg,id;
 
     //樓層暫定6樓
     String floor = "6";
@@ -114,9 +116,60 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         //設定場景
         setContentView(mCardScroller);
 
+        try//取得ID
+        {
+            FileInputStream in = openFileInput("Id.txt");
+            byte[] data = new byte[128];
+            in.read(data);
+            in.close();
+            id = new String(data);
+        }
+        catch(IOException e)
+        {
+
+        }
+
+        try
+        {
+            //R.raw.error 是ogg格式的音頻 放在res/raw/下
+            AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.error);
+            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mp.setAudioStreamType(AudioManager.STREAM_RING);
+            afd.close();
+            mp.prepare();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
         //取得此層題目位置
         thread = new Thread(getlocal);
         thread.start();
+
+
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while (true)
+                {
+                    if(point != 5)
+                    {
+                        tv1.setText(tv1.getText() + ".");
+                        point++;
+                    }
+                    else
+                    {
+                        point =1;
+                        tv1.setText(".");
+                    }
+                }
+            }
+
+        }).start();
 
     }
 
@@ -251,10 +304,16 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         @Override
         public void run()
         {
-            alldata = "floor="+floor;
-            GetServerMessage message = new GetServerMessage();
-            msg = message.all(allurl,alldata);
-            handler.post(updata);
+            while (true)
+            {
+                if(latitude != 0.0 || longitude !=0.0)
+                {
+                    GetServerMessage message = new GetServerMessage();
+                    msg = message.all("http://163.17.135.76/new_glass/glass_question_localtion.php","UserId="+id+"&lat="+latitude+"&lon="+longitude+"&radius="+(20*0.00000900900901)+"&floor="+4);
+                    handler.post(updata);
+                    break;
+                }
+            }
         }
     };
 
@@ -263,7 +322,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         @Override
         public void run()
         {
-            if(!msg.equals("No wifi"))
+            if(!msg.equals("No question") || !msg.equals("No wifi"))
             {
 
                 sp = new Sp(msg);
@@ -272,20 +331,11 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
                 mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Searchq.this);
 
-
-                try
-                {
-                    //R.raw.error 是ogg格式的音頻 放在res/raw/下
-                    AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.error);
-                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    mp.setAudioStreamType(AudioManager.STREAM_RING);
-                    afd.close();
-                    mp.prepare();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                if(mp.isPlaying())
+                    mp.pause();
+                mp.seekTo(0);
+                mp.setVolume(1000, 1000);//設置找到題目聲音
+                mp.start();
             }
         }
     };
@@ -322,17 +372,6 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        if(point != 5)
-        {
-            tv1.setText(tv1.getText() + ".");
-            point++;
-        }
-        else
-        {
-            point =1;
-            tv1.setText(".");
-        }
-
 
         if(sp.start() == true)
         {
@@ -341,19 +380,12 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             {
                 if((sp.getX(ii) <= (latitude + 0.0000900900901) && sp.getX(ii) <= (latitude - 0.0000900900901))&&(sp.getY(ii) <= (longitude + 0.0000900900901) && sp.getY(ii) <= (longitude - 0.0000900900901)) )
                 {
-                    if(mp.isPlaying())
-                        mp.pause();
-                    mp.seekTo(0);
-                    mp.setVolume(1000, 1000);//設置找到題目聲音
-                    mp.start();
                     //位置    狀態    題目編號   星數   答對率   出題者
                     insertNewCard(i+1, 0, sp.getTid(ii), sp.getStar(ii), sp.getCorrect(ii), sp.getUname(ii));
                     sp.remandadd(i - 1, ii);
                     sp.upend();
                     break;
-                }
-                else if((ii+1) == sp.getLenght())
-                {
+                } else if ((ii + 1) == sp.getLenght()) {
                     sp.upend();
                 }
             }
