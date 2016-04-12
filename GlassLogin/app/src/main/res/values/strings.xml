@@ -75,12 +75,11 @@
     <string name="title_activity_achievement">Achievement</string>
     <string name="title_activity_create_question">CreateQuestion</string>
     <string name="title_activity_create_question_send">CreateQuestionSend</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_test">Test</string>
     <string name="title_activity_answer_question">AnswerQuestion</string>
     <string name="title_activity_score">Score</string>
+
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+         from https://console.developers.google.com/ -->
+    <string name="server_client_id">771109527739-i6fph48ih976gmuhac4of7nfakeiabjt.apps.googleusercontent.com</string>
 
 </resources>

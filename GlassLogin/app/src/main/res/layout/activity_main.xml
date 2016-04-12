@@ -10,24 +10,31 @@
     tools:context=".MainActivity"
     android:background="@drawable/login_background">
 
+    <!--<com.google.android.gms.common.SignInButton-->
+        <!--android:id="@+id/sign_in_button"-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="95dp"-->
+        <!--android:textSize="50sp"-->
+        <!--android:alpha="0"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="15dp" />-->
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:layout_width="240dp"
-        android:layout_height="95dp"
-        android:textSize="50sp"
-        android:alpha="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="51dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp" />
+        android:layout_centerHorizontal="true" />
 
-    <!--<com.kyleduo.switchbutton.SwitchButton-->
-        <!--android:id="@+id/withglass_sb"-->
-        <!--style="@style/SwitchButtonStyle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_above="@+id/sign_in_button"-->
-        <!--android:layout_alignLeft="@+id/sign_in_button"-->
-        <!--android:layout_alignStart="@+id/sign_in_button" />-->
+    <com.kyleduo.switchbutton.SwitchButton
+        android:id="@+id/withglass_sb"
+        style="@style/SwitchButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sign_in_button"
+        android:layout_alignLeft="@+id/sign_in_button"
+        android:layout_alignStart="@+id/sign_in_button" />
 
     <!--<Button-->
         <!--android:layout_width="wrap_content"-->

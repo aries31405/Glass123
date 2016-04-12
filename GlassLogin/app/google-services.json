@@ -1,1 +1,48 @@
-{"project_info":{"project_id":"glass123-1022","project_number":"725967104773","name":"Glass123"},"client":[{"client_info":{"client_id":"android:google_login","client_type":1,"android_client_info":{"package_name":"google_login"}},"oauth_client":[],"api_key":[],"services":{"analytics_service":{"status":1},"cloud_messaging_service":{"status":1,"apns_config":[]},"appinvite_service":{"status":1,"other_platform_oauth_client":[]},"google_signin_service":{"status":1},"ads_service":{"status":1}}},{"client_info":{"client_id":"android:com.example.glass123.glasslogin","client_type":1,"android_client_info":{"package_name":"com.example.glass123.glasslogin"}},"oauth_client":[{"client_id":"725967104773-ere8h11a715ccukgbudj628i31mujo4u.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"com.example.glass123.glasslogin","certificate_hash":"e0c43c0e1a31eaebef1f4b55849bdacabee1e8df"}}],"api_key":[],"services":{"analytics_service":{"status":1},"cloud_messaging_service":{"status":1,"apns_config":[]},"appinvite_service":{"status":1,"other_platform_oauth_client":[]},"google_signin_service":{"status":2},"ads_service":{"status":1}}}],"ARTIFACT_VERSION":"1"}
+{
+  "project_info": {
+    "project_id": "creative-game",
+    "project_number": "771109527739",
+    "name": "Creative Game"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771109527739:android:0f6ac68389edf788",
+        "client_id": "android:com.example.glass123.glasslogin",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.example.glass123.glasslogin",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771109527739-i6fph48ih976gmuhac4of7nfakeiabjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
