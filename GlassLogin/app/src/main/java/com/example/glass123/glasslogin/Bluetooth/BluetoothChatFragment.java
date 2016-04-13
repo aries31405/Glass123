@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.ConnectSuccess;
+import com.example.glass123.glasslogin.GlassMap;
 import com.example.glass123.glasslogin.Mplayer.Player;
 import com.example.glass123.glasslogin.R;
 
@@ -160,14 +161,14 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
                     Intent serverIntent = new Intent(BluetoothChatFragment.this, DeviceListActivity.class);
                     startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 }
-                tts.speak("與您的", TextToSpeech.QUEUE_ADD, null);
-                tts2.speak("Google Glass", TextToSpeech.QUEUE_ADD, null);
-                tts.speak("連接，請點擊", TextToSpeech.QUEUE_ADD, null);
-                tts2.speak("Login Creative Glass", TextToSpeech.QUEUE_ADD, null);
-                tts.speak("按鈕，選擇您的", TextToSpeech.QUEUE_ADD, null);
-                tts2.speak("Google Glass。", TextToSpeech.QUEUE_ADD, null);
-                tts.speak("登入資料將從行動裝置傳送至", TextToSpeech.QUEUE_ADD, null);
-                tts2.speak("Google Glass。", TextToSpeech.QUEUE_ADD, null);
+//                tts.speak("與您的", TextToSpeech.QUEUE_ADD, null);
+//                tts2.speak("Google Glass", TextToSpeech.QUEUE_ADD, null);
+//                tts.speak("連接，請點擊", TextToSpeech.QUEUE_ADD, null);
+//                tts2.speak("Login Creative Glass", TextToSpeech.QUEUE_ADD, null);
+//                tts.speak("按鈕，選擇您的", TextToSpeech.QUEUE_ADD, null);
+//                tts2.speak("Google Glass。", TextToSpeech.QUEUE_ADD, null);
+//                tts.speak("登入資料將從行動裝置傳送至", TextToSpeech.QUEUE_ADD, null);
+//                tts2.speak("Google Glass。", TextToSpeech.QUEUE_ADD, null);
 
             }
         });
@@ -214,7 +215,7 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
 //        {
 //
 //        }
-        Intent it = new Intent(BluetoothChatFragment.this, ConnectSuccess.class);
+        Intent it = new Intent(BluetoothChatFragment.this, GlassMap.class);
         startActivity(it);
     }
 

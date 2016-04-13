@@ -34,12 +34,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         appNs:kswTintColor="#FFFFFF"
+        android:layout_marginBottom="60dp"
         android:layout_above="@+id/sign_in_button"
-        android:layout_alignLeft="@+id/sign_in_button"
-        android:layout_alignStart="@+id/sign_in_button"
-        android:layout_marginLeft="79dp"
-        android:layout_marginStart="79dp"
-        android:layout_marginBottom="37dp" />
+        android:layout_toRightOf="@+id/textView6"
+        android:layout_toEndOf="@+id/textView6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="搭配Google Glass使用"
+        android:id="@+id/textView6"
+        android:layout_alignBottom="@+id/withglass_sb"
+        android:layout_alignRight="@+id/sign_in_button"
+        android:layout_alignEnd="@+id/sign_in_button"
+        android:textColor="@color/new_white"
+        android:layout_marginBottom="3dp" />
 
     <!--<Button-->
         <!--android:layout_width="wrap_content"-->

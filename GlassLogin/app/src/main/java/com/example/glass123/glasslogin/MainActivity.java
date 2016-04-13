@@ -179,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements
 
     private String PhoneOrGlass(){
         String device="";
+        if(withglass_sb.isChecked())
+            device="glass";
+        else
+            device="phone";
         return device;
     }
 

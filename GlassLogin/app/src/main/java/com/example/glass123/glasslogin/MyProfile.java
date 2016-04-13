@@ -49,6 +49,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
     public String msg;
 
     Player player;
+    String device="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
         mProfile.USER_NAME = bundle.getString("username");
         mProfile.USER_EMAIL = bundle.getString("useremail");
         mProfile.USER_IMAGE = bundle.getString("userimage");
+        device=bundle.getString("device");
 
         // 設定 Google帳戶大頭貼
         setmProfileImage(mProfile.USER_IMAGE);
@@ -159,12 +161,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-
-                    Intent it = new Intent(MyProfile.this, CreativeGlassStart.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("memberId", result);
-                    it.putExtras(bundle);
-                    MyProfile.this.startActivity(it);
+                    useGlassOrPhone(result);
                 }
                 //失敗傳回HTTP狀態碼
                 else {
@@ -172,6 +169,23 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
                 }
             }
         });
+    }
+
+    private void useGlassOrPhone(String result){
+        if(device.equals("glass")){
+            Intent it = new Intent(MyProfile.this, BluetoothChatFragment.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", result);
+            it.putExtras(bundle);
+            MyProfile.this.startActivity(it);
+        }
+        else if(device.equals("phone")){
+            Intent it = new Intent(MyProfile.this, CreativeGlassStart.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", result);
+            it.putExtras(bundle);
+            MyProfile.this.startActivity(it);
+        }
     }
 
     final Runnable update = new Runnable()
@@ -191,6 +205,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
                     bundle.putString("username", mProfile.USER_NAME);
                     bundle.putString("useremail", mProfile.USER_EMAIL);
                     bundle.putString("userimage", mProfile.USER_IMAGE);
+                    bundle.putString("device",device);
 
                     it.putExtras(bundle);
                     MyProfile.this.startActivity(it);

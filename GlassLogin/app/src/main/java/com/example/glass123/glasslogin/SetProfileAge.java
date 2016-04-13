@@ -50,6 +50,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
     private TextToSpeech tts;
     Player player;
+    String device = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
         mProfile.USER_EMAIL = bundle.getString("useremail");
         mProfile.USER_IMAGE = bundle.getString("userimage");
         mProfile.USER_SEX = bundle.getString("usersex");
+        device = bundle.getString("device");
 
         // 按鈕初始化
         mNextBtn = (Button)findViewById(R.id.set_age_next);
@@ -293,11 +295,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
             public void callback(String url, String result, AjaxStatus status) {
                 //連線成功
                 if (status.getCode() == 200) {
-                    Intent it = new Intent(SetProfileAge.this, CreativeGlassStart.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("memberId", result);
-                    it.putExtras(bundle);
-                    SetProfileAge.this.startActivity(it);
+                    useGlassOrPhone(result);
                 }
                 //失敗傳回HTTP狀態碼
                 else {
@@ -305,6 +303,23 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
                 }
             }
         });
+    }
+
+    private void useGlassOrPhone(String result){
+        if(device.equals("glass")){
+            Intent it = new Intent(SetProfileAge.this, BluetoothChatFragment.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", result);
+            it.putExtras(bundle);
+            SetProfileAge.this.startActivity(it);
+        }
+        else if(device.equals("phone")){
+            Intent it = new Intent(SetProfileAge.this, CreativeGlassStart.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("memberId", result);
+            it.putExtras(bundle);
+            SetProfileAge.this.startActivity(it);
+        }
     }
 
     @Override

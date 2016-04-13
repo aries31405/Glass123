@@ -27,6 +27,8 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
 
     Profile mProfile;
 
+    String device="";
+
     private static final int MY_DATA_CHECK_CODE = 0;
     TextToSpeech tts;
     Player player;
@@ -45,6 +47,7 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
         mProfile.USER_NAME = bundle.getString("username");
         mProfile.USER_EMAIL = bundle.getString("useremail");
         mProfile.USER_IMAGE = bundle.getString("userimage");
+        device = bundle.getString("device");
 
         // 按鈕初始化
         mNextBtn = (Button)findViewById(R.id.set_next);
@@ -99,6 +102,7 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
             bundle.putString("useremail", mProfile.USER_EMAIL);
             bundle.putString("userimage", mProfile.USER_IMAGE);
             bundle.putString("usersex",mProfile.USER_SEX);
+            bundle.putString("device",device);
 
             it.putExtras(bundle);
             startActivity(it);
