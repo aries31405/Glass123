@@ -162,7 +162,7 @@ public class StartCard extends Activity  implements GestureDetector.BaseListener
         try//將ID存起來
         {
             FileOutputStream out = openFileOutput("Id.txt",MODE_PRIVATE);
-            out.write(("20150920152234968040").getBytes());
+            out.write(("2").getBytes());
             out.close();
         }
         catch(IOException e)
