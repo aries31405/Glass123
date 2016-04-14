@@ -79,7 +79,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     private String msg,id;
 
     //樓層暫定6樓
-    String floor = "6";
+    String floor = "4";
 
     //上滑動佈景 下是滑動卡片
     private CustomAdapter mAdapter;
@@ -123,14 +123,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             in.read(data);
             in.close();
             id = new String(data);
-        }
-        catch(IOException e)
-        {
 
-        }
-
-        try
-        {
             //R.raw.error 是ogg格式的音頻 放在res/raw/下
             AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.error);
             mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
@@ -138,36 +131,14 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             afd.close();
             mp.prepare();
         }
-        catch (Exception e)
+        catch(IOException e)
         {
-            e.printStackTrace();
+
         }
 
         //設定向使用者連接的手持裝置取得位置
         mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
         mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Searchq.this);
-
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                while (true)
-                {
-                    if(point != 5)
-                    {
-                        tv1.setText(tv1.getText() + ".");
-                        point++;
-                    }
-                    else
-                    {
-                        point =1;
-                        tv1.setText(".");
-                    }
-                }
-            }
-
-        }).start();
 
     }
 
@@ -303,7 +274,8 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         public void run()
         {
             GetServerMessage message = new GetServerMessage();
-            msg = message.all("http://163.17.135.76/new_glass/glass_question_localtion.php","UserId="+id+"&lat="+latitude+"&lon="+longitude+"&radius="+(20*0.00000900900901)+"&floor="+4);
+            //msg = message.all("http://163.17.135.76/new_glass/glass_question_search.php","UserId="+id+"&lat="+latitude+"&lon="+longitude+"&radius="+(20*0.00000900900901)+"&floor="+4);
+            msg = message.all("http://163.17.135.76/new_glass/glass_question_search.php","UserId="+id+"&lat=24.14959849623192&lon=120.68369597196579&radius="+(20*0.00000900900901)+"&floor="+4);
             handler.post(updata);
         }
     };
@@ -334,10 +306,10 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         @Override
         public void run()
         {
-            for (int ii =0;ii < sp.getLenght(); ii++)
+            for (int ii =1;ii < sp.getLenght(); ii++)
             {
                 //位置    狀態    題目編號   星數   答對率   出題者
-                insertNewCard(i + 1, 0, sp.getTid(ii), sp.getStar(ii), sp.getCorrect(ii), sp.getUname(ii));
+                insertNewCard(ii, 0, sp.getTid(ii), sp.getStar(ii), sp.getCorrect(ii), sp.getUname(ii));
             }
         }
     };
@@ -371,7 +343,16 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     @Override
     public void onLocationChanged(Location location)
     {
-
+        if(point != 5)
+        {
+            tv1.setText(tv1.getText() + ".");
+            point++;
+        }
+        else
+        {
+            point =1;
+            tv1.setText(".");
+        }
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();

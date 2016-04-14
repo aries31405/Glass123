@@ -7,8 +7,7 @@ package com.example.gameking_var2.remoteproject.Split;
 /*搜尋陣列 自訂類別*/
 public class Sp {
     boolean ok = true;
-    int count = 0;
-    String[] titleId,all,userName,newtitleId,status,star,correct;
+    String[] titleId,all,userName,status,star,correct;
     public Sp(String msg)
     {
         all = msg.split("&");
@@ -19,13 +18,12 @@ public class Sp {
         star =all[3].split(",");
         correct =all[4].split(",");
 
-        newtitleId = new String[titleId.length];
     }
 
 
     public int getLenght()
     {
-        return (titleId.length-count);
+        return titleId.length;
     }
 
     public int getTid(int i)
