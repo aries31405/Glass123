@@ -65,7 +65,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     //不知道
     private static final String TAG = Searchq.class.getSimpleName();
 
-    private double latitude=0.0,longitude=0.0;
+    private double latitude=0.0,longitude=0.0,firstlatitude=0.0,firstlongitude=0.0;
 
     //計算有幾張CARD
     private int i =0,point=1;
@@ -143,11 +143,9 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
             e.printStackTrace();
         }
 
-
-        //取得此層題目位置
-        thread = new Thread(getlocal);
-        thread.start();
-
+        //設定向使用者連接的手持裝置取得位置
+        mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
+        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Searchq.this);
 
         new Thread(new Runnable()
         {
@@ -282,7 +280,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                         if(mCardScroller.getSelectedItemPosition() != 0)
                         {
                             GetServerMessage message = new GetServerMessage();
-                            msg = message.all("http://163.17.135.76/glass/question.php", "titleId=" + sp.getNewTid(mCardScroller.getSelectedItemPosition() - 1));
+                            msg = message.all("http://163.17.135.76/new_glass/question.php", "titleId=" + sp.getTid(mCardScroller.getSelectedItemPosition() - 1));
                             handler.post(getprompt);
                         }
                     }
@@ -304,16 +302,9 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         @Override
         public void run()
         {
-            while (true)
-            {
-                if(latitude != 0.0 || longitude !=0.0)
-                {
-                    GetServerMessage message = new GetServerMessage();
-                    msg = message.all("http://163.17.135.76/new_glass/glass_question_localtion.php","UserId="+id+"&lat="+latitude+"&lon="+longitude+"&radius="+(20*0.00000900900901)+"&floor="+4);
-                    handler.post(updata);
-                    break;
-                }
-            }
+            GetServerMessage message = new GetServerMessage();
+            msg = message.all("http://163.17.135.76/new_glass/glass_question_localtion.php","UserId="+id+"&lat="+latitude+"&lon="+longitude+"&radius="+(20*0.00000900900901)+"&floor="+4);
+            handler.post(updata);
         }
     };
 
@@ -327,18 +318,30 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
 
                 sp = new Sp(msg);
 
-                //設定向使用者連接的手持裝置取得位置
-                mlocation  = (LocationManager)getSystemService(LOCATION_SERVICE);
-                mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0,Searchq.this);
-
                 if(mp.isPlaying())
                     mp.pause();
                 mp.seekTo(0);
                 mp.setVolume(1000, 1000);//設置找到題目聲音
                 mp.start();
+
+                handler.post(insertcard);
             }
         }
     };
+
+    final Runnable insertcard = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            for (int ii =0;ii < sp.getLenght(); ii++)
+            {
+                //位置    狀態    題目編號   星數   答對率   出題者
+                insertNewCard(i + 1, 0, sp.getTid(ii), sp.getStar(ii), sp.getCorrect(ii), sp.getUname(ii));
+            }
+        }
+    };
+
 
     final Runnable getprompt = new Runnable()
     {
@@ -351,7 +354,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 Intent intent = new Intent();
                 intent.setClass(Searchq.this,TitleCard.class);
                 intent .putExtra("msg", msg);//可放所有基本類別
-                intent.putExtra("Tid",sp.getNewTid(mCardScroller.getSelectedItemPosition() - 1));
+                intent.putExtra("Tid", sp.getTid(mCardScroller.getSelectedItemPosition() - 1));
 
                 // 切換Activity
                 startActivity(intent);
@@ -369,29 +372,35 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
     public void onLocationChanged(Location location)
     {
 
+
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-
-        if(sp.start() == true)
+        if(firstlatitude == 0.0)
         {
-            sp.upnow();
+            firstlatitude = latitude;
+            firstlongitude = longitude;
+
+            //取得此層題目位置
+            thread = new Thread(getlocal);
+            thread.start();
+        }
+        else if((firstlatitude+20*0.00000900900901) <= latitude && (firstlatitude-20*0.00000900900901) >= latitude && (firstlongitude+20*0.00000900900901) <= longitude && (firstlongitude-20*0.00000900900901) >= longitude)
+        {
+
             for (int ii =0;ii < sp.getLenght(); ii++)
             {
-                if((sp.getX(ii) <= (latitude + 0.0000900900901) && sp.getX(ii) <= (latitude - 0.0000900900901))&&(sp.getY(ii) <= (longitude + 0.0000900900901) && sp.getY(ii) <= (longitude - 0.0000900900901)) )
-                {
-                    //位置    狀態    題目編號   星數   答對率   出題者
-                    insertNewCard(i+1, 0, sp.getTid(ii), sp.getStar(ii), sp.getCorrect(ii), sp.getUname(ii));
-                    sp.remandadd(i - 1, ii);
-                    sp.upend();
-                    break;
-                } else if ((ii + 1) == sp.getLenght()) {
-                    sp.upend();
-                }
+                //位置    狀態    題目編號   星數   答對率   出題者
+                deleteCard(ii+1);
+                i = i-1;
             }
+
+            //取得此層題目位置
+            thread = new Thread(getlocal);
+            thread.start();
         }
 
-        mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, Searchq.this);
+        //mlocation.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, Searchq.this);
     }
 
     @Override
