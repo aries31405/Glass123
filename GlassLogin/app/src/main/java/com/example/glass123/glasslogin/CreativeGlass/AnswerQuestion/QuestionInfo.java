@@ -17,15 +17,11 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.example.glass123.glasslogin.ChooseDevice;
-import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.GetServerMessage;
 import com.example.glass123.glasslogin.Draw.AndroidUnit;
 import com.example.glass123.glasslogin.Draw.DrawTest;
 import com.example.glass123.glasslogin.R;
-import com.example.glass123.glasslogin.SetProfile;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;

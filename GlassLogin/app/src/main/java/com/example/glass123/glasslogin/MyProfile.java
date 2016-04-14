@@ -4,21 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
+import com.example.glass123.glasslogin.Bluetooth.ConnectToGlass;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
 import com.example.glass123.glasslogin.CreativeGlass.CreateQuestion.GetServerMessage;
 import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart;
@@ -173,7 +171,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
 
     private void useGlassOrPhone(String result){
         if(device.equals("glass")){
-            Intent it = new Intent(MyProfile.this, BluetoothChatFragment.class);
+            Intent it = new Intent(MyProfile.this, GlassMap.class);
             Bundle bundle = new Bundle();
             bundle.putString("memberId", result);
             it.putExtras(bundle);
@@ -199,7 +197,7 @@ public class MyProfile extends Activity implements View.OnClickListener,TextToSp
                     addlogin();
                     break;
                 case "no":
-                    Intent it = new Intent(MyProfile.this, SetProfile.class);
+                    Intent it = new Intent(MyProfile.this, SetGender.class);
 
                     Bundle bundle = new Bundle();
                     bundle.putString("username", mProfile.USER_NAME);

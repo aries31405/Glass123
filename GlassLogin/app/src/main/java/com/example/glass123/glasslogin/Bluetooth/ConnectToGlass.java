@@ -14,10 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.glass123.glasslogin.ConnectSuccess;
 import com.example.glass123.glasslogin.GlassMap;
 import com.example.glass123.glasslogin.Mplayer.Player;
 import com.example.glass123.glasslogin.R;
@@ -28,9 +26,9 @@ import java.util.Locale;
 /**
  * Created by 海馬瀨人 on 2015/9/1.
  */
-public class BluetoothChatFragment extends Activity implements TextToSpeech.OnInitListener{
+public class ConnectToGlass extends Activity implements TextToSpeech.OnInitListener{
 
-    private static final String TAG = "BluetoothChatFragment";
+    private static final String TAG = "ConnectToGlass";
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -70,7 +68,7 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
         setContentView(R.layout.bluetooth_connect);
 
         //按鈕findElementById
-        mBTButton = (Button)findViewById(R.id.button_bluetooth);
+        mBTButton = (Button)findViewById(R.id.bluetooth_btn);
 
         // 取得本地藍芽解析器
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -158,7 +156,7 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
         mBTButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (null != v) {
-                    Intent serverIntent = new Intent(BluetoothChatFragment.this, DeviceListActivity.class);
+                    Intent serverIntent = new Intent(ConnectToGlass.this, DeviceListActivity.class);
                     startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 }
 //                tts.speak("與您的", TextToSpeech.QUEUE_ADD, null);
@@ -215,7 +213,7 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
 //        {
 //
 //        }
-        Intent it = new Intent(BluetoothChatFragment.this, GlassMap.class);
+        Intent it = new Intent(ConnectToGlass.this, GlassMap.class);
         startActivity(it);
     }
 
@@ -226,10 +224,10 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
      */
     private void setStatus(int resId) {
         //FragmentActivity activity = getActivity();
-        if (null == BluetoothChatFragment.this) {
+        if (null == ConnectToGlass.this) {
             return;
         }
-        final ActionBar actionBar = BluetoothChatFragment.this.getActionBar();
+        final ActionBar actionBar = ConnectToGlass.this.getActionBar();
         if (null == actionBar) {
             return;
         }
@@ -243,10 +241,10 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
      */
     private void setStatus(CharSequence subTitle) {
         //FragmentActivity activity = getActivity();
-        if (null == BluetoothChatFragment.this) {
+        if (null == ConnectToGlass.this) {
             return;
         }
-        final ActionBar actionBar = BluetoothChatFragment.this.getActionBar();
+        final ActionBar actionBar = ConnectToGlass.this.getActionBar();
         if (null == actionBar) {
             return;
         }
@@ -290,9 +288,9 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
                 case Constants.MESSAGE_DEVICE_NAME:
                     // 儲存已連結的裝置名稱
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    if (null != BluetoothChatFragment.this) {
+                    if (null != ConnectToGlass.this) {
 
-                        Toast.makeText(BluetoothChatFragment.this, "Connected to "
+                        Toast.makeText(ConnectToGlass.this, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                         String message = mProfile.USER_NAME +","+ mProfile.USER_EMAIL +","+mProfile.USER_AGE+","+mProfile.USER_SEX;
                         sendProfileMessage(message);
@@ -300,8 +298,8 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
-                    if (null != BluetoothChatFragment.this) {
-//                        Toast.makeText(BluetoothChatFragment.this, msg.getData().getString(Constants.TOAST),
+                    if (null != ConnectToGlass.this) {
+//                        Toast.makeText(ConnectToGlass.this, msg.getData().getString(Constants.TOAST),
 //                                Toast.LENGTH_SHORT).show();
                     }
                     break;
@@ -332,9 +330,9 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
                 } else {
                     // User did not enable Bluetooth or an error occurred
                     Log.d(TAG, "BT not enabled");
-                    Toast.makeText(BluetoothChatFragment.this, R.string.bt_not_enabled_leaving,
+                    Toast.makeText(ConnectToGlass.this, R.string.bt_not_enabled_leaving,
                             Toast.LENGTH_SHORT).show();
-                    BluetoothChatFragment.this.finish();
+                    ConnectToGlass.this.finish();
                 }
                 break;
             case MY_DATA_CHECK_CODE:
@@ -405,14 +403,14 @@ public class BluetoothChatFragment extends Activity implements TextToSpeech.OnIn
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            Toast.makeText(BluetoothChatFragment.this,
+            Toast.makeText(ConnectToGlass.this,
                     "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
             tts2.setLanguage(Locale.ENGLISH);
             tts.setLanguage(Locale.TAIWAN);
 
         }
         else if (status == TextToSpeech.ERROR) {
-            Toast.makeText(BluetoothChatFragment.this,
+            Toast.makeText(ConnectToGlass.this,
                     "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
         }
     }

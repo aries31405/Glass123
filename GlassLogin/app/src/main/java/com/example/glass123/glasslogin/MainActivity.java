@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         else {
             //登入失敗
-            Toast.makeText(getApplicationContext(),"登入失敗",Toast.LENGTH_SHORT).show();
+
         }
     }
 

@@ -2,56 +2,61 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#444341">
+    android:background="@color/new_yellow">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/please_connect"
-        android:id="@+id/text_user_profile"
-        android:layout_gravity="center_horizontal"
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        android:layout_above="@+id/star_imgbtn1"
+        android:id="@+id/please_connect"
+        android:layout_alignParentTop="true"
+        android:background="@color/new_purple"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp" />
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="30dp"
+        android:textColor="@color/new_white" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:id="@+id/star_imgbtn1"
+        android:id="@+id/phone"
         android:src="@drawable/phone"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/button_bluetooth"
-        android:layout_toStartOf="@+id/button_bluetooth" />
+        android:layout_toLeftOf="@+id/connection"
+        android:layout_toStartOf="@+id/connection" />
 
     <ImageView
-        android:layout_width="183dp"
-        android:layout_height="150dp"
-        android:id="@+id/imageView3"
+        android:layout_width="166dp"
+        android:layout_height="135dp"
+        android:id="@+id/connection"
         android:src="@drawable/connection"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
+        android:id="@+id/glass"
         android:src="@drawable/glass"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/button_bluetooth"
-        android:layout_toEndOf="@+id/button_bluetooth" />
+        android:layout_toRightOf="@+id/connection"
+        android:layout_toEndOf="@+id/connection" />
 
     <Button
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="@string/bluetooth"
-        android:id="@+id/button_bluetooth"
+        android:id="@+id/bluetooth_btn"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:textColor="@color/white" />
+        android:textColor="@color/new_purple"
+        android:background="@color/new_white" />
 
 </RelativeLayout>

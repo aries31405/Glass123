@@ -2,18 +2,14 @@ package com.example.glass123.glasslogin;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,17 +18,15 @@ import android.widget.ViewFlipper;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
+import com.example.glass123.glasslogin.Bluetooth.ConnectToGlass;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
 import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassStart;
 import com.example.glass123.glasslogin.Mplayer.Player;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetProfileAge extends Activity implements View.OnClickListener, View.OnTouchListener,TextToSpeech.OnInitListener{
+public class SetAge extends Activity implements View.OnClickListener, View.OnTouchListener,TextToSpeech.OnInitListener{
 
     private static final int MY_DATA_CHECK_CODE = 0;
 
@@ -55,7 +49,7 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_profile_age);
+        setContentView(R.layout.activity_set_age);
 
         // 取得SetProfile傳過來的使用者Google帳戶資料
         Bundle bundle = this.getIntent().getExtras();
@@ -307,18 +301,18 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
 
     private void useGlassOrPhone(String result){
         if(device.equals("glass")){
-            Intent it = new Intent(SetProfileAge.this, BluetoothChatFragment.class);
+            Intent it = new Intent(SetAge.this, ConnectToGlass.class);
             Bundle bundle = new Bundle();
             bundle.putString("memberId", result);
             it.putExtras(bundle);
-            SetProfileAge.this.startActivity(it);
+            SetAge.this.startActivity(it);
         }
         else if(device.equals("phone")){
-            Intent it = new Intent(SetProfileAge.this, CreativeGlassStart.class);
+            Intent it = new Intent(SetAge.this, CreativeGlassStart.class);
             Bundle bundle = new Bundle();
             bundle.putString("memberId", result);
             it.putExtras(bundle);
-            SetProfileAge.this.startActivity(it);
+            SetAge.this.startActivity(it);
         }
     }
 
@@ -368,12 +362,12 @@ public class SetProfileAge extends Activity implements View.OnClickListener, Vie
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            Toast.makeText(SetProfileAge.this,
+            Toast.makeText(SetAge.this,
                     "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
             tts.speak("請選擇年齡", TextToSpeech.QUEUE_ADD, null);
         }
         else if (status == TextToSpeech.ERROR) {
-            Toast.makeText(SetProfileAge.this,
+            Toast.makeText(SetAge.this,
                     "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
         }
     }

@@ -46,7 +46,7 @@
             android:screenOrientation="landscape" />
         <!-- Bluetooth Connect Activity -->
         <activity
-            android:name=".Bluetooth.BluetoothChatFragment"
+            android:name=".Bluetooth.ConnectToGlass"
             android:screenOrientation="landscape" />
 
         <!-- Bluetooth Connect Device List -->
@@ -56,11 +56,11 @@
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
-            android:name=".SetProfile"
+            android:name=".SetGender"
             android:label="@string/title_activity_set_profile"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".SetProfileAge"
+            android:name=".SetAge"
             android:label="@string/title_activity_set_profile_age"
             android:screenOrientation="landscape" />
         <activity

@@ -3,21 +3,19 @@ package com.example.glass123.glasslogin;
 import android.app.Activity;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.glass123.glasslogin.Bluetooth.Profile;
 import com.example.glass123.glasslogin.Mplayer.Player;
 
-public class SetProfile extends Activity implements View.OnClickListener,TextToSpeech.OnInitListener{
+public class SetGender extends Activity implements View.OnClickListener,TextToSpeech.OnInitListener{
 
     Button mNextBtn;
     Button mForwardBtn;
@@ -35,7 +33,7 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_profile);
+        setContentView(R.layout.activity_set_gender);
 
         // 性別單選按鈕findViewById
         mMaleRBtn = (RadioButton) findViewById(R.id.male_radio);
@@ -95,7 +93,7 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
 //            {
 //
 //            }
-            Intent it = new Intent(SetProfile.this, SetProfileAge.class);
+            Intent it = new Intent(SetGender.this, SetAge.class);
 
             Bundle bundle = new Bundle();
             bundle.putString("username", mProfile.USER_NAME);
@@ -194,12 +192,12 @@ public class SetProfile extends Activity implements View.OnClickListener,TextToS
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            Toast.makeText(SetProfile.this,
+            Toast.makeText(SetGender.this,
                     "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
             tts.speak("請選擇性別", TextToSpeech.QUEUE_ADD, null);
         }
         else if (status == TextToSpeech.ERROR) {
-            Toast.makeText(SetProfile.this,
+            Toast.makeText(SetGender.this,
                     "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
         }
     }
