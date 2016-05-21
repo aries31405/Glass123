@@ -23,8 +23,8 @@
         android:id="@+id/star_imgbtn1"
         android:src="@drawable/phone"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/button_bluetooth"
-        android:layout_toStartOf="@+id/button_bluetooth" />
+        android:layout_toLeftOf="@+id/bluetooth_btn"
+        android:layout_toStartOf="@+id/bluetooth_btn" />
 
     <ImageView
         android:layout_width="183dp"
@@ -40,14 +40,14 @@
         android:id="@+id/imageView4"
         android:src="@drawable/glass"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/button_bluetooth"
-        android:layout_toEndOf="@+id/button_bluetooth" />
+        android:layout_toRightOf="@+id/bluetooth_btn"
+        android:layout_toEndOf="@+id/bluetooth_btn" />
 
     <Button
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="@string/bluetooth"
-        android:id="@+id/button_bluetooth"
+        android:id="@+id/bluetooth_btn"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

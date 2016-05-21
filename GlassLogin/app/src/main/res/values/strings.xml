@@ -40,7 +40,8 @@
     <string name="please_gender">請選擇性別</string>
     <string name="please_age">請選擇年齡</string>
     <string name="please_select_device">Please Select Your Device</string>
-    <string name="please_connect">Please Connect Your Google Glass</string>
+    <!--<string name="please_connect">Please Connect Your Google Glass</string>-->
+    <string name="please_connect">與您的Google Glass連接</string>
     <string name="introduction">Welcome to Creative Glass! You can now move on to your Google Glass.</string>
     <string name="male">男生</string>
     <string name="female">女生</string>

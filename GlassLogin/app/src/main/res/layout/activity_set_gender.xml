@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.glass123.glasslogin.SetProfile"
-    android:background="@color/new_yellow"
-    >
+    tools:context="com.example.glass123.glasslogin.SetGender"
+    android:background="@color/new_yellow">
 
     <TextView
         android:layout_width="match_parent"
@@ -50,8 +49,6 @@
         android:layout_height="150dp"
         android:id="@+id/male_image"
         android:src ="@drawable/male"
-        android:layout_marginLeft="120dp"
-        android:layout_marginStart="136dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/set_forward"
         android:layout_toEndOf="@+id/set_forward" />
@@ -62,9 +59,7 @@
         android:src ="@drawable/female"
         android:layout_alignTop="@+id/male_image"
         android:layout_toLeftOf="@+id/set_next"
-        android:layout_toStartOf="@+id/set_next"
-        android:layout_marginRight="120dp"
-        android:layout_marginEnd="120dp" />
+        android:layout_toStartOf="@+id/set_next" />
 
     <RadioButton
         android:layout_width="wrap_content"

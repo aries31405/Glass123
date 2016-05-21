@@ -2,14 +2,13 @@ package com.example.glass123.glasslogin;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.glass123.glasslogin.Bluetooth.BluetoothChatFragment;
+import com.example.glass123.glasslogin.Bluetooth.ConnectToGlass;
 import com.example.glass123.glasslogin.Bluetooth.Profile;
 import com.example.glass123.glasslogin.CreativeGlass.CreativeGlassMain;
 
@@ -68,7 +67,7 @@ public class ChooseDevice extends Activity implements View.OnClickListener {
         //有Google Glass的話，則準備與Google Glass連接
         else if(v.getId() == R.id.glass)
         {
-            Intent it = new Intent(ChooseDevice.this, BluetoothChatFragment.class);
+            Intent it = new Intent(ChooseDevice.this, ConnectToGlass.class);
 
             Bundle bundle = new Bundle();
             bundle.putString("username", mProfile.USER_NAME);
