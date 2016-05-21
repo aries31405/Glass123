@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.gameking_var2.remoteproject.Http.GetServerMessage;
 import com.example.gameking_var2.remoteproject.Profile.Profile;
@@ -24,7 +25,7 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
     //定義手勢偵測
     private GestureDetector GestureDetector;
 
-    String msg,Tid,id;
+    String msg,Tid,id,answer,answerType,answerTime;
 
     //Activity
     Profile act;
@@ -43,12 +44,22 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
         //取得傳遞過來的資料*
         msg = intent.getStringExtra("msg");
         Tid = intent.getStringExtra("Tid");
+        id = intent.getStringExtra("id");
+        answer = intent.getStringExtra("answer");
+        answerTime = intent.getStringExtra("answerTime");
+
 
         //判斷對錯給版面
         if( msg.equals("true") )
+        {
             setContentView(R.layout.answer_right);
+            answerType ="1";
+        }
         else if( msg.equals("false") )
+        {
             setContentView(R.layout.answer_wrong);
+            answerType ="0";
+        }
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
@@ -70,7 +81,11 @@ public class ReplyCompare extends Activity implements GestureDetector.BaseListen
             case "TAP":
                 Intent intent = new Intent();
                 intent.setClass(ReplyCompare.this,Rank.class);
-                intent.putExtra("Tid",Tid);
+                intent.putExtra("Tid", Tid);
+                intent.putExtra("answer",answer);
+                intent.putExtra("id", id);
+                intent.putExtra("answerType", answerType);
+                intent.putExtra("answerTime", answerTime);
 
                 // 切換Activity
                 startActivity(intent);

@@ -251,7 +251,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                         if(mCardScroller.getSelectedItemPosition() != 0)
                         {
                             GetServerMessage message = new GetServerMessage();
-                            msg = message.all("http://163.17.135.76/new_glass/question.php", "titleId=" + sp.getTid(mCardScroller.getSelectedItemPosition() - 1));
+                            msg = message.all("http://163.17.135.76/new_glass/glass_question.php", "titleId=" + sp.getTid(mCardScroller.getSelectedItemPosition() ));
                             handler.post(getprompt);
                         }
                     }
@@ -306,7 +306,8 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
         @Override
         public void run()
         {
-            for (int ii =1;ii < sp.getLenght(); ii++)
+
+            for (int ii =1;ii < 20; ii++)
             {
                 //位置    狀態    題目編號   星數   答對率   出題者
                 insertNewCard(ii, 0, sp.getTid(ii), sp.getStar(ii), sp.getCorrect(ii), sp.getUname(ii));
@@ -326,7 +327,7 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 Intent intent = new Intent();
                 intent.setClass(Searchq.this,TitleCard.class);
                 intent .putExtra("msg", msg);//可放所有基本類別
-                intent.putExtra("Tid", sp.getTid(mCardScroller.getSelectedItemPosition() - 1));
+                intent.putExtra("Tid", String.valueOf(sp.getTid(mCardScroller.getSelectedItemPosition())));
 
                 // 切換Activity
                 startActivity(intent);
@@ -375,6 +376,9 @@ public class Searchq extends Activity implements GestureDetector.BaseListener,Lo
                 deleteCard(ii+1);
                 i = i-1;
             }
+
+            firstlatitude = latitude;
+            firstlongitude = longitude;
 
             //取得此層題目位置
             thread = new Thread(getlocal);

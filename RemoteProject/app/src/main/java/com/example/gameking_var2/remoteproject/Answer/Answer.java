@@ -36,7 +36,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
 {
     private Thread thread;
     private Handler handler  = new Handler();
-    String id = null,Answer=null,msg=null,Tid;
+    String id = null,Answer=null,msg=null,Tid,answerTime;
 
     protected static final int RESULT_SPEECH = 1;
 
@@ -64,6 +64,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
 
         //取得傳遞過來的資料
         Tid = intent.getStringExtra("Tid");
+        answerTime = intent.getStringExtra("answerTime");
 
         try//取得ID
         {
@@ -77,6 +78,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
         {
 
         }
+
 
         card = new Card(this);
         card.setText("Tap to speak your answer");
@@ -114,7 +116,7 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
                     public void run()
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.76/glass/UserAnswer.php","titleId="+Tid+"&Id="+ id+"&Answer="+Answer);
+                        msg = message.all("http://163.17.135.76/new_glass/glass_userAnswer.php","titleId="+Tid+"&Id="+ id+"&Answer="+Answer);
                         handler.post(updata);
                     }
 
@@ -133,9 +135,12 @@ public class Answer extends Activity  implements GestureDetector.BaseListener
         public void run()
         {
             Intent intent = new Intent();
-            intent.setClass(Answer.this,ReplyCompare.class);
-            intent .putExtra("msg", msg);//可放所有基本類別
-            intent.putExtra("Tid",Tid);
+            intent.setClass(Answer.this, ReplyCompare.class);
+            intent.putExtra("msg", msg);//可放所有基本類別
+            intent.putExtra("Tid", Tid);
+            intent.putExtra("answer",Answer);
+            intent.putExtra("id", id);
+            intent.putExtra("answerTime", answerTime);
 
             // 切換Activity
             startActivity(intent);
