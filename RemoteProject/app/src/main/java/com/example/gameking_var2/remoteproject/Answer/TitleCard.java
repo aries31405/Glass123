@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.Image;
@@ -44,6 +45,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import static android.widget.Toast.LENGTH_LONG;
@@ -67,9 +70,11 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener,
     protected ImageLoader imageLoader;
     DisplayImageOptions options;
 
+    Timer timer;
+
     String[] promptName;
     String msg,Tid;
-    int i=0;
+    int i=0, AnswerTimer=1;
 
     //不知道
     private static String url="http://163.17.135.76";
@@ -102,6 +107,7 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener,
         //取得傳遞過來的資料
         msg = intent.getStringExtra("msg");
         Tid = intent.getStringExtra("Tid");
+
 
         gocreat();
 
@@ -147,7 +153,9 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener,
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
 
-        Playmusic();
+        timer = new Timer();
+        timer.schedule(task,0,1000);
+
     }
 
     //建立滑動卡片 使用List
@@ -201,10 +209,13 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener,
         switch( gesture.name() )
         {
             case "TAP":
+                timer.cancel();
+
                 //答題
                 Intent intent = new Intent();
                 intent.setClass(TitleCard.this, Answer.class);
-                intent .putExtra("Tid",Tid);//可放所有基本類別
+                intent .putExtra("Tid", Tid);//可放所有基本類別
+                intent .putExtra("answerTime",String.valueOf(AnswerTimer));
 
                 // 切換Activity
                 startActivity(intent);
@@ -264,6 +275,35 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener,
             connection.connect();
             InputStream input = connection.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(input);
+
+            //縮小圖片
+            int toWidth = 640;
+            int toHeight = 360;
+
+
+            Bitmap bb = bitmap;
+
+            int bmpWidth  = bb.getWidth();
+
+            //取得圖檔高度
+            int bmpHeight  = bb.getHeight();
+
+            float scale;
+            if (bmpWidth > bmpHeight) {
+                scale = (float) toWidth/bmpWidth;
+            }else {
+                scale = (float) toHeight/bmpHeight;
+            }
+
+            //轉換矩陣
+            Matrix matrix = new Matrix();
+            matrix.postScale(scale, scale);
+
+            //產生縮圖
+            bitmap = Bitmap.createBitmap(bb, 0, 0, bmpWidth, bmpHeight,matrix, true);
+
+
+
             return bitmap;
         }
         catch (IOException e)
@@ -301,7 +341,16 @@ public class TitleCard extends Activity implements GestureDetector.BaseListener,
     }
 
 
-
+    //計算思考時間
+    private TimerTask task = new TimerTask(){
+        @Override
+        public void run() {
+            AnswerTimer++;
+    //            Message message = new Message();
+    //            message.what = 1;
+    //            handler.sendMessage(message);
+        }
+    };
 
 
 

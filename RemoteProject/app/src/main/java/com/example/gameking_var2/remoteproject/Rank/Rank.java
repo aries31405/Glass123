@@ -43,7 +43,7 @@ import static android.widget.Toast.LENGTH_LONG;
 public class Rank extends Activity implements GestureDetector.BaseListener
 {
 
-    String msg = "",Tid,id;
+    String msg = "",Tid,id,answer,answerType,answerTime;
 
     //星等的ViewFliper
     ViewFlipper vf_rank;
@@ -69,19 +69,11 @@ public class Rank extends Activity implements GestureDetector.BaseListener
 
         //取得傳遞過來的資料
         Tid = intent.getStringExtra("Tid");
+        id = intent.getStringExtra("id");
+        answer = intent.getStringExtra("answer");
+        answerType = intent.getStringExtra("answerType");
+        answerTime = intent.getStringExtra("answerTime");
 
-        try//取得ID
-        {
-            FileInputStream in = openFileInput("Id.txt");
-            byte[] data = new byte[128];
-            in.read(data);
-            in.close();
-            id = new String(data);
-        }
-        catch(IOException e)
-        {
-
-        }
 
         //手勢偵測此場景.基本偵測
         GestureDetector = new GestureDetector(this).setBaseListener(this);
@@ -180,8 +172,8 @@ public class Rank extends Activity implements GestureDetector.BaseListener
                     public void run()
                     {
                         GetServerMessage message = new GetServerMessage();
-                        msg = message.all("http://163.17.135.76/glass/add_evaluation.php","titleId="+Tid+"&UserId="+id+"&Star="+String.valueOf(vf_rank.getDisplayedChild()));
-                        finish();
+                        msg = message.all("http://163.17.135.76/new_glass/glass_add_answer.php","titleId="+Tid+"&id="+id+"&star="+String.valueOf(vf_rank.getDisplayedChild())+"&Answer="+answer+"&answerTime="+answerTime+"&answerType="+answerType);
+                        //finish();
                     }
 
                 }).start();
