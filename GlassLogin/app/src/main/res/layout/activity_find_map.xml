@@ -60,29 +60,40 @@ xmlns:appNs="http://schemas.android.com/apk/res-auto"
         android:layout_marginTop="5dp"
         android:visibility="invisible"/>
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/swipe"
+        android:background="@drawable/swipe"
+        android:layout_alignTop="@+id/find_map_ok"
+        android:layout_toLeftOf="@+id/findfloor_viewflipper"
+        android:layout_toStartOf="@+id/findfloor_viewflipper" />
+
     <ViewFlipper
         android:layout_width="150dp"
         android:layout_height="90dp"
         android:id="@+id/findfloor_viewflipper"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/find_map_ok"
-        android:layout_toStartOf="@+id/find_map_ok" />
+        android:layout_toStartOf="@+id/find_map_ok"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp" />
 
     <Button
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:text="OK"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="準備解題"
         android:id="@+id/find_map_ok"
         android:onClick="ok"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32dp"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textColor="@color/new_purple"
         android:background="@color/new_white"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
         android:layout_marginLeft="12dp" />
 
 </RelativeLayout>

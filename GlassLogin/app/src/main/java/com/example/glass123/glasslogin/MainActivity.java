@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         catch (Exception e){
             e.printStackTrace();
+            mProfile.USER_IMAGE="http://163.17.135.76/TTS/nophoto.png";
         }
     }
 

@@ -36,6 +36,8 @@ public class QuestionInfo extends Activity {
     TextView titleId_txt;
     TextView author_txt;
     TextView floor_txt;
+    TextView percentage_txt;
+    TextView noanswer_txt;
 
     String answer;
     String hint1;
@@ -92,6 +94,8 @@ public class QuestionInfo extends Activity {
         titleId_txt = (TextView)findViewById(R.id.titleId_txt);
         author_txt = (TextView)findViewById(R.id.author_txt);
         floor_txt = (TextView)findViewById(R.id.floor_txt);
+        percentage_txt=(TextView)findViewById(R.id.percentage_txt);
+        noanswer_txt = (TextView)findViewById(R.id.noanswer_txt);
         rate = (ProgressBar)findViewById(R.id.rate);
 
         //starinfo_img init
@@ -127,14 +131,28 @@ public class QuestionInfo extends Activity {
                         hint2 = json.getString("hint2");
                         hint3 = json.getString("hint3");
                         titleId_txt.setText("NO."+String.valueOf(titleId));
-                        floor_txt.setText(json.getInt("floor")+"樓");
+                        if(json.getInt("floor") == 0){
+                            floor_txt.setText("戶外");
+                        }
+                        else{
+                            floor_txt.setText(json.getInt("floor")+"樓");
+                        }
                         answer = json.getString("answer");
                         author_txt.setText(json.getString("author"));
                         star = json.getInt("star");
-                        percentage=json.getInt("percentage");
+                        if(json.getString("percentage").equals("no answer"))
+                        {
+                            rate.setVisibility(View.INVISIBLE);
+                            percentage_txt.setVisibility(View.INVISIBLE);
+                            noanswer_txt.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            percentage=json.getInt("percentage");
+                            rate.setProgress(percentage);
+                            percentage_txt.setText("答對率："+percentage+"%");
+                        }
                         Log.e("PETER","star "+star);
-                        Log.e("PETER","percentage "+percentage);
-                        rate.setProgress(percentage);
+                        Log.e("PETER", "percentage " + percentage);
 
                         setstar();
                     }
@@ -149,6 +167,10 @@ public class QuestionInfo extends Activity {
                 }
             }
         });
+    }
+
+    private void setFloor(){
+
     }
 
     //跳到提示的畫面
