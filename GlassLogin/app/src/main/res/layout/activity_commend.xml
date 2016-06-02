@@ -25,6 +25,19 @@
         android:id="@+id/viewFlipper"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:paddingLeft="100dp" />
+        android:paddingLeft="100dp" >
+
+    </ViewFlipper>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/swipeup"
+        android:background="@drawable/swipeup"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_alignLeft="@+id/viewFlipper"
+        android:layout_alignStart="@+id/viewFlipper"
+        android:layout_alignTop="@id/viewFlipper"/>
 
 </RelativeLayout>
